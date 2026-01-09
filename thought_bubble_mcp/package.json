@@ -1,0 +1,35 @@
+{
+  "name": "@thought-bubble/mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server for thought_bubble - Transform documentation into beautiful interactive HTML visualizations",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "thought-bubble-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "visualization",
+    "documentation",
+    "html"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
