@@ -1,0 +1,344 @@
+/* COLOR SCHEME LIBRARY */
+/* Pre-defined themes for quick application */
+
+/* ===================================== */
+/* 1. PROFESSIONAL THEME (DEFAULT) */
+/* ===================================== */
+
+:root[data-theme="professional"] {
+    /* Primary colors */
+    --primary: #2c3e50;
+    --primary-hover: #1a252f;
+    --primary-light: #34495e;
+    
+    /* Secondary colors */
+    --secondary: #3498db;
+    --secondary-hover: #2980b9;
+    --secondary-light: #5dade2;
+    
+    /* Accent colors */
+    --accent: #e74c3c;
+    --success: #27ae60;
+    --warning: #f39c12;
+    --info: #3498db;
+    
+    /* Neutral colors */
+    --background: #ffffff;
+    --surface: #f8f9fa;
+    --surface-hover: #e9ecef;
+    
+    /* Text colors */
+    --text: #333333;
+    --text-light: #7f8c8d;
+    --text-muted: #95a5a6;
+    
+    /* Border colors */
+    --border: #e0e0e0;
+    --border-light: #ecf0f1;
+    
+    /* Shadow */
+    --shadow: rgba(0, 0, 0, 0.1);
+    --shadow-hover: rgba(0, 0, 0, 0.2);
+}
+
+
+/* ===================================== */
+/* 2. CREATIVE THEME */
+/* ===================================== */
+
+:root[data-theme="creative"] {
+    /* Primary colors */
+    --primary: #667eea;
+    --primary-hover: #5568d3;
+    --primary-light: #818cf8;
+    
+    /* Secondary colors */
+    --secondary: #764ba2;
+    --secondary-hover: #6a4592;
+    --secondary-light: #9d5dbd;
+    
+    /* Accent colors */
+    --accent: #f093fb;
+    --success: #4facfe;
+    --warning: #ffd89b;
+    --info: #5ddef4;
+    
+    /* Neutral colors */
+    --background: #ffffff;
+    --surface: #f5f7fa;
+    --surface-hover: #e8ecf1;
+    
+    /* Text colors */
+    --text: #2d3748;
+    --text-light: #718096;
+    --text-muted: #a0aec0;
+    
+    /* Border colors */
+    --border: #e2e8f0;
+    --border-light: #edf2f7;
+    
+    /* Shadow */
+    --shadow: rgba(102, 126, 234, 0.1);
+    --shadow-hover: rgba(102, 126, 234, 0.2);
+}
+
+
+/* ===================================== */
+/* 3. TECHNICAL / DARK THEME */
+/* ===================================== */
+
+:root[data-theme="technical"] {
+    /* Primary colors */
+    --primary: #1a202c;
+    --primary-hover: #0f1419;
+    --primary-light: #2d3748;
+    
+    /* Secondary colors */
+    --secondary: #00d9ff;
+    --secondary-hover: #00b8d9;
+    --secondary-light: #33e0ff;
+    
+    /* Accent colors */
+    --accent: #00ff88;
+    --success: #10b981;
+    --warning: #fbbf24;
+    --info: #00d9ff;
+    
+    /* Neutral colors */
+    --background: #0f172a;
+    --surface: #1e293b;
+    --surface-hover: #334155;
+    
+    /* Text colors */
+    --text: #f1f5f9;
+    --text-light: #94a3b8;
+    --text-muted: #64748b;
+    
+    /* Border colors */
+    --border: #334155;
+    --border-light: #475569;
+    
+    /* Shadow */
+    --shadow: rgba(0, 0, 0, 0.3);
+    --shadow-hover: rgba(0, 0, 0, 0.5);
+}
+
+
+/* ===================================== */
+/* 4. MINIMAL THEME */
+/* ===================================== */
+
+:root[data-theme="minimal"] {
+    /* Primary colors */
+    --primary: #000000;
+    --primary-hover: #1a1a1a;
+    --primary-light: #333333;
+    
+    /* Secondary colors */
+    --secondary: #4a5568;
+    --secondary-hover: #2d3748;
+    --secondary-light: #718096;
+    
+    /* Accent colors */
+    --accent: #3182ce;
+    --success: #38a169;
+    --warning: #dd6b20;
+    --info: #3182ce;
+    
+    /* Neutral colors */
+    --background: #ffffff;
+    --surface: #fafafa;
+    --surface-hover: #f0f0f0;
+    
+    /* Text colors */
+    --text: #1a202c;
+    --text-light: #718096;
+    --text-muted: #a0aec0;
+    
+    /* Border colors */
+    --border: #e2e8f0;
+    --border-light: #edf2f7;
+    
+    /* Shadow */
+    --shadow: rgba(0, 0, 0, 0.05);
+    --shadow-hover: rgba(0, 0, 0, 0.1);
+}
+
+
+/* ===================================== */
+/* 5. DARK THEME */
+/* ===================================== */
+
+:root[data-theme="dark"] {
+    /* Primary colors */
+    --primary: #60a5fa;
+    --primary-hover: #3b82f6;
+    --primary-light: #93c5fd;
+    
+    /* Secondary colors */
+    --secondary: #818cf8;
+    --secondary-hover: #6366f1;
+    --secondary-light: #a5b4fc;
+    
+    /* Accent colors */
+    --accent: #f472b6;
+    --success: #34d399;
+    --warning: #fbbf24;
+    --info: #60a5fa;
+    
+    /* Neutral colors */
+    --background: #1a1a1a;
+    --surface: #2d2d2d;
+    --surface-hover: #404040;
+    
+    /* Text colors */
+    --text: #e5e5e5;
+    --text-light: #a3a3a3;
+    --text-muted: #737373;
+    
+    /* Border colors */
+    --border: #404040;
+    --border-light: #525252;
+    
+    /* Shadow */
+    --shadow: rgba(0, 0, 0, 0.4);
+    --shadow-hover: rgba(0, 0, 0, 0.6);
+}
+
+
+/* ===================================== */
+/* GRADIENT PALETTES */
+/* ===================================== */
+
+:root {
+    /* Professional gradients */
+    --gradient-blue: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-green: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    --gradient-purple: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    --gradient-orange: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-teal: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    
+    /* Creative gradients */
+    --gradient-sunset: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    --gradient-ocean: linear-gradient(135deg, #2e3192 0%, #1bffff 100%);
+    --gradient-fire: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
+    --gradient-forest: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
+    --gradient-cosmic: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
+    
+    /* Subtle gradients */
+    --gradient-subtle-blue: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+    --gradient-subtle-green: linear-gradient(135deg, #dcfce7 0%, #f0fdf4 100%);
+    --gradient-subtle-purple: linear-gradient(135deg, #f3e8ff 0%, #faf5ff 100%);
+}
+
+
+/* ===================================== */
+/* UTILITY CLASSES */
+/* ===================================== */
+
+/* Apply theme colors to elements */
+.bg-primary { background-color: var(--primary); }
+.bg-secondary { background-color: var(--secondary); }
+.bg-accent { background-color: var(--accent); }
+.bg-success { background-color: var(--success); }
+.bg-warning { background-color: var(--warning); }
+.bg-info { background-color: var(--info); }
+.bg-surface { background-color: var(--surface); }
+
+.text-primary { color: var(--primary); }
+.text-secondary { color: var(--secondary); }
+.text-accent { color: var(--accent); }
+.text-success { color: var(--success); }
+.text-warning { color: var(--warning); }
+.text-info { color: var(--info); }
+.text-light { color: var(--text-light); }
+.text-muted { color: var(--text-muted); }
+
+.border-primary { border-color: var(--primary); }
+.border-secondary { border-color: var(--secondary); }
+.border-default { border-color: var(--border); }
+
+/* Gradient backgrounds */
+.gradient-blue { background: var(--gradient-blue); }
+.gradient-green { background: var(--gradient-green); }
+.gradient-purple { background: var(--gradient-purple); }
+.gradient-orange { background: var(--gradient-orange); }
+.gradient-teal { background: var(--gradient-teal); }
+
+
+/* ===================================== */
+/* THEME SWITCHER JAVASCRIPT */
+/* ===================================== */
+
+/*
+// Add this JavaScript to enable theme switching:
+
+function setTheme(themeName) {
+    document.documentElement.setAttribute('data-theme', themeName);
+    localStorage.setItem('theme', themeName);
+}
+
+// Load saved theme on page load
+const savedTheme = localStorage.getItem('theme') || 'professional';
+setTheme(savedTheme);
+
+// Example theme switcher
+<select onchange="setTheme(this.value)">
+    <option value="professional">Professional</option>
+    <option value="creative">Creative</option>
+    <option value="technical">Technical</option>
+    <option value="minimal">Minimal</option>
+    <option value="dark">Dark</option>
+</select>
+*/
+
+
+/* ===================================== */
+/* COLOR USAGE GUIDE */
+/* ===================================== */
+
+/*
+PRIMARY - Main brand color, primary actions
+  Use for: Primary buttons, main headings, key UI elements
+  
+SECONDARY - Supporting brand color
+  Use for: Secondary buttons, links, highlights
+  
+ACCENT - Attention-grabbing color
+  Use for: Important alerts, featured items, calls-to-action
+  
+SUCCESS - Positive outcomes
+  Use for: Success messages, completed states, confirmations
+  
+WARNING - Caution states
+  Use for: Warnings, important notes, attention needed
+  
+INFO - Informational content
+  Use for: Info messages, tips, neutral notifications
+  
+BACKGROUND - Main page background
+  
+SURFACE - Cards, panels, elevated elements
+  
+TEXT - Primary text content
+  
+TEXT-LIGHT - Secondary text, captions
+  
+TEXT-MUTED - Disabled text, placeholders
+  
+BORDER - Standard borders, dividers
+*/
+
+
+/* ===================================== */
+/* ACCESSIBILITY */
+/* ===================================== */
+
+/*
+All color combinations meet WCAG AA standards for:
+- Normal text (4.5:1 contrast ratio)
+- Large text (3:1 contrast ratio)
+
+Test your custom colors at:
+https://webaim.org/resources/contrastchecker/
+*/

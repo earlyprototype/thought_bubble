@@ -1,0 +1,814 @@
+<!-- LAYOUT COMPONENT LIBRARY -->
+<!-- Page layout patterns for different content types -->
+
+<!-- ===================================== -->
+<!-- 1. GRID LAYOUT (CARDS) -->
+<!-- Use for: Multiple equal-priority items -->
+<!-- ===================================== -->
+
+<div class="grid-layout">
+    <div class="grid-item">Card 1</div>
+    <div class="grid-item">Card 2</div>
+    <div class="grid-item">Card 3</div>
+    <div class="grid-item">Card 4</div>
+    <div class="grid-item">Card 5</div>
+    <div class="grid-item">Card 6</div>
+</div>
+
+<style>
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.grid-item {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Responsive: Adjust minimum width on mobile */
+@media (max-width: 768px) {
+    .grid-layout {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 2. MASONRY LAYOUT -->
+<!-- Use for: Items of varying heights (Pinterest-style) -->
+<!-- ===================================== -->
+
+<div class="masonry-layout">
+    <div class="masonry-item" style="height: 200px;">Item 1</div>
+    <div class="masonry-item" style="height: 300px;">Item 2</div>
+    <div class="masonry-item" style="height: 250px;">Item 3</div>
+    <div class="masonry-item" style="height: 180px;">Item 4</div>
+    <div class="masonry-item" style="height: 320px;">Item 5</div>
+    <div class="masonry-item" style="height: 220px;">Item 6</div>
+</div>
+
+<style>
+.masonry-layout {
+    column-count: 3;
+    column-gap: 20px;
+    margin: 20px 0;
+}
+
+.masonry-item {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    break-inside: avoid;
+    display: inline-block;
+    width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .masonry-layout {
+        column-count: 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .masonry-layout {
+        column-count: 1;
+    }
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 3. TIMELINE LAYOUT (VERTICAL) -->
+<!-- Use for: Chronological content, history -->
+<!-- ===================================== -->
+
+<div class="timeline-layout">
+    <div class="timeline-item left">
+        <div class="timeline-content">
+            <h4>Phase 1</h4>
+            <p>Research and planning completed.</p>
+            <span class="timeline-date">Jan 2026</span>
+        </div>
+    </div>
+    
+    <div class="timeline-item right">
+        <div class="timeline-content">
+            <h4>Phase 2</h4>
+            <p>Development in progress.</p>
+            <span class="timeline-date">Feb 2026</span>
+        </div>
+    </div>
+    
+    <div class="timeline-item left">
+        <div class="timeline-content">
+            <h4>Phase 3</h4>
+            <p>Testing and QA scheduled.</p>
+            <span class="timeline-date">Mar 2026</span>
+        </div>
+    </div>
+</div>
+
+<style>
+.timeline-layout {
+    position: relative;
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+.timeline-layout::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #3498db;
+}
+
+.timeline-item {
+    position: relative;
+    width: 50%;
+    padding: 20px 40px;
+}
+
+.timeline-item.left {
+    left: 0;
+    text-align: right;
+}
+
+.timeline-item.right {
+    left: 50%;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #3498db;
+    border: 4px solid white;
+    box-shadow: 0 0 0 2px #3498db;
+    top: 30px;
+}
+
+.timeline-item.left::before {
+    right: -10px;
+}
+
+.timeline-item.right::before {
+    left: -10px;
+}
+
+.timeline-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.timeline-content h4 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.timeline-date {
+    color: #7f8c8d;
+    font-size: 0.85rem;
+}
+
+/* Responsive: Single column on mobile */
+@media (max-width: 768px) {
+    .timeline-layout::before {
+        left: 30px;
+    }
+    
+    .timeline-item {
+        width: 100%;
+        left: 0 !important;
+        padding: 20px 20px 20px 70px;
+        text-align: left;
+    }
+    
+    .timeline-item::before {
+        left: 20px !important;
+    }
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 4. TWO-COLUMN LAYOUT -->
+<!-- Use for: Content + sidebar, main + auxiliary info -->
+<!-- ===================================== -->
+
+<div class="two-column-layout">
+    <div class="main-column">
+        <h2>Main Content</h2>
+        <p>Primary content goes here with full detail...</p>
+    </div>
+    
+    <div class="side-column">
+        <h3>Quick Info</h3>
+        <p>Supplementary information, related links, metadata...</p>
+    </div>
+</div>
+
+<style>
+.two-column-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin: 20px 0;
+}
+
+.main-column {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.side-column {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Responsive: Stack on mobile */
+@media (max-width: 768px) {
+    .two-column-layout {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 5. HERO SECTION -->
+<!-- Use for: Page headers, landing sections -->
+<!-- ===================================== -->
+
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Welcome to Documentation</h1>
+        <p>Comprehensive guide to understanding and implementing our system</p>
+        <div class="hero-actions">
+            <button class="btn-primary">Get Started</button>
+            <button class="btn-secondary">Learn More</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 80px 40px;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 40px;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn-primary {
+    background: white;
+    color: #667eea;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: white;
+    padding: 12px 30px;
+    border: 2px solid white;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+    background: white;
+    color: #667eea;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 50px 20px;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 6. KANBAN BOARD LAYOUT -->
+<!-- Use for: Task tracking, process stages -->
+<!-- ===================================== -->
+
+<div class="kanban-board">
+    <div class="kanban-column">
+        <h3>To Do</h3>
+        <div class="kanban-card">Task 1</div>
+        <div class="kanban-card">Task 2</div>
+    </div>
+    
+    <div class="kanban-column">
+        <h3>In Progress</h3>
+        <div class="kanban-card">Task 3</div>
+    </div>
+    
+    <div class="kanban-column">
+        <h3>Done</h3>
+        <div class="kanban-card">Task 4</div>
+        <div class="kanban-card">Task 5</div>
+    </div>
+</div>
+
+<style>
+.kanban-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.kanban-column {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.kanban-column h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.kanban-card {
+    background: white;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    cursor: move;
+}
+
+.kanban-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 7. COMPARISON TABLE LAYOUT -->
+<!-- Use for: Feature comparisons, plans -->
+<!-- ===================================== -->
+
+<div class="comparison-table">
+    <div class="comparison-col">
+        <div class="comparison-header">Basic</div>
+        <ul class="comparison-features">
+            <li class="included">Feature A</li>
+            <li class="included">Feature B</li>
+            <li class="excluded">Feature C</li>
+            <li class="excluded">Feature D</li>
+        </ul>
+        <div class="comparison-price">$9/mo</div>
+    </div>
+    
+    <div class="comparison-col featured">
+        <div class="comparison-badge">Popular</div>
+        <div class="comparison-header">Pro</div>
+        <ul class="comparison-features">
+            <li class="included">Feature A</li>
+            <li class="included">Feature B</li>
+            <li class="included">Feature C</li>
+            <li class="excluded">Feature D</li>
+        </ul>
+        <div class="comparison-price">$29/mo</div>
+    </div>
+    
+    <div class="comparison-col">
+        <div class="comparison-header">Enterprise</div>
+        <ul class="comparison-features">
+            <li class="included">Feature A</li>
+            <li class="included">Feature B</li>
+            <li class="included">Feature C</li>
+            <li class="included">Feature D</li>
+        </ul>
+        <div class="comparison-price">Custom</div>
+    </div>
+</div>
+
+<style>
+.comparison-table {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.comparison-col {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.comparison-col.featured {
+    border: 2px solid #3498db;
+    transform: scale(1.05);
+}
+
+.comparison-badge {
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    background: #3498db;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.comparison-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.comparison-features {
+    list-style: none;
+    margin: 20px 0;
+}
+
+.comparison-features li {
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.comparison-features li.included::before {
+    content: '✓ ';
+    color: #16a34a;
+    font-weight: bold;
+}
+
+.comparison-features li.excluded::before {
+    content: '✗ ';
+    color: #dc2626;
+    font-weight: bold;
+}
+
+.comparison-price {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #3498db;
+    margin-top: 20px;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 8. DASHBOARD GRID -->
+<!-- Use for: Metrics, KPIs, overview panels -->
+<!-- ===================================== -->
+
+<div class="dashboard-grid">
+    <div class="dashboard-card stat">
+        <h4>Total Users</h4>
+        <div class="stat-value">2,547</div>
+        <div class="stat-change positive">+12%</div>
+    </div>
+    
+    <div class="dashboard-card stat">
+        <h4>Revenue</h4>
+        <div class="stat-value">$45K</div>
+        <div class="stat-change positive">+8%</div>
+    </div>
+    
+    <div class="dashboard-card stat">
+        <h4>Conversion</h4>
+        <div class="stat-value">3.2%</div>
+        <div class="stat-change negative">-2%</div>
+    </div>
+    
+    <div class="dashboard-card wide">
+        <h4>Recent Activity</h4>
+        <p>Content for wider panel...</p>
+    </div>
+</div>
+
+<style>
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.dashboard-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.dashboard-card.wide {
+    grid-column: span 2;
+}
+
+.dashboard-card h4 {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 10px 0;
+}
+
+.stat-change {
+    font-size: 0.9rem;
+}
+
+.stat-change.positive {
+    color: #16a34a;
+}
+
+.stat-change.negative {
+    color: #dc2626;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dashboard-card.wide {
+        grid-column: span 1;
+    }
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 9. STEP-BY-STEP LAYOUT -->
+<!-- Use for: Tutorials, instructions, processes -->
+<!-- ===================================== -->
+
+<div class="steps-layout">
+    <div class="step-item">
+        <div class="step-number">1</div>
+        <div class="step-content">
+            <h4>Install Dependencies</h4>
+            <p>Run npm install to get all required packages.</p>
+        </div>
+    </div>
+    
+    <div class="step-item">
+        <div class="step-number">2</div>
+        <div class="step-content">
+            <h4>Configure Settings</h4>
+            <p>Update the config.json with your credentials.</p>
+        </div>
+    </div>
+    
+    <div class="step-item">
+        <div class="step-number">3</div>
+        <div class="step-content">
+            <h4>Run Application</h4>
+            <p>Execute npm start to launch the application.</p>
+        </div>
+    </div>
+</div>
+
+<style>
+.steps-layout {
+    margin: 20px 0;
+}
+
+.step-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.step-content {
+    margin-left: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    flex: 1;
+}
+
+.step-content h4 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.step-content p {
+    color: #555;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 10. ACCORDION/FAQ LAYOUT -->
+<!-- Use for: FAQs, collapsible sections -->
+<!-- ===================================== -->
+
+<div class="accordion-layout">
+    <div class="accordion-item">
+        <div class="accordion-header">
+            <h4>What is this system?</h4>
+            <span class="accordion-icon">+</span>
+        </div>
+        <div class="accordion-content">
+            <p>This is a comprehensive documentation system that helps visualize complex information...</p>
+        </div>
+    </div>
+    
+    <div class="accordion-item">
+        <div class="accordion-header">
+            <h4>How do I get started?</h4>
+            <span class="accordion-icon">+</span>
+        </div>
+        <div class="accordion-content">
+            <p>Follow the installation guide and configure your settings...</p>
+        </div>
+    </div>
+</div>
+
+<style>
+.accordion-layout {
+    margin: 20px 0;
+}
+
+.accordion-item {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.accordion-header:hover {
+    background: #f8f9fa;
+}
+
+.accordion-header h4 {
+    color: #2c3e50;
+    margin: 0;
+}
+
+.accordion-icon {
+    font-size: 1.5rem;
+    color: #3498db;
+    font-weight: bold;
+    transition: transform 0.3s;
+}
+
+.accordion-item.active .accordion-icon {
+    transform: rotate(45deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 500px;
+    padding: 0 20px 20px;
+}
+</style>
+
+<script>
+// Accordion functionality
+document.querySelectorAll('.accordion-header').forEach(header => {
+    header.addEventListener('click', function() {
+        const item = this.parentElement;
+        const wasActive = item.classList.contains('active');
+        
+        // Close all items
+        document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('active'));
+        
+        // Open clicked item if it wasn't active
+        if (!wasActive) {
+            item.classList.add('active');
+        }
+    });
+});
+</script>
+
+
+<!-- ===================================== -->
+<!-- USAGE NOTES -->
+<!-- ===================================== -->
+
+<!--
+LAYOUT SELECTION GUIDE:
+
+1. Grid Layout - Equal-priority items, cards, features
+2. Masonry Layout - Varying-height items, portfolio
+3. Timeline Layout - Chronological, history, events
+4. Two-Column Layout - Main content + sidebar
+5. Hero Section - Page headers, landing sections
+6. Kanban Board - Task tracking, process stages
+7. Comparison Table - Feature comparison, pricing
+8. Dashboard Grid - Metrics, KPIs, overview
+9. Step-by-Step - Tutorials, instructions
+10. Accordion/FAQ - Collapsible sections, FAQs
+
+RESPONSIVE STRATEGY:
+- Mobile-first approach
+- Grid auto-fit for flexible columns
+- Stack layouts vertically on mobile
+- Reduce padding/margins on small screens
+
+ACCESSIBILITY:
+- Maintain logical reading order
+- Keyboard navigation for interactive elements
+- Sufficient touch targets (44x44px minimum)
+- Proper heading hierarchy
+-->

@@ -1,0 +1,861 @@
+<!-- INTERACTIVE COMPONENT LIBRARY -->
+<!-- Interactive elements for enhanced user experience -->
+
+<!-- ===================================== -->
+<!-- 1. TOOLTIP -->
+<!-- Use for: Definitions, additional context -->
+<!-- ===================================== -->
+
+<p>
+    This is a <span class="tooltip">technical term<span class="tooltip-text">This is the definition that appears on hover</span></span> in the documentation.
+</p>
+
+<style>
+.tooltip {
+    position: relative;
+    color: #3498db;
+    cursor: help;
+    border-bottom: 1px dotted #3498db;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    width: 200px;
+    background: rgba(0,0,0,0.9);
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 12px;
+    position: absolute;
+    z-index: 1000;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.85rem;
+    transition: opacity 0.3s;
+}
+
+.tooltip-text::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.9) transparent transparent transparent;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 2. MODAL / DIALOG -->
+<!-- Use for: Detailed information, focus actions -->
+<!-- ===================================== -->
+
+<button class="btn-open-modal">Open Details</button>
+
+<div class="modal" id="exampleModal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Modal Title</h3>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Detailed information goes here...</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary modal-close">Cancel</button>
+            <button class="btn-primary">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+}
+
+.modal.active {
+    display: block;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s;
+}
+
+.modal-content {
+    position: relative;
+    background: white;
+    width: 90%;
+    max-width: 600px;
+    margin: 100px auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    animation: slideIn 0.3s;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #2c3e50;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #7f8c8d;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: #2c3e50;
+}
+
+.modal-body {
+    padding: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+
+<script>
+// Modal functionality
+document.querySelectorAll('.btn-open-modal').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.getElementById('exampleModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+});
+
+document.querySelectorAll('.modal-close, .modal-overlay').forEach(el => {
+    el.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal-close') || e.target.classList.contains('modal-overlay')) {
+            document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('active'));
+            document.body.style.overflow = 'auto';
+        }
+    });
+});
+
+// Close modal on ESC key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('active'));
+        document.body.style.overflow = 'auto';
+    }
+});
+</script>
+
+
+<!-- ===================================== -->
+<!-- 3. DROPDOWN MENU -->
+<!-- Use for: Options, actions, filters -->
+<!-- ===================================== -->
+
+<div class="dropdown">
+    <button class="dropdown-toggle">Options ▼</button>
+    <div class="dropdown-menu">
+        <a href="#" class="dropdown-item">Action 1</a>
+        <a href="#" class="dropdown-item">Action 2</a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item">Action 3</a>
+    </div>
+</div>
+
+<style>
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    background: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    min-width: 200px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 5px;
+    margin-top: 5px;
+    display: none;
+    z-index: 1000;
+}
+
+.dropdown.active .dropdown-menu {
+    display: block;
+    animation: dropdownIn 0.2s;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.dropdown-item:hover {
+    background: #f8f9fa;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #e0e0e0;
+    margin: 5px 0;
+}
+
+@keyframes dropdownIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+
+<script>
+// Dropdown functionality
+document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const dropdown = toggle.parentElement;
+        
+        // Close other dropdowns
+        document.querySelectorAll('.dropdown').forEach(d => {
+            if (d !== dropdown) d.classList.remove('active');
+        });
+        
+        dropdown.classList.toggle('active');
+    });
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', () => {
+    document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+});
+</script>
+
+
+<!-- ===================================== -->
+<!-- 4. TABS WITH CONTENT PANELS -->
+<!-- Use for: Categorized content -->
+<!-- ===================================== -->
+
+<div class="tabs-container">
+    <div class="tabs-nav">
+        <button class="tab-btn active" data-tab="tab1">Overview</button>
+        <button class="tab-btn" data-tab="tab2">Details</button>
+        <button class="tab-btn" data-tab="tab3">Examples</button>
+    </div>
+    
+    <div class="tabs-content">
+        <div id="tab1" class="tab-pane active">
+            <p>Overview content here...</p>
+        </div>
+        <div id="tab2" class="tab-pane">
+            <p>Details content here...</p>
+        </div>
+        <div id="tab3" class="tab-pane">
+            <p>Examples content here...</p>
+        </div>
+    </div>
+</div>
+
+<style>
+.tabs-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.tabs-nav {
+    display: flex;
+    border-bottom: 2px solid #e0e0e0;
+    background: #f8f9fa;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 15px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: 600;
+    color: #7f8c8d;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+}
+
+.tab-btn:hover {
+    background: #e8e9ea;
+}
+
+.tab-btn.active {
+    color: #3498db;
+    border-bottom-color: #3498db;
+    background: white;
+}
+
+.tabs-content {
+    padding: 20px;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+    animation: fadeIn 0.3s;
+}
+</style>
+
+<script>
+// Tabs functionality
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const tabId = this.dataset.tab;
+        const container = this.closest('.tabs-container');
+        
+        // Remove active class from all buttons and panes
+        container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        container.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        
+        // Add active class to clicked button and corresponding pane
+        this.classList.add('active');
+        container.querySelector(`#${tabId}`).classList.add('active');
+    });
+});
+</script>
+
+
+<!-- ===================================== -->
+<!-- 5. COLLAPSIBLE SECTION (ACCORDION) -->
+<!-- Use for: FAQs, expandable content -->
+<!-- ===================================== -->
+
+<div class="collapsible">
+    <button class="collapsible-trigger">
+        <span>Click to expand</span>
+        <span class="collapsible-icon">+</span>
+    </button>
+    <div class="collapsible-content">
+        <p>Hidden content that appears when expanded...</p>
+    </div>
+</div>
+
+<style>
+.collapsible {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.collapsible-trigger {
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    background: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    transition: background 0.3s;
+}
+
+.collapsible-trigger:hover {
+    background: #f8f9fa;
+}
+
+.collapsible-icon {
+    font-size: 1.5rem;
+    color: #3498db;
+    font-weight: bold;
+    transition: transform 0.3s;
+}
+
+.collapsible.active .collapsible-icon {
+    transform: rotate(45deg);
+}
+
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding: 0 20px;
+}
+
+.collapsible.active .collapsible-content {
+    max-height: 1000px;
+    padding: 20px;
+}
+</style>
+
+<script>
+// Collapsible functionality
+document.querySelectorAll('.collapsible-trigger').forEach(trigger => {
+    trigger.addEventListener('click', function() {
+        this.parentElement.classList.toggle('active');
+    });
+});
+</script>
+
+
+<!-- ===================================== -->
+<!-- 6. PROGRESS INDICATOR -->
+<!-- Use for: Loading states, completion -->
+<!-- ===================================== -->
+
+<div class="progress-container">
+    <div class="progress-label">
+        <span>Loading...</span>
+        <span>75%</span>
+    </div>
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 75%"></div>
+    </div>
+</div>
+
+<style>
+.progress-container {
+    margin: 20px 0;
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3498db 0%, #2ecc71 100%);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 7. COPY TO CLIPBOARD BUTTON -->
+<!-- Use for: Code snippets, commands -->
+<!-- ===================================== -->
+
+<div class="code-block-with-copy">
+    <pre><code id="codeSnippet">npm install doc-visualizer</code></pre>
+    <button class="btn-copy" data-target="codeSnippet">
+        <span class="copy-text">Copy</span>
+        <span class="copy-success" style="display:none;">Copied!</span>
+    </button>
+</div>
+
+<style>
+.code-block-with-copy {
+    position: relative;
+    background: #282c34;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 15px 0;
+}
+
+.code-block-with-copy pre {
+    margin: 0;
+    color: #abb2bf;
+    font-family: monospace;
+}
+
+.btn-copy {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.3s;
+}
+
+.btn-copy:hover {
+    background: #2980b9;
+}
+
+.btn-copy.success {
+    background: #2ecc71;
+}
+</style>
+
+<script>
+// Copy to clipboard functionality
+document.querySelectorAll('.btn-copy').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const targetId = this.dataset.target;
+        const codeElement = document.getElementById(targetId);
+        const text = codeElement.textContent;
+        
+        navigator.clipboard.writeText(text).then(() => {
+            // Show success state
+            this.classList.add('success');
+            this.querySelector('.copy-text').style.display = 'none';
+            this.querySelector('.copy-success').style.display = 'inline';
+            
+            // Reset after 2 seconds
+            setTimeout(() => {
+                this.classList.remove('success');
+                this.querySelector('.copy-text').style.display = 'inline';
+                this.querySelector('.copy-success').style.display = 'none';
+            }, 2000);
+        });
+    });
+});
+</script>
+
+
+<!-- ===================================== -->
+<!-- 8. SEARCH BOX -->
+<!-- Use for: Filtering, finding content -->
+<!-- ===================================== -->
+
+<div class="search-box">
+    <input type="text" class="search-input" placeholder="Search documentation..." id="searchInput">
+    <button class="search-button">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 12l5 5" stroke="currentColor" stroke-width="2"/>
+        </svg>
+    </button>
+</div>
+
+<style>
+.search-box {
+    position: relative;
+    max-width: 500px;
+    margin: 20px 0;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 50px 12px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.search-button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #3498db;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.search-button:hover {
+    background: #2980b9;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 9. TOGGLE SWITCH -->
+<!-- Use for: Settings, binary options -->
+<!-- ===================================== -->
+
+<label class="toggle-switch">
+    <input type="checkbox" class="toggle-input">
+    <span class="toggle-slider"></span>
+    <span class="toggle-label">Enable feature</span>
+</label>
+
+<style>
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.toggle-input {
+    display: none;
+}
+
+.toggle-slider {
+    width: 50px;
+    height: 26px;
+    background: #ccc;
+    border-radius: 26px;
+    position: relative;
+    transition: background 0.3s;
+    margin-right: 10px;
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: white;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s;
+}
+
+.toggle-input:checked + .toggle-slider {
+    background: #2ecc71;
+}
+
+.toggle-input:checked + .toggle-slider::before {
+    transform: translateX(24px);
+}
+
+.toggle-label {
+    color: #333;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 10. NOTIFICATION/TOAST -->
+<!-- Use for: Feedback messages, alerts -->
+<!-- ===================================== -->
+
+<div class="toast" id="exampleToast">
+    <div class="toast-content">
+        <span class="toast-icon">✓</span>
+        <span class="toast-message">Changes saved successfully!</span>
+    </div>
+    <button class="toast-close">&times;</button>
+</div>
+
+<style>
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: none;
+    align-items: center;
+    gap: 10px;
+    z-index: 10000;
+    animation: toastIn 0.3s;
+}
+
+.toast.show {
+    display: flex;
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toast-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #2ecc71;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.toast-message {
+    color: #333;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #7f8c8d;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.toast-close:hover {
+    color: #2c3e50;
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+
+<script>
+// Toast functionality
+function showToast(message, duration = 3000) {
+    const toast = document.getElementById('exampleToast');
+    toast.querySelector('.toast-message').textContent = message;
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, duration);
+}
+
+// Close button
+document.querySelectorAll('.toast-close').forEach(btn => {
+    btn.addEventListener('click', function() {
+        this.closest('.toast').classList.remove('show');
+    });
+});
+</script>
+
+
+<!-- ===================================== -->
+<!-- USAGE NOTES -->
+<!-- ===================================== -->
+
+<!--
+INTERACTIVE ELEMENT SELECTION:
+
+1. Tooltip - Definitions, additional context without clutter
+2. Modal/Dialog - Detailed info, focused actions requiring attention
+3. Dropdown Menu - Options, actions, filters with multiple choices
+4. Tabs - Organize related content into categories
+5. Collapsible - Hide/show content to reduce page length
+6. Progress Indicator - Loading states, task completion
+7. Copy to Clipboard - Easy copying of code, commands
+8. Search Box - Filter/find content in documentation
+9. Toggle Switch - Binary settings, enable/disable features
+10. Toast/Notification - Feedback messages, confirmations
+
+INTERACTION PATTERNS:
+- Click - Primary interaction for buttons, links
+- Hover - Additional information, preview
+- Focus - Keyboard navigation, accessibility
+- Drag - Reordering (if implementing sortable lists)
+
+ACCESSIBILITY:
+- Keyboard support (Tab, Enter, Esc)
+- ARIA labels and roles
+- Focus visible indicators
+- Screen reader compatible
+- Sufficient color contrast
+
+PERFORMANCE:
+- Use event delegation for many elements
+- Debounce rapid events (scroll, input)
+- Minimize DOM manipulation
+- Use CSS transitions over JavaScript animations
+-->

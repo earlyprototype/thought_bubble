@@ -1,0 +1,573 @@
+/* ANIMATION LIBRARY */
+/* Reusable animations and transitions */
+
+/* ===================================== */
+/* ENTRANCE ANIMATIONS */
+/* ===================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+
+/* ===================================== */
+/* EXIT ANIMATIONS */
+/* ===================================== */
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeOutUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+}
+
+@keyframes fadeOutDown {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+}
+
+@keyframes scaleOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+
+/* ===================================== */
+/* LOADING ANIMATIONS */
+/* ===================================== */
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes wave {
+    0%, 100% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+
+/* ===================================== */
+/* ATTENTION ANIMATIONS */
+/* ===================================== */
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+@keyframes wiggle {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-5deg);
+    }
+    75% {
+        transform: rotate(5deg);
+    }
+}
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    10%, 30% {
+        transform: scale(1.1);
+    }
+    20%, 40% {
+        transform: scale(1);
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(52, 152, 219, 1);
+    }
+}
+
+
+/* ===================================== */
+/* UTILITY CLASSES */
+/* ===================================== */
+
+/* Entrance animations */
+.animate-fadeIn {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.animate-fadeInUp {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.animate-fadeInDown {
+    animation: fadeInDown 0.5s ease-out;
+}
+
+.animate-fadeInLeft {
+    animation: fadeInLeft 0.5s ease-out;
+}
+
+.animate-fadeInRight {
+    animation: fadeInRight 0.5s ease-out;
+}
+
+.animate-scaleIn {
+    animation: scaleIn 0.3s ease-out;
+}
+
+.animate-slideInUp {
+    animation: slideInUp 0.5s ease-out;
+}
+
+.animate-slideInDown {
+    animation: slideInDown 0.5s ease-out;
+}
+
+/* Loading animations */
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+.animate-pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-bounce {
+    animation: bounce 1s ease-in-out infinite;
+}
+
+/* Attention animations */
+.animate-shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+.animate-wiggle {
+    animation: wiggle 0.5s ease-in-out;
+}
+
+.animate-heartbeat {
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+.animate-glow {
+    animation: glow 2s ease-in-out infinite;
+}
+
+
+/* ===================================== */
+/* STAGGERED ANIMATIONS */
+/* ===================================== */
+
+/* Add delay to children for staggered effect */
+.stagger-children > * {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.7s; }
+.stagger-children > *:nth-child(8) { animation-delay: 0.8s; }
+
+
+/* ===================================== */
+/* HOVER TRANSITIONS */
+/* ===================================== */
+
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.hover-scale {
+    transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+.hover-rotate {
+    transition: transform 0.3s ease;
+}
+
+.hover-rotate:hover {
+    transform: rotate(5deg);
+}
+
+.hover-brightness {
+    transition: filter 0.3s ease;
+}
+
+.hover-brightness:hover {
+    filter: brightness(1.1);
+}
+
+
+/* ===================================== */
+/* SCROLL-TRIGGERED ANIMATIONS */
+/* ===================================== */
+
+/* Elements start hidden, reveal on scroll */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* JavaScript for scroll reveal:
+
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.scroll-reveal').forEach(el => {
+    observer.observe(el);
+});
+
+*/
+
+
+/* ===================================== */
+/* LOADING SKELETONS */
+/* ===================================== */
+
+.skeleton {
+    background: linear-gradient(90deg,
+        #f0f0f0 25%,
+        #e0e0e0 50%,
+        #f0f0f0 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+}
+
+.skeleton-text {
+    height: 1em;
+    margin-bottom: 0.5em;
+}
+
+.skeleton-heading {
+    height: 2em;
+    width: 60%;
+    margin-bottom: 1em;
+}
+
+.skeleton-card {
+    height: 200px;
+    border-radius: 8px;
+}
+
+
+/* ===================================== */
+/* TRANSITION UTILITIES */
+/* ===================================== */
+
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+.transition-fast {
+    transition: all 0.15s ease;
+}
+
+.transition-slow {
+    transition: all 0.5s ease;
+}
+
+.transition-colors {
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.transition-transform {
+    transition: transform 0.3s ease;
+}
+
+.transition-opacity {
+    transition: opacity 0.3s ease;
+}
+
+
+/* ===================================== */
+/* ANIMATION TIMING FUNCTIONS */
+/* ===================================== */
+
+.ease-in-out-cubic {
+    transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.ease-in-out-back {
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.ease-in-out-elastic {
+    transition-timing-function: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+
+/* ===================================== */
+/* PERFORMANCE OPTIMIZATIONS */
+/* ===================================== */
+
+/* Use will-change for elements that will animate */
+.will-animate {
+    will-change: transform, opacity;
+}
+
+/* Remove will-change after animation completes */
+.animated {
+    will-change: auto;
+}
+
+/* Force GPU acceleration for smooth animations */
+.gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+
+/* ===================================== */
+/* REDUCED MOTION */
+/* ===================================== */
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+
+/* ===================================== */
+/* USAGE GUIDE */
+/* ===================================== */
+
+/*
+ENTRANCE ANIMATIONS:
+Use when elements first appear on screen
+- fadeIn: Simple opacity fade
+- fadeInUp: Fade + slide from bottom
+- fadeInDown: Fade + slide from top
+- scaleIn: Fade + scale from center
+
+LOADING ANIMATIONS:
+Use for loading states, processing
+- spin: Rotating loader
+- pulse: Breathing effect
+- shimmer: Skeleton loading
+- bounce: Playful bounce
+
+ATTENTION ANIMATIONS:
+Use to draw attention (sparingly!)
+- shake: Error states
+- wiggle: Interactive feedback
+- heartbeat: Favorites, likes
+- glow: Important elements
+
+HOVER EFFECTS:
+Use for interactive elements
+- hover-lift: Cards, buttons
+- hover-scale: Images, icons
+- hover-rotate: Playful elements
+
+SCROLL ANIMATIONS:
+Use for revealing content on scroll
+- scroll-reveal: Fade + slide in
+- stagger-children: Sequential reveal
+
+BEST PRACTICES:
+1. Use animations purposefully
+2. Keep durations short (0.2-0.5s)
+3. Respect prefers-reduced-motion
+4. Test performance on mobile
+5. Don't animate width/height (use transform)
+6. Limit animations per page
+
+PERFORMANCE:
+- Animate transform and opacity only
+- Use will-change before animation
+- Remove will-change after
+- Force GPU acceleration for complex animations
+*/

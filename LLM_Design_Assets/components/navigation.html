@@ -1,0 +1,567 @@
+<!-- NAVIGATION COMPONENT LIBRARY -->
+<!-- Copy and customize these navigation patterns for your visualizations -->
+
+<!-- ===================================== -->
+<!-- 1. SIDEBAR NAVIGATION -->
+<!-- Use for: Multi-section documents (5+ sections) -->
+<!-- ===================================== -->
+
+<aside class="sidebar">
+    <h2>Navigation</h2>
+    <nav>
+        <a href="#section1" class="active">Overview</a>
+        <a href="#section2">Architecture</a>
+        <a href="#section3">Components</a>
+        <a href="#section4">Integration</a>
+        <a href="#section5">Examples</a>
+    </nav>
+</aside>
+
+<style>
+.sidebar {
+    width: 280px;
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    left: 0;
+    top: 0;
+}
+
+.sidebar h2 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #34495e;
+}
+
+.sidebar nav a {
+    display: block;
+    color: #ecf0f1;
+    text-decoration: none;
+    padding: 10px 15px;
+    margin: 5px 0;
+    border-radius: 5px;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+}
+
+.sidebar nav a:hover {
+    background: #34495e;
+    padding-left: 20px;
+}
+
+.sidebar nav a.active {
+    background: #3498db;
+}
+
+/* Main content adjustment */
+.main-content {
+    margin-left: 280px;
+    padding: 40px;
+}
+
+/* Responsive: collapse on mobile */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        position: relative;
+        height: auto;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding: 20px;
+    }
+}
+</style>
+
+<script>
+// Smooth scrolling and active state update
+document.querySelectorAll('.sidebar nav a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Update active link
+        document.querySelectorAll('.sidebar nav a').forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+    });
+});
+
+// Update active link on scroll
+window.addEventListener('scroll', () => {
+    const sections = document.querySelectorAll('[id]');
+    const scrollPos = window.scrollY + 100;
+
+    sections.forEach(section => {
+        const top = section.offsetTop;
+        const height = section.offsetHeight;
+        const id = section.getAttribute('id');
+
+        if (scrollPos >= top && scrollPos < top + height) {
+            document.querySelectorAll('.sidebar nav a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${id}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    });
+});
+</script>
+
+
+<!-- ===================================== -->
+<!-- 2. TOP TAB NAVIGATION -->
+<!-- Use for: 3-5 major categories -->
+<!-- ===================================== -->
+
+<div class="tab-navigation">
+    <div class="tab-buttons">
+        <button class="tab-button active" data-tab="overview">Overview</button>
+        <button class="tab-button" data-tab="features">Features</button>
+        <button class="tab-button" data-tab="api">API Reference</button>
+        <button class="tab-button" data-tab="examples">Examples</button>
+    </div>
+</div>
+
+<div class="tab-content">
+    <div id="overview" class="tab-panel active">
+        <h2>Overview Content</h2>
+        <p>This is the overview section...</p>
+    </div>
+    <div id="features" class="tab-panel">
+        <h2>Features Content</h2>
+        <p>This is the features section...</p>
+    </div>
+    <div id="api" class="tab-panel">
+        <h2>API Content</h2>
+        <p>This is the API section...</p>
+    </div>
+    <div id="examples" class="tab-panel">
+        <h2>Examples Content</h2>
+        <p>This is the examples section...</p>
+    </div>
+</div>
+
+<style>
+.tab-navigation {
+    background: white;
+    border-bottom: 2px solid #e0e0e0;
+    margin-bottom: 30px;
+}
+
+.tab-buttons {
+    display: flex;
+    gap: 10px;
+    padding: 10px 20px;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #7f8c8d;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+}
+
+.tab-button:hover {
+    color: #3498db;
+}
+
+.tab-button.active {
+    color: #3498db;
+    border-bottom-color: #3498db;
+}
+
+.tab-panel {
+    display: none;
+    padding: 20px;
+}
+
+.tab-panel.active {
+    display: block;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Responsive: stack tabs on mobile */
+@media (max-width: 768px) {
+    .tab-buttons {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .tab-button {
+        text-align: left;
+        border-left: 3px solid transparent;
+        border-bottom: none;
+    }
+    
+    .tab-button.active {
+        border-left-color: #3498db;
+        border-bottom-color: transparent;
+    }
+}
+</style>
+
+<script>
+// Tab switching functionality
+document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', function() {
+        const tabId = this.dataset.tab;
+        
+        // Remove active class from all buttons and panels
+        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+        
+        // Add active class to clicked button and corresponding panel
+        this.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+    });
+});
+</script>
+
+
+<!-- ===================================== -->
+<!-- 3. STICKY TOP NAVIGATION -->
+<!-- Use for: Always-visible navigation -->
+<!-- ===================================== -->
+
+<nav class="sticky-nav">
+    <div class="nav-brand">Doc Title</div>
+    <div class="nav-links">
+        <a href="#section1">Overview</a>
+        <a href="#section2">Features</a>
+        <a href="#section3">API</a>
+        <a href="#section4">Examples</a>
+    </div>
+</nav>
+
+<style>
+.sticky-nav {
+    position: sticky;
+    top: 0;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.nav-brand {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: #7f8c8d;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #3498db;
+}
+
+/* Responsive: hamburger menu on mobile */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    
+    /* Add hamburger menu implementation here */
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 4. BREADCRUMB NAVIGATION -->
+<!-- Use for: Showing page hierarchy -->
+<!-- ===================================== -->
+
+<nav class="breadcrumb">
+    <a href="#home">Home</a>
+    <span class="separator">/</span>
+    <a href="#docs">Documentation</a>
+    <span class="separator">/</span>
+    <span class="current">API Reference</span>
+</nav>
+
+<style>
+.breadcrumb {
+    padding: 15px 0;
+    font-size: 0.9rem;
+}
+
+.breadcrumb a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.breadcrumb a:hover {
+    color: #2c3e50;
+}
+
+.breadcrumb .separator {
+    margin: 0 10px;
+    color: #bdc3c7;
+}
+
+.breadcrumb .current {
+    color: #2c3e50;
+    font-weight: 600;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 5. TABLE OF CONTENTS (IN-PAGE) -->
+<!-- Use for: Long single-page documents -->
+<!-- ===================================== -->
+
+<div class="toc">
+    <h3>Table of Contents</h3>
+    <ul>
+        <li><a href="#section1">1. Introduction</a></li>
+        <li><a href="#section2">2. Getting Started</a>
+            <ul>
+                <li><a href="#section2-1">2.1 Installation</a></li>
+                <li><a href="#section2-2">2.2 Configuration</a></li>
+            </ul>
+        </li>
+        <li><a href="#section3">3. Advanced Topics</a></li>
+        <li><a href="#section4">4. Examples</a></li>
+    </ul>
+</div>
+
+<style>
+.toc {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+    margin-bottom: 30px;
+}
+
+.toc h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.toc ul {
+    list-style: none;
+    padding: 0;
+}
+
+.toc li {
+    margin: 8px 0;
+}
+
+.toc ul ul {
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.toc a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.toc a:hover {
+    color: #2c3e50;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 6. FLOATING ACTION BUTTON (FAB) -->
+<!-- Use for: Quick actions, scroll to top -->
+<!-- ===================================== -->
+
+<button class="fab" id="scrollToTop" title="Scroll to top">
+    ↑
+</button>
+
+<style>
+.fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #3498db;
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: all 0.3s;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1000;
+}
+
+.fab.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.fab:hover {
+    background: #2980b9;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+.fab:active {
+    transform: translateY(0);
+}
+</style>
+
+<script>
+// Show FAB when scrolled down
+const fab = document.getElementById('scrollToTop');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+        fab.classList.add('visible');
+    } else {
+        fab.classList.remove('visible');
+    }
+});
+
+// Scroll to top on click
+fab.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
+
+
+<!-- ===================================== -->
+<!-- 7. MINI NAVIGATION (SECTION DOTS) -->
+<!-- Use for: Quick section jumping -->
+<!-- ===================================== -->
+
+<nav class="dot-nav">
+    <a href="#section1" class="dot active" title="Overview"></a>
+    <a href="#section2" class="dot" title="Features"></a>
+    <a href="#section3" class="dot" title="API"></a>
+    <a href="#section4" class="dot" title="Examples"></a>
+</nav>
+
+<style>
+.dot-nav {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 100;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #bdc3c7;
+    border: 2px solid white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+}
+
+.dot:hover {
+    background: #7f8c8d;
+    transform: scale(1.3);
+}
+
+.dot.active {
+    background: #3498db;
+    transform: scale(1.5);
+}
+
+/* Hide on mobile */
+@media (max-width: 768px) {
+    .dot-nav {
+        display: none;
+    }
+}
+</style>
+
+<script>
+// Update active dot on scroll
+window.addEventListener('scroll', () => {
+    const sections = document.querySelectorAll('[id^="section"]');
+    const scrollPos = window.scrollY + window.innerHeight / 2;
+
+    sections.forEach((section, index) => {
+        const top = section.offsetTop;
+        const height = section.offsetHeight;
+
+        if (scrollPos >= top && scrollPos < top + height) {
+            document.querySelectorAll('.dot').forEach(dot => dot.classList.remove('active'));
+            document.querySelectorAll('.dot')[index].classList.add('active');
+        }
+    });
+});
+</script>
+
+
+<!-- ===================================== -->
+<!-- USAGE NOTES -->
+<!-- ===================================== -->
+
+<!--
+NAVIGATION SELECTION GUIDE:
+
+1. Sidebar Navigation - Multi-section documents (5+ sections)
+2. Top Tab Navigation - 3-5 major categories with distinct content
+3. Sticky Top Navigation - Always-visible quick access
+4. Breadcrumb Navigation - Show hierarchy and context
+5. Table of Contents - Long single-page documents
+6. Floating Action Button - Quick actions, scroll to top
+7. Mini Navigation (Dots) - Minimal, elegant section jumping
+
+COMBINATION PATTERNS:
+- Sidebar + FAB - Best for documentation sites
+- Tabs + Breadcrumb - Good for multi-level content
+- Sticky Nav + Dots - Modern single-page sites
+- TOC + FAB - Long articles or guides
+
+ACCESSIBILITY:
+- Include aria-labels for screen readers
+- Ensure keyboard navigation works
+- Visible focus indicators
+- Semantic HTML (nav, button elements)
+
+RESPONSIVE:
+- Sidebar collapses to top on mobile
+- Tabs stack vertically on mobile
+- Hide decorative navigation (dots) on small screens
+- Hamburger menu for complex navigation
+-->

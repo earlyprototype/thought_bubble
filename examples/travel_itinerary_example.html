@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>European Adventure Travel Guide</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+        
+        /* Top Navigation */
+        .top-nav {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-brand {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #e67e22;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 40px;
+        }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 60px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .hero-details {
+            display: flex;
+            gap: 40px;
+            margin-top: 25px;
+            font-size: 1.1rem;
+        }
+        
+        .hero-detail {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+        
+        /* Day Timeline */
+        .day-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .day-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            border-left: 5px solid;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .day-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .day-card.paris { border-left-color: #e74c3c; }
+        .day-card.amsterdam { border-left-color: #e67e22; }
+        .day-card.berlin { border-left-color: #3498db; }
+        .day-card.prague { border-left-color: #9b59b6; }
+        
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .day-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .day-date {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .day-activities {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .activity {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        
+        .activity-time {
+            background: white;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-weight: 600;
+            color: #e67e22;
+            font-size: 0.9rem;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .activity-details {
+            flex: 1;
+        }
+        
+        .activity-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 3px;
+        }
+        
+        .activity-description {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        /* Budget Breakdown */
+        .budget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .budget-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .budget-card.accommodation {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .budget-card.food {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .budget-card.transport {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        
+        .budget-card.activities {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        
+        .budget-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .budget-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        
+        .budget-detail {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            margin-top: 8px;
+        }
+        
+        /* Accommodation Table */
+        .accommodation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .accommodation-table th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: left;
+            color: #2c3e50;
+            font-weight: 600;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .accommodation-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .accommodation-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .rating {
+            color: #f39c12;
+        }
+        
+        .price {
+            font-weight: 600;
+            color: #27ae60;
+        }
+        
+        /* Packing List */
+        .packing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .packing-category {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .packing-category h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .category-icon {
+            font-size: 1.5rem;
+        }
+        
+        .packing-list {
+            list-style: none;
+        }
+        
+        .packing-list li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #555;
+        }
+        
+        .packing-list input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #3498db;
+        }
+        
+        .packing-list li.checked {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        
+        /* Tips Card */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .tip-card {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .tip-card h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .tip-card p {
+            color: #856404;
+            font-size: 0.9rem;
+        }
+        
+        /* Emergency Card */
+        .emergency-card {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .emergency-card h4 {
+            color: #721c24;
+            margin-bottom: 15px;
+        }
+        
+        .emergency-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .emergency-item {
+            color: #721c24;
+        }
+        
+        .emergency-item strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .top-nav {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+            
+            .nav-links {
+                margin-top: 15px;
+                gap: 15px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .hero {
+                padding: 40px 30px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-details {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .activity {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .activity-time {
+                width: fit-content;
+            }
+            
+            .accommodation-table {
+                font-size: 0.85rem;
+            }
+            
+            .accommodation-table th,
+            .accommodation-table td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-brand">European Adventure 2026</div>
+        <div class="nav-links">
+            <a href="#itinerary" class="active">Itinerary</a>
+            <a href="#budget">Budget</a>
+            <a href="#accommodation">Accommodation</a>
+            <a href="#packing">Packing</a>
+            <a href="#tips">Tips</a>
+        </div>
+    </nav>
+    
+    <main class="main-content">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>14-Day European Adventure</h1>
+                <p style="font-size: 1.2rem; margin-bottom: 10px;">Paris → Amsterdam → Berlin → Prague</p>
+                <div class="hero-details">
+                    <div class="hero-detail">
+                        <span>📅</span>
+                        <span>June 1-14, 2026</span>
+                    </div>
+                    <div class="hero-detail">
+                        <span>✈️</span>
+                        <span>4 Cities</span>
+                    </div>
+                    <div class="hero-detail">
+                        <span>💰</span>
+                        <span>£2,450 per person</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <section id="itinerary" class="section">
+            <h2>Your Day-by-Day Itinerary</h2>
+            
+            <div class="day-timeline">
+                <div class="day-card paris">
+                    <div class="day-header">
+                        <div class="day-title">Day 1-3: Paris, France</div>
+                        <div class="day-date">June 1-3</div>
+                    </div>
+                    <div class="day-activities">
+                        <div class="activity">
+                            <div class="activity-time">9:00 AM</div>
+                            <div class="activity-details">
+                                <div class="activity-name">Eiffel Tower Visit</div>
+                                <div class="activity-description">Pre-booked tickets, arrive early to avoid queues. Summit access included.</div>
+                            </div>
+                        </div>
+                        <div class="activity">
+                            <div class="activity-time">2:00 PM</div>
+                            <div class="activity-details">
+                                <div class="activity-name">Louvre Museum</div>
+                                <div class="activity-description">Focus on key works: Mona Lisa, Venus de Milo, Winged Victory. Allow 3-4 hours.</div>
+                            </div>
+                        </div>
+                        <div class="activity">
+                            <div class="activity-time">7:30 PM</div>
+                            <div class="activity-details">
+                                <div class="activity-name">Seine River Dinner Cruise</div>
+                                <div class="activity-description">Romantic evening cruise with 3-course meal and city views.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="day-card amsterdam">
+                    <div class="day-header">
+                        <div class="day-title">Day 4-7: Amsterdam, Netherlands</div>
+                        <div class="day-date">June 4-7</div>
+                    </div>
+                    <div class="day-activities">
+                        <div class="activity">
+                            <div class="activity-time">10:00 AM</div>
+                            <div class="activity-details">
+                                <div class="activity-name">Canal Boat Tour</div>
+                                <div class="activity-description">1-hour guided tour through Amsterdam's UNESCO canals. Audio guide included.</div>
+                            </div>
+                        </div>
+                        <div class="activity">
+                            <div class="activity-time">1:00 PM</div>
+                            <div class="activity-details">
+                                <div class="activity-name">Anne Frank House</div>
+                                <div class="activity-description">Pre-book tickets weeks in advance. Allow 90 minutes, very moving experience.</div>
+                            </div>
+                        </div>
+                        <div class="activity">
+                            <div class="activity-time">4:00 PM</div>
+                            <div class="activity-details">
+                                <div class="activity-name">Van Gogh Museum</div>
+                                <div class="activity-description">World's largest collection of Van Gogh paintings. Timed entry tickets required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="day-card berlin">
+                    <div class="day-header">
+                        <div class="day-title">Day 8-10: Berlin, Germany</div>
+                        <div class="day-date">June 8-10</div>
+                    </div>
+                    <div class="day-activities">
+                        <div class="activity">
+                            <div class="activity-time">9:00 AM</div>
+                            <div class="activity-details">
+                                <div class="activity-name">Brandenburg Gate & Reichstag</div>
+                                <div class="activity-description">Free visit to gate, Reichstag dome requires advance booking (also free).</div>
+                            </div>
+                        </div>
+                        <div class="activity">
+                            <div class="activity-time">2:00 PM</div>
+                            <div class="activity-details">
+                                <div class="activity-name">Berlin Wall Memorial & East Side Gallery</div>
+                                <div class="activity-description">Walking tour of remaining wall sections and famous street art.</div>
+                            </div>
+                        </div>
+                        <div class="activity">
+                            <div class="activity-time">7:00 PM</div>
+                            <div class="activity-details">
+                                <div class="activity-name">Traditional German Dinner</div>
+                                <div class="activity-description">Curry 36 for currywurst or Hofbräu München for beer hall experience.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="day-card prague">
+                    <div class="day-header">
+                        <div class="day-title">Day 11-14: Prague, Czech Republic</div>
+                        <div class="day-date">June 11-14</div>
+                    </div>
+                    <div class="day-activities">
+                        <div class="activity">
+                            <div class="activity-time">10:00 AM</div>
+                            <div class="activity-details">
+                                <div class="activity-name">Prague Castle Complex</div>
+                                <div class="activity-description">Largest ancient castle complex in the world. St. Vitus Cathedral is stunning.</div>
+                            </div>
+                        </div>
+                        <div class="activity">
+                            <div class="activity-time">3:00 PM</div>
+                            <div class="activity-details">
+                                <div class="activity-name">Charles Bridge & Old Town Square</div>
+                                <div class="activity-description">Iconic bridge with statues, watch astronomical clock chime on the hour.</div>
+                            </div>
+                        </div>
+                        <div class="activity">
+                            <div class="activity-time">8:00 PM</div>
+                            <div class="activity-details">
+                                <div class="activity-name">Classical Concert at Municipal House</div>
+                                <div class="activity-description">World-class acoustics in stunning Art Nouveau building. Dress smart casual.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="budget" class="section">
+            <h2>Budget Breakdown</h2>
+            <p>Estimated costs per person for 14 days:</p>
+            
+            <div class="budget-grid">
+                <div class="budget-card">
+                    <div class="budget-label">Total Budget</div>
+                    <div class="budget-amount">£2,450</div>
+                    <div class="budget-detail">All-inclusive per person</div>
+                </div>
+                
+                <div class="budget-card accommodation">
+                    <div class="budget-label">Accommodation</div>
+                    <div class="budget-amount">£840</div>
+                    <div class="budget-detail">£60/night average</div>
+                </div>
+                
+                <div class="budget-card food">
+                    <div class="budget-label">Food & Drink</div>
+                    <div class="budget-amount">£560</div>
+                    <div class="budget-detail">£40/day average</div>
+                </div>
+                
+                <div class="budget-card transport">
+                    <div class="budget-label">Transport</div>
+                    <div class="budget-amount">£420</div>
+                    <div class="budget-detail">Flights + trains + metro</div>
+                </div>
+                
+                <div class="budget-card activities">
+                    <div class="budget-label">Activities</div>
+                    <div class="budget-amount">£630</div>
+                    <div class="budget-detail">Museums, tours, attractions</div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="accommodation" class="section">
+            <h2>Accommodation Bookings</h2>
+            
+            <table class="accommodation-table">
+                <thead>
+                    <tr>
+                        <th>City</th>
+                        <th>Hotel</th>
+                        <th>Rating</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Paris</td>
+                        <td><a href="https://www.booking.com" target="_blank" style="color: #e67e22; text-decoration: none;">Hotel Le Marais</a></td>
+                        <td class="rating">★★★★☆ 4.5</td>
+                        <td>June 1</td>
+                        <td>June 4</td>
+                        <td class="price">£240</td>
+                    </tr>
+                    <tr>
+                        <td>Amsterdam</td>
+                        <td><a href="https://www.booking.com" target="_blank" style="color: #e67e22; text-decoration: none;">Canal House Hotel</a></td>
+                        <td class="rating">★★★★☆ 4.7</td>
+                        <td>June 4</td>
+                        <td>June 8</td>
+                        <td class="price">£320</td>
+                    </tr>
+                    <tr>
+                        <td>Berlin</td>
+                        <td><a href="https://www.booking.com" target="_blank" style="color: #e67e22; text-decoration: none;">Mitte Boutique Stay</a></td>
+                        <td class="rating">★★★★☆ 4.4</td>
+                        <td>June 8</td>
+                        <td>June 11</td>
+                        <td class="price">£180</td>
+                    </tr>
+                    <tr>
+                        <td>Prague</td>
+                        <td><a href="https://www.booking.com" target="_blank" style="color: #e67e22; text-decoration: none;">Old Town Residence</a></td>
+                        <td class="rating">★★★★★ 4.8</td>
+                        <td>June 11</td>
+                        <td>June 14</td>
+                        <td class="price">£200</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <section id="packing" class="section">
+            <h2>Packing List</h2>
+            
+            <div class="packing-grid">
+                <div class="packing-category">
+                    <h4><span class="category-icon">👕</span> Clothing</h4>
+                    <ul class="packing-list">
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>7 t-shirts / tops</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>2 pairs jeans / trousers</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>1 smart outfit</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Light jacket / cardigan</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Comfortable walking shoes</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Sandals / dress shoes</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Underwear & socks (8 sets)</span></li>
+                    </ul>
+                </div>
+                
+                <div class="packing-category">
+                    <h4><span class="category-icon">💼</span> Essentials</h4>
+                    <ul class="packing-list">
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Passport & travel insurance</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Credit/debit cards & cash</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Phone & charger</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Universal adapter (Type C/F)</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Portable power bank</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Printed accommodation details</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Travel guidebook / maps</span></li>
+                    </ul>
+                </div>
+                
+                <div class="packing-category">
+                    <h4><span class="category-icon">🧴</span> Toiletries</h4>
+                    <ul class="packing-list">
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Toothbrush & toothpaste</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Shampoo & conditioner</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Deodorant & perfume</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Sunscreen SPF 30+</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Medications & first aid</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Contact lenses / glasses</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Small towel (quick-dry)</span></li>
+                    </ul>
+                </div>
+                
+                <div class="packing-category">
+                    <h4><span class="category-icon">🎒</span> Day Pack</h4>
+                    <ul class="packing-list">
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Small backpack / crossbody</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Refillable water bottle</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Snacks for travel days</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Camera + extra memory card</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Sunglasses</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Umbrella (compact)</span></li>
+                        <li><input type="checkbox" onchange="toggleCheck(this)"><span>Book / Kindle for trains</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="tips" class="section">
+            <h2>Essential Travel Tips</h2>
+            
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>Currency & Cards</h4>
+                    <p>Notify your bank before travelling. Carry small amounts of local currency (EUR/CZK). Most places accept cards, but have cash backup.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4>Transportation</h4>
+                    <p>Buy multi-day metro passes in each city (much cheaper than single tickets). Download offline maps. Book trains between cities in advance.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4>Museum Bookings</h4>
+                    <p>Pre-book popular attractions weeks in advance (Anne Frank House, Eiffel Tower summit). Save confirmation emails offline.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4>Dining Tips</h4>
+                    <p>Lunch is cheaper than dinner. Try local markets for fresh food. Restaurants near tourist sites are overpriced - walk 10 minutes away.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4>Safety</h4>
+                    <p>Watch for pickpockets in crowded areas (metro, tourist sites). Keep valuables in hotel safe. Use crossbody bags with zippers.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4>Communication</h4>
+                    <p>Download Google Translate offline. Learn basic phrases in each language. Most young people speak English in cities.</p>
+                </div>
+            </div>
+            
+            <div class="emergency-card">
+                <h4>Emergency Contacts</h4>
+                <div class="emergency-info">
+                    <div class="emergency-item">
+                        <strong>European Emergency Number</strong>
+                        112 (works in all EU countries)
+                    </div>
+                    <div class="emergency-item">
+                        <strong>UK Embassy Paris</strong>
+                        +33 1 44 51 31 00
+                    </div>
+                    <div class="emergency-item">
+                        <strong>Travel Insurance</strong>
+                        Policy #TRV-2026-4582<br>
+                        +44 20 1234 5678
+                    </div>
+                    <div class="emergency-item">
+                        <strong>Hotel Contact</strong>
+                        Saved in phone contacts<br>
+                        Printed in travel folder
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Update active link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const scrollPos = window.scrollY + 100;
+            
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const height = section.offsetHeight;
+                const id = section.getAttribute('id');
+                
+                if (scrollPos >= top && scrollPos < top + height) {
+                    document.querySelectorAll('.nav-links a').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+        
+        // Checkbox toggle with strikethrough
+        function toggleCheck(checkbox) {
+            const listItem = checkbox.parentElement;
+            if (checkbox.checked) {
+                listItem.classList.add('checked');
+            } else {
+                listItem.classList.remove('checked');
+            }
+        }
+    </script>
+</body>
+</html>

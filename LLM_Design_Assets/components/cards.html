@@ -1,0 +1,725 @@
+<!-- CARD COMPONENT LIBRARY -->
+<!-- Copy and customize these card styles for your visualizations -->
+
+<!-- ===================================== -->
+<!-- 1. BASIC INFO CARD -->
+<!-- Use for: General content, explanations -->
+<!-- ===================================== -->
+
+<div class="card-basic">
+    <h3>Card Title</h3>
+    <p>Card content goes here. This is a simple, versatile card for any type of content.</p>
+</div>
+
+<style>
+.card-basic {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+    margin-bottom: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card-basic:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.card-basic h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 2. STAT CARD -->
+<!-- Use for: Metrics, numbers, key statistics -->
+<!-- ===================================== -->
+
+<div class="stat-card">
+    <div class="stat-label">Total Users</div>
+    <div class="stat-number">2,547</div>
+    <div class="stat-change positive">+12% from last month</div>
+</div>
+
+<style>
+.stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: scale(1.05);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 10px;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.stat-change {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.stat-change.positive {
+    color: #4ade80;
+}
+
+.stat-change.negative {
+    color: #f87171;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 3. FEATURE CARD -->
+<!-- Use for: Product features, capabilities -->
+<!-- ===================================== -->
+
+<div class="feature-card">
+    <div class="feature-icon">🚀</div>
+    <h3>Fast Performance</h3>
+    <p>Lightning-fast load times and smooth interactions for the best user experience.</p>
+</div>
+
+<style>
+.feature-card {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.feature-card h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 4. TIMELINE CARD -->
+<!-- Use for: Events, milestones, chronology -->
+<!-- ===================================== -->
+
+<div class="timeline-card">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+        <div class="timeline-date">January 2026</div>
+        <h4>Project Launch</h4>
+        <p>Successfully launched the MVP with core features implemented.</p>
+    </div>
+</div>
+
+<style>
+.timeline-card {
+    display: flex;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.timeline-card::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 30px;
+    bottom: -30px;
+    width: 2px;
+    background: #3498db;
+}
+
+.timeline-marker {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #3498db;
+    border: 4px solid white;
+    box-shadow: 0 0 0 2px #3498db;
+    flex-shrink: 0;
+    z-index: 1;
+}
+
+.timeline-content {
+    margin-left: 20px;
+    background: #f8f9fa;
+    padding: 15px 20px;
+    border-radius: 8px;
+    flex: 1;
+}
+
+.timeline-date {
+    color: #7f8c8d;
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+}
+
+.timeline-content h4 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.timeline-content p {
+    color: #555;
+    font-size: 0.9rem;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 5. PROPERTY LIST CARD -->
+<!-- Use for: Data models, object properties -->
+<!-- ===================================== -->
+
+<div class="property-card">
+    <h3>User Object</h3>
+    <ul class="property-list">
+        <li>
+            <span class="property-name">id</span>
+            <span class="property-type">string</span>
+            <span class="property-desc">Unique identifier</span>
+        </li>
+        <li>
+            <span class="property-name">email</span>
+            <span class="property-type">string</span>
+            <span class="property-desc">User email address</span>
+        </li>
+        <li>
+            <span class="property-name">created_at</span>
+            <span class="property-type">datetime</span>
+            <span class="property-desc">Account creation date</span>
+        </li>
+    </ul>
+</div>
+
+<style>
+.property-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.property-card h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.property-list {
+    list-style: none;
+}
+
+.property-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.property-list li:last-child {
+    border-bottom: none;
+}
+
+.property-name {
+    font-weight: 600;
+    color: #2c3e50;
+    font-family: monospace;
+    margin-right: 10px;
+}
+
+.property-type {
+    color: #7f8c8d;
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-right: 15px;
+}
+
+.property-desc {
+    color: #555;
+    font-size: 0.9rem;
+    flex: 1;
+    min-width: 200px;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 6. CODE EXAMPLE CARD -->
+<!-- Use for: API endpoints, code samples -->
+<!-- ===================================== -->
+
+<div class="code-card">
+    <div class="code-header">
+        <span class="code-method get">GET</span>
+        <span class="code-endpoint">/api/users/:id</span>
+    </div>
+    <div class="code-description">
+        Retrieve a specific user by their unique identifier.
+    </div>
+    <div class="code-example">
+        <pre><code>fetch('/api/users/123')
+  .then(res => res.json())
+  .then(data => console.log(data));</code></pre>
+    </div>
+</div>
+
+<style>
+.code-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.code-header {
+    background: #f8f9fa;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+}
+
+.code-method {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.code-method.get {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.code-method.post {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.code-method.put {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.code-method.delete {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.code-endpoint {
+    font-family: monospace;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.code-description {
+    padding: 15px 20px;
+    color: #555;
+}
+
+.code-example {
+    background: #282c34;
+    padding: 20px;
+}
+
+.code-example pre {
+    margin: 0;
+}
+
+.code-example code {
+    color: #abb2bf;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 7. COMPARISON CARD -->
+<!-- Use for: Before/after, pros/cons -->
+<!-- ===================================== -->
+
+<div class="comparison-card">
+    <div class="comparison-side before">
+        <h4>Before</h4>
+        <ul>
+            <li>Manual deployments</li>
+            <li>Inconsistent environments</li>
+            <li>Long feedback cycles</li>
+        </ul>
+    </div>
+    <div class="comparison-divider">→</div>
+    <div class="comparison-side after">
+        <h4>After</h4>
+        <ul>
+            <li>Automated CI/CD pipeline</li>
+            <li>Containerized deployments</li>
+            <li>Instant feedback</li>
+        </ul>
+    </div>
+</div>
+
+<style>
+.comparison-card {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 20px;
+    align-items: center;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.comparison-side {
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.comparison-side.before {
+    background: #fee2e2;
+}
+
+.comparison-side.after {
+    background: #d1fae5;
+}
+
+.comparison-side h4 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.comparison-side ul {
+    list-style: none;
+    padding: 0;
+}
+
+.comparison-side ul li {
+    padding: 8px 0;
+    color: #555;
+}
+
+.comparison-side.before ul li::before {
+    content: '✗ ';
+    color: #dc2626;
+    font-weight: bold;
+}
+
+.comparison-side.after ul li::before {
+    content: '✓ ';
+    color: #16a34a;
+    font-weight: bold;
+}
+
+.comparison-divider {
+    font-size: 2rem;
+    color: #3498db;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .comparison-card {
+        grid-template-columns: 1fr;
+    }
+    
+    .comparison-divider {
+        transform: rotate(90deg);
+    }
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 8. ALERT/INFO CARD -->
+<!-- Use for: Warnings, tips, important notes -->
+<!-- ===================================== -->
+
+<div class="alert-card info">
+    <div class="alert-icon">ℹ️</div>
+    <div class="alert-content">
+        <strong>Important:</strong> Make sure to back up your data before proceeding with this operation.
+    </div>
+</div>
+
+<div class="alert-card success">
+    <div class="alert-icon">✓</div>
+    <div class="alert-content">
+        <strong>Success:</strong> Your changes have been saved successfully.
+    </div>
+</div>
+
+<div class="alert-card warning">
+    <div class="alert-icon">⚠️</div>
+    <div class="alert-content">
+        <strong>Warning:</strong> This action cannot be undone.
+    </div>
+</div>
+
+<div class="alert-card error">
+    <div class="alert-icon">✗</div>
+    <div class="alert-content">
+        <strong>Error:</strong> Unable to connect to the server. Please try again.
+    </div>
+</div>
+
+<style>
+.alert-card {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 4px solid;
+}
+
+.alert-card.info {
+    background: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.alert-card.success {
+    background: #d1fae5;
+    border-color: #16a34a;
+}
+
+.alert-card.warning {
+    background: #fef3c7;
+    border-color: #f59e0b;
+}
+
+.alert-card.error {
+    background: #fee2e2;
+    border-color: #dc2626;
+}
+
+.alert-icon {
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+
+.alert-content {
+    flex: 1;
+    color: #333;
+}
+
+.alert-content strong {
+    display: block;
+    margin-bottom: 5px;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 9. TEAM MEMBER CARD -->
+<!-- Use for: People, contributors, teams -->
+<!-- ===================================== -->
+
+<div class="team-card">
+    <div class="team-avatar">JD</div>
+    <div class="team-info">
+        <h4>Jane Doe</h4>
+        <div class="team-role">Lead Developer</div>
+        <div class="team-contact">jane@example.com</div>
+    </div>
+</div>
+
+<style>
+.team-card {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+}
+
+.team-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.team-info h4 {
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.team-role {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.team-contact {
+    color: #3498db;
+    font-size: 0.85rem;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 10. PROGRESS CARD -->
+<!-- Use for: Task completion, progress tracking -->
+<!-- ===================================== -->
+
+<div class="progress-card">
+    <div class="progress-header">
+        <h4>Project Completion</h4>
+        <span class="progress-percentage">73%</span>
+    </div>
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 73%"></div>
+    </div>
+    <div class="progress-details">
+        <span>11 of 15 tasks completed</span>
+    </div>
+</div>
+
+<style>
+.progress-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.progress-header h4 {
+    color: #2c3e50;
+    margin: 0;
+}
+
+.progress-percentage {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #3498db;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3498db 0%, #2ecc71 100%);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.progress-details {
+    color: #7f8c8d;
+    font-size: 0.85rem;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- USAGE NOTES -->
+<!-- ===================================== -->
+
+<!--
+CARD SELECTION GUIDE:
+
+1. Basic Info Card - General purpose, versatile
+2. Stat Card - Numbers, metrics, KPIs
+3. Feature Card - Product features, capabilities
+4. Timeline Card - Events, milestones, history
+5. Property List Card - Data models, specifications
+6. Code Example Card - API endpoints, code samples
+7. Comparison Card - Before/after, alternatives
+8. Alert Card - Warnings, notes, messages
+9. Team Member Card - People, contacts, authors
+10. Progress Card - Completion status, tracking
+
+COLOUR CATEGORIZATION:
+Use different border-left colours to categorize cards:
+
+.card.blue { border-left-color: #3498db; }     /* Blue - General/Primary/Gateway */
+.card.purple { border-left-color: #9b59b6; }   /* Purple - Security/Auth */
+.card.orange { border-left-color: #e67e22; }   /* Orange - Business Logic */
+.card.green { border-left-color: #27ae60; }    /* Green - Financial/Success */
+.card.red { border-left-color: #e74c3c; }      /* Red - Alerts/Communications */
+.card.teal { border-left-color: #16a085; }     /* Teal - Data/Analytics */
+.card.yellow { border-left-color: #f39c12; }   /* Yellow - Warnings/Important */
+
+Example:
+<div class="card purple">
+    <h3>Authentication Service</h3>
+    <p>Handles user login and security...</p>
+</div>
+
+Benefits:
+- Visual categorization at a glance
+- Better information hierarchy
+- More engaging than monochrome
+- Helps users navigate content faster
+
+CUSTOMIZATION:
+- Change border-left color for different categories
+- Adjust gradients for different themes
+- Modify hover effects for interaction style
+- Scale padding for compact/spacious layouts
+
+RESPONSIVE:
+All cards are responsive by default. Use grid layouts:
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+-->

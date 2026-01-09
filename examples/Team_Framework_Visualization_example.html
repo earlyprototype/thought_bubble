@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Operational Framework Visualisation - Generic Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #34495e;
+        }
+
+        .sidebar nav a {
+            display: block;
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .sidebar nav a:hover {
+            background: #34495e;
+            padding-left: 20px;
+        }
+
+        .sidebar nav a.active {
+            background: #3498db;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            flex: 1;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .status-opportunity {
+            background: #27ae60;
+            color: white;
+        }
+
+        .status-action {
+            background: #3498db;
+            color: white;
+        }
+
+        .status-urgent {
+            background: #e67e22;
+            color: white;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .diagram-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .card.blue {
+            border-left: 4px solid #3498db;
+            background: #e3f2fd;
+        }
+
+        .card.orange {
+            border-left: 4px solid #e67e22;
+            background: #fff3e0;
+        }
+
+        .card.green {
+            border-left: 4px solid #27ae60;
+            background: #e8f5e9;
+        }
+
+        .card.purple {
+            border-left: 4px solid #9b59b6;
+            background: #f3e5f5;
+        }
+
+        .card.red {
+            border-left: 4px solid #e74c3c;
+            background: #ffebee;
+        }
+
+        .card.teal {
+            border-left: 4px solid #1abc9c;
+            background: #e0f2f1;
+        }
+
+        .property-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .property-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 0.9rem;
+        }
+
+        .property-list li:last-child {
+            border-bottom: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card.achievement {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .stat-card.challenge {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .stat-card.solution {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .comparison-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .comparison-table th {
+            background: #3498db;
+            color: white;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .before {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+
+        .after {
+            color: #27ae60;
+            font-weight: 500;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+            margin: 30px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .timeline-marker {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .timeline-content {
+            margin-left: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 3px solid #3498db;
+            flex: 1;
+        }
+
+        .timeline-content h4 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .info-box strong {
+            color: #1976d2;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .warning-box strong {
+            color: #f57c00;
+        }
+
+        .success-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .success-box strong {
+            color: #2e7d32;
+        }
+
+        .impact-indicator {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .impact-high {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .impact-medium {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .impact-low {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Navigation</h2>
+            <nav>
+                <a href="#overview" class="active">Overview</a>
+                <a href="#current-state">Current State</a>
+                <a href="#achievements">Achievements</a>
+                <a href="#gaps">Gap Analysis</a>
+                <a href="#framework">Proposed Framework</a>
+                <a href="#charter">Team Charter</a>
+                <a href="#process">Workshop Process</a>
+                <a href="#benefits">Benefits</a>
+                <a href="#implementation">Implementation</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="header">
+                <h1>Team Operational Framework</h1>
+                <p style="color: #7f8c8d; margin: 10px 0;">Establishing Clear Structure for Sustainable Team Performance</p>
+                <div>
+                    <span class="status-badge status-opportunity">Opportunity</span>
+                    <span class="status-badge status-action">Solution-Focused</span>
+                </div>
+                <p style="margin-top: 15px; font-size: 0.9rem; color: #7f8c8d;">Generic Organisation Example | 2026</p>
+            </div>
+
+            <section id="overview" class="section">
+                <h2>Executive Summary</h2>
+                
+                <div class="success-box">
+                    <strong>This is an opportunity, not a crisis.</strong> The recent surfacing of operational challenges provides the opening to establish the structural foundations that will enable the team to work effectively and sustainably.
+                </div>
+
+                <p>Over the past year, the team has achieved significant results whilst operating without formal structure around roles, decision-making, and ways of working. This presentation proposes a framework to address identified gaps and create sustainable, clear operating practices.</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card achievement">
+                        <div class="stat-label">Key Metrics</div>
+                        <div class="stat-number">+250%</div>
+                        <div class="stat-label">Performance Growth</div>
+                    </div>
+                    <div class="stat-card challenge">
+                        <div class="stat-label">Role Turnover</div>
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">People in 3 Years</div>
+                    </div>
+                    <div class="stat-card solution">
+                        <div class="stat-label">Team Members</div>
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Core Team</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="current-state" class="section">
+                <h2>Current State Assessment</h2>
+                
+                <div class="diagram-container">
+                    <div class="mermaid">
+graph TB
+    subgraph CurrentState[Current State - Unclear Boundaries]
+        OM[Operations Manager<br/>3 years tenure]
+        TM[Technical Manager<br/>2.5 years tenure]
+        BD[Development Manager<br/>1 year tenure]
+        
+        OM -.->|unclear boundaries| TM
+        TM -.->|unclear boundaries| BD
+        BD -.->|unclear boundaries| OM
+        
+        OM -.->|ad-hoc decisions| Decision{Decision Making?}
+        TM -.->|ad-hoc decisions| Decision
+        BD -.->|ad-hoc decisions| Decision
+    end
+    
+    Decision -.->|unclear authority| Confusion[Confusion & Stress]
+    
+    classDef person fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef problem fill:#ffebee,stroke:#c62828,stroke-width:2px
+    
+    class OM,TM,BD person
+    class Decision,Confusion problem
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">Team Composition</h3>
+                
+                <div class="card-grid">
+                    <div class="card blue">
+                        <h3>Operations Manager</h3>
+                        <ul class="property-list">
+                            <li><strong>Tenure:</strong> 3 years (founding team)</li>
+                            <li><strong>Role:</strong> Operations, resource management</li>
+                            <li><strong>Strengths:</strong> Established relationships, organisational knowledge</li>
+                        </ul>
+                    </div>
+
+                    <div class="card teal">
+                        <h3>Technical Manager</h3>
+                        <ul class="property-list">
+                            <li><strong>Tenure:</strong> 2.5 years</li>
+                            <li><strong>Role:</strong> Technical delivery, product/service design</li>
+                            <li><strong>Strengths:</strong> Collaborative, technically skilled, adaptable</li>
+                        </ul>
+                    </div>
+
+                    <div class="card purple">
+                        <h3>Development Manager</h3>
+                        <ul class="property-list">
+                            <li><strong>Tenure:</strong> 1 year (3rd person in role)</li>
+                            <li><strong>Role:</strong> Business development, growth initiatives</li>
+                            <li><strong>Achievement:</strong> Significant performance improvements</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="achievements" class="section">
+                <h2>What's Working Well</h2>
+                
+                <div class="card-grid">
+                    <div class="card green">
+                        <h3>Performance Growth</h3>
+                        <p>250%+ year-on-year increase demonstrates strong capability and effective strategy execution.</p>
+                    </div>
+
+                    <div class="card green">
+                        <h3>Project Delivery</h3>
+                        <p>Successful delivery of multiple strategic initiatives, programmes, and client projects.</p>
+                    </div>
+
+                    <div class="card green">
+                        <h3>Strategic Initiatives</h3>
+                        <p>Multiple funding applications, partnership development, and growth initiatives successfully executed.</p>
+                    </div>
+
+                    <div class="card green">
+                        <h3>Team Strengths</h3>
+                        <p>Collaborative intentions, commitment to mission, complementary skill sets, strong work ethic.</p>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>Key Insight:</strong> The team has demonstrated significant capability and achievement. The challenges are structural (lack of frameworks), not capability-based.
+                </div>
+            </section>
+
+            <section id="gaps" class="section">
+                <h2>Gap Analysis: Where Structure is Missing</h2>
+                
+                <p style="margin-bottom: 20px;">Five critical gaps have been identified. These are <strong>systemic gaps</strong> (missing frameworks), not individual failures.</p>
+
+                <div class="card-grid">
+                    <div class="card orange">
+                        <h3>Gap 1: Role Clarity <span class="impact-indicator impact-high">High Impact</span></h3>
+                        <p><strong>Current State:</strong> Unclear boundaries, "squishy" overlaps, ambiguous decision authority</p>
+                        <p style="margin-top: 10px;"><strong>Impact:</strong> Duplication, gaps in coverage, confusion on priorities, role ambiguity stress</p>
+                        <p style="margin-top: 10px;"><strong>Needed:</strong> RACI framework, decision authority levels, explicit role interfaces</p>
+                    </div>
+
+                    <div class="card orange">
+                        <h3>Gap 2: Decision Framework <span class="impact-indicator impact-high">High Impact</span></h3>
+                        <p><strong>Current State:</strong> Ad-hoc decisions, unclear consultation requirements, no priority criteria</p>
+                        <p style="margin-top: 10px;"><strong>Impact:</strong> Decisions revisited, uncertainty about autonomy, stepping on responsibilities</p>
+                        <p style="margin-top: 10px;"><strong>Needed:</strong> Decision authority matrix, priority framework, escalation process</p>
+                    </div>
+
+                    <div class="card orange">
+                        <h3>Gap 3: Communication <span class="impact-indicator impact-medium">Medium Impact</span></h3>
+                        <p><strong>Current State:</strong> Ad-hoc patterns, unclear response expectations, informal handovers</p>
+                        <p style="margin-top: 10px;"><strong>Impact:</strong> Information gaps, response time frustration, duplication</p>
+                        <p style="margin-top: 10px;"><strong>Needed:</strong> Channel map, response time agreements, regular touchpoints</p>
+                    </div>
+
+                    <div class="card orange">
+                        <h3>Gap 4: Support Structures <span class="impact-indicator impact-high">High Impact</span></h3>
+                        <p><strong>Current State:</strong> No formal mutual support, unclear how to ask for help, limited coordination</p>
+                        <p style="margin-top: 10px;"><strong>Impact:</strong> Struggling alone, workload imbalances, missed collaboration, burnout risk</p>
+                        <p style="margin-top: 10px;"><strong>Needed:</strong> Workload check-ins, help protocols, coordination mechanisms</p>
+                    </div>
+
+                    <div class="card orange">
+                        <h3>Gap 5: Ways of Working <span class="impact-indicator impact-high">High Impact</span></h3>
+                        <p><strong>Current State:</strong> Implicit expectations, no boundary agreements, ad-hoc conflict management</p>
+                        <p style="margin-top: 10px;"><strong>Impact:</strong> Unsustainable patterns, boundary violations, stress, turnover</p>
+                        <p style="margin-top: 10px;"><strong>Needed:</strong> Hours agreements, sustainability commitments, user protocols</p>
+                    </div>
+                </div>
+
+                <div class="warning-box" style="margin-top: 30px;">
+                    <strong>Important Note:</strong> These are systemic gaps, not failures of individuals. Small teams often operate informally when starting up, but as work intensifies and complexity grows, formal structure becomes essential.
+                </div>
+            </section>
+
+            <section id="framework" class="section">
+                <h2>Proposed Framework Overview</h2>
+                
+                <div class="diagram-container">
+                    <div class="mermaid">
+graph TB
+    subgraph ProposedState[Proposed State - Clear Structure]
+        TC[Team Charter<br/>Living Document]
+        
+        TC --> RC[Role Clarity<br/>RACI Framework]
+        TC --> DF[Decision Framework<br/>Authority Matrix]
+        TC --> CP[Communication Protocols<br/>Clear Channels]
+        TC --> SS[Support Structures<br/>Mutual Aid]
+        TC --> WW[Ways of Working<br/>Boundaries]
+        
+        RC --> Clarity[Clarity & Sustainability]
+        DF --> Clarity
+        CP --> Clarity
+        SS --> Clarity
+        WW --> Clarity
+    end
+    
+    classDef charter fill:#e8f5e9,stroke:#2e7d32,stroke-width:3px
+    classDef component fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef outcome fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    
+    class TC charter
+    class RC,DF,CP,SS,WW component
+    class Clarity outcome
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">What is a Team Charter?</h3>
+                
+                <p>A <strong>Team Charter</strong> is a living document created collaboratively by the team that explicitly defines how we work together.</p>
+
+                <div class="card-grid" style="margin-top: 20px;">
+                    <div class="card blue">
+                        <h3>Team-Created</h3>
+                        <p>We develop this together, not imposed from outside. Everyone has equal voice.</p>
+                    </div>
+
+                    <div class="card teal">
+                        <h3>Evidence-Based</h3>
+                        <p>Grounded in our actual work and challenges, not generic advice.</p>
+                    </div>
+
+                    <div class="card purple">
+                        <h3>Specific</h3>
+                        <p>Concrete agreements, not vague aspirations like "communicate better".</p>
+                    </div>
+
+                    <div class="card green">
+                        <h3>Living Document</h3>
+                        <p>Reviewed and adapted as we learn what works and what doesn't.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="charter" class="section">
+                <h2>Team Charter Components</h2>
+                
+                <p style="margin-bottom: 20px;">The Team Charter addresses all five identified gaps through integrated components:</p>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>What It Addresses</th>
+                            <th>Key Outputs</th>
+                            <th>Resources to Explore</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Role Clarity</strong></td>
+                            <td>Gap 1: Unclear boundaries and decision authority</td>
+                            <td>RACI matrix, decision levels, accountability map</td>
+                            <td>
+                                <a href="https://www.projectmanager.com/blog/raci-chart-definition-tips-and-example" target="_blank" style="color: #3498db;">RACI Matrix Guide</a><br>
+                                <a href="https://www.atlassian.com/team-playbook/plays/roles-and-responsibilities" target="_blank" style="color: #3498db;">Atlassian: Roles & Responsibilities</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Decision Framework</strong></td>
+                            <td>Gap 2: Ad-hoc decision-making and priority conflicts</td>
+                            <td>Authority matrix, priority framework, escalation paths</td>
+                            <td>
+                                <a href="https://www.atlassian.com/team-playbook/plays/daci" target="_blank" style="color: #3498db;">DACI Decision Framework</a><br>
+                                <a href="https://hbr.org/2013/05/how-to-design-smart-business-experiments" target="_blank" style="color: #3498db;">HBR: Decision Rights</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Communication Protocols</strong></td>
+                            <td>Gap 3: Ad-hoc patterns and response expectations</td>
+                            <td>Channel map, response times, touchpoint schedule</td>
+                            <td>
+                                <a href="https://www.atlassian.com/blog/teamwork/team-communication-models-and-best-practices" target="_blank" style="color: #3498db;">Team Communication Best Practices</a><br>
+                                <a href="https://slack.com/intl/en-gb/blog/collaboration/etiquette-tips-in-slack" target="_blank" style="color: #3498db;">Communication Channel Etiquette</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Support Structures</strong></td>
+                            <td>Gap 4: No mutual support mechanisms</td>
+                            <td>Help protocols, workload visibility, coordination</td>
+                            <td>
+                                <a href="https://www.atlassian.com/team-playbook/plays/working-agreements" target="_blank" style="color: #3498db;">Working Agreements Guide</a><br>
+                                <a href="https://hbr.org/2016/01/collaborative-overload" target="_blank" style="color: #3498db;">HBR: Managing Workload</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ways of Working</strong></td>
+                            <td>Gap 5: Implicit expectations and boundaries</td>
+                            <td>Hours agreements, boundaries, user protocols</td>
+                            <td>
+                                <a href="https://www.atlassian.com/team-playbook/plays/team-charter" target="_blank" style="color: #3498db;">Atlassian: Team Charter</a><br>
+                                <a href="https://hbr.org/2017/02/managing-a-team-when-everyone-works-remotely" target="_blank" style="color: #3498db;">HBR: Setting Boundaries</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="process" class="section">
+                <h2>Workshop Process: Two Sessions</h2>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">1</div>
+                        <div class="timeline-content">
+                            <h4>Session 1: Foundation & Understanding</h4>
+                            <p><strong>Duration:</strong> 3.5 hours | <strong>Focus:</strong> Current reality, honest assessment</p>
+                            <p style="margin-top: 10px;"><strong>Activities:</strong> What's working/not working, role mapping, challenge identification, initial quick wins</p>
+                            <p style="margin-top: 10px;"><strong>Outcome:</strong> Shared understanding of current reality and key issues</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">↓</div>
+                        <div class="timeline-content">
+                            <h4>Reflection Gap: 3-5 Days</h4>
+                            <p>Time for processing, drafting charter skeleton, individual reflection</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">2</div>
+                        <div class="timeline-content">
+                            <h4>Session 2: Agreement & Documentation</h4>
+                            <p><strong>Duration:</strong> 3.5 hours | <strong>Focus:</strong> Solutions, commitments, charter creation</p>
+                            <p style="margin-top: 10px;"><strong>Activities:</strong> Priority framework, decision protocols, communication agreements, charter drafting and signing</p>
+                            <p style="margin-top: 10px;"><strong>Outcome:</strong> Complete Team Charter document, signed by all participants</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">✓</div>
+                        <div class="timeline-content">
+                            <h4>Implementation & Review</h4>
+                            <p><strong>Month 1:</strong> Weekly reviews | <strong>Months 2-3:</strong> Fortnightly | <strong>Ongoing:</strong> Monthly check-ins</p>
+                            <p style="margin-top: 10px;"><strong>Living Document:</strong> Charter evolves as we learn what works</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>Facilitation:</strong> Comprehensive materials have been prepared. Internal facilitation or external facilitation options are both viable approaches depending on team preference.
+                </div>
+            </section>
+
+            <section id="benefits" class="section">
+                <h2>What This Framework Provides</h2>
+                
+                <h3>Immediate Benefits</h3>
+                <div class="card-grid">
+                    <div class="card green">
+                        <h3>Clarity</h3>
+                        <ul class="property-list">
+                            <li>Clear roles and boundaries</li>
+                            <li>Explicit decision rights</li>
+                            <li>Documented ways of working</li>
+                        </ul>
+                    </div>
+
+                    <div class="card green">
+                        <h3>Reduced Stress</h3>
+                        <ul class="property-list">
+                            <li>Less ambiguity and guesswork</li>
+                            <li>Clear support structures</li>
+                            <li>Sustainable work practices</li>
+                        </ul>
+                    </div>
+
+                    <div class="card green">
+                        <h3>Better Coordination</h3>
+                        <ul class="property-list">
+                            <li>Fewer gaps and duplications</li>
+                            <li>Smoother handovers</li>
+                            <li>Improved communication</li>
+                        </ul>
+                    </div>
+
+                    <div class="card green">
+                        <h3>Accountability</h3>
+                        <ul class="property-list">
+                            <li>Clear ownership</li>
+                            <li>Documented agreements</li>
+                            <li>Review mechanisms</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 40px;">Long-Term Benefits</h3>
+                <div class="card-grid">
+                    <div class="card purple">
+                        <h3>Sustainability</h3>
+                        <p>Reduces burnout risk, protects team wellbeing, makes roles achievable</p>
+                    </div>
+
+                    <div class="card purple">
+                        <h3>Effectiveness</h3>
+                        <p>Faster decisions, better coordination, higher quality outputs</p>
+                    </div>
+
+                    <div class="card purple">
+                        <h3>Retention</h3>
+                        <p>Addresses role turnover pattern, creates supportive environment, builds cohesion</p>
+                    </div>
+
+                    <div class="card purple">
+                        <h3>Foundation for Growth</h3>
+                        <p>Clear structure enables scaling, makes onboarding easier, framework for team expansion</p>
+                    </div>
+                </div>
+
+                <div class="warning-box" style="margin-top: 30px;">
+                    <strong>What This Doesn't Solve:</strong> A Team Charter creates clarity within current resources. It does not solve fundamental resourcing gaps, strategic misalignments, or budget constraints. However, it makes these issues visible and provides evidence for separate conversations with leadership.
+                </div>
+            </section>
+
+            <section id="implementation" class="section">
+                <h2>Implementation Pathway</h2>
+                
+                <div class="card-grid">
+                    <div class="card blue">
+                        <h3>Phase 1: Agreement (This Meeting)</h3>
+                        <p><strong>Outcome Sought:</strong></p>
+                        <ul class="property-list">
+                            <li>Acknowledgment that identified gaps exist</li>
+                            <li>Agreement that addressing them is valuable</li>
+                            <li>Commitment to Team Charter workshop process</li>
+                            <li>Scheduling of Session 1</li>
+                        </ul>
+                    </div>
+
+                    <div class="card teal">
+                        <h3>Phase 2: Workshop (2-4 Weeks)</h3>
+                        <p><strong>Two Sessions:</strong></p>
+                        <ul class="property-list">
+                            <li>Session 1: [Date to be scheduled]</li>
+                            <li>Session 2: [Date 3-5 days after Session 1]</li>
+                            <li>Protected time (no interruptions)</li>
+                            <li>All team members present</li>
+                        </ul>
+                    </div>
+
+                    <div class="card purple">
+                        <h3>Phase 3: Implementation (Ongoing)</h3>
+                        <p><strong>Review Cadence:</strong></p>
+                        <ul class="property-list">
+                            <li>Month 1: Weekly reviews</li>
+                            <li>Months 2-3: Fortnightly reviews</li>
+                            <li>Ongoing: Monthly check-ins</li>
+                            <li>Quarterly: Deep reviews and refinements</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 40px;">Comparison: Before and After</h3>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Current State (Before)</th>
+                            <th>With Team Charter (After)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Role Boundaries</strong></td>
+                            <td><span class="before">Unclear, squishy overlaps</span></td>
+                            <td><span class="after">Explicit RACI, clear interfaces</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Decisions</strong></td>
+                            <td><span class="before">Ad-hoc, revisited, uncertain</span></td>
+                            <td><span class="after">Authority matrix, clear process</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Communication</strong></td>
+                            <td><span class="before">Informal, gaps, unclear expectations</span></td>
+                            <td><span class="after">Channel map, response times, touchpoints</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Support</strong></td>
+                            <td><span class="before">No formal structures, struggle alone</span></td>
+                            <td><span class="after">Help protocols, workload visibility</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Workload</strong></td>
+                            <td><span class="before">Unsustainable, boundary violations</span></td>
+                            <td><span class="after">Sustainability commitments, clear boundaries</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Stress Level</strong></td>
+                            <td><span class="before">High (role ambiguity)</span></td>
+                            <td><span class="after">Reduced (clarity and support)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Retention</strong></td>
+                            <td><span class="before">Role turnover (3 in 3 years)</span></td>
+                            <td><span class="after">Supportive environment, achievable roles</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <div class="section">
+                <h2>Discussion & Next Steps</h2>
+                
+                <div class="success-box">
+                    <strong>Collaborative Approach:</strong> This framework is designed to facilitate team discussion and co-creation. It serves as a starting point for dialogue, not a final plan.
+                </div>
+
+                <h3 style="margin-top: 30px;">Questions for Discussion</h3>
+                
+                <div class="card-grid">
+                    <div class="card blue">
+                        <h3>Gap Identification</h3>
+                        <ul class="property-list">
+                            <li>Do these gaps resonate with your experience?</li>
+                            <li>Are there other gaps not captured here?</li>
+                            <li>Would you describe things differently?</li>
+                        </ul>
+                    </div>
+
+                    <div class="card teal">
+                        <h3>Framework Approach</h3>
+                        <ul class="property-list">
+                            <li>Does the Team Charter process seem appropriate?</li>
+                            <li>What concerns or questions do you have?</li>
+                            <li>What would make this work for you?</li>
+                        </ul>
+                    </div>
+
+                    <div class="card purple">
+                        <h3>Commitment</h3>
+                        <ul class="property-list">
+                            <li>Are you willing to engage in this process?</li>
+                            <li>What would you need to feel comfortable?</li>
+                            <li>Can we schedule the two sessions?</li>
+                        </ul>
+                    </div>
+
+                    <div class="card green">
+                        <h3>Immediate Actions</h3>
+                        <ul class="property-list">
+                            <li>Are there quick wins we can implement now?</li>
+                            <li>What would help most immediately?</li>
+                            <li>What are our next concrete steps?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 40px;">If Agreement Reached: Next Steps</h3>
+                
+                <ol style="margin-left: 20px; margin-top: 10px; line-height: 2;">
+                    <li><strong>Agreement in principle</strong> to Team Charter process</li>
+                    <li><strong>Schedule Session 1</strong> (3.5 hours, within 2 weeks)</li>
+                    <li><strong>Schedule Session 2</strong> (3.5 hours, 3-5 days after Session 1)</li>
+                    <li><strong>Pre-work materials sent</strong> (brief reflection prompts)</li>
+                    <li><strong>Space booking</strong> (private, uninterrupted)</li>
+                    <li><strong>Materials preparation</strong> (facilitation guides, templates)</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h2>Closing Thoughts</h2>
+                
+                <p>The team has achieved remarkable things in challenging circumstances. The significant performance growth demonstrates capability and commitment.</p>
+
+                <p style="margin-top: 15px;">The gaps identified in this presentation are <strong>normal for a growing organisation</strong>. Many teams operate informally in startup phase, but as work intensifies, formal structure becomes essential for sustainability.</p>
+
+                <div class="info-box" style="margin-top: 20px;">
+                    <strong>This is an opportunity</strong> to establish the operational foundations that will enable us to continue delivering excellent work whilst protecting team wellbeing and creating sustainable practices.
+                </div>
+
+                <p style="margin-top: 20px;">This framework has been developed to support team effectiveness and sustainable performance. The approach offers facilitated collaborative process for working through these challenges together.</p>
+
+                <p style="margin-top: 15px; font-weight: 600; color: #2c3e50;">The question is not whether structure is needed, but whether the team is willing to co-create it together.</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#e3f2fd',
+                primaryTextColor: '#333',
+                primaryBorderColor: '#1976d2',
+                lineColor: '#666',
+                secondaryColor: '#f3e5f5',
+                tertiaryColor: '#e8f5e9'
+            }
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.sidebar nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Update active link
+                document.querySelectorAll('.sidebar nav a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Update active link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const scrollPos = window.scrollY + 100;
+
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const height = section.offsetHeight;
+                const id = section.getAttribute('id');
+
+                if (scrollPos >= top && scrollPos < top + height) {
+                    document.querySelectorAll('.sidebar nav a').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

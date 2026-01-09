@@ -1,0 +1,620 @@
+<!-- DIAGRAM COMPONENT LIBRARY -->
+<!-- Mermaid diagram examples and styling -->
+
+<!-- ===================================== -->
+<!-- SETUP: Include Mermaid -->
+<!-- ===================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+<script>
+mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+        primaryColor: '#e1f5ff',
+        primaryTextColor: '#333',
+        primaryBorderColor: '#0066cc',
+        lineColor: '#666',
+        secondaryColor: '#fff4e1',
+        tertiaryColor: '#e8f5e9',
+        fontSize: '16px'
+    }
+});
+</script>
+
+
+<!-- ===================================== -->
+<!-- 1. FLOWCHART -->
+<!-- Use for: Process flows, decision trees -->
+<!-- ===================================== -->
+
+<div class="diagram-container">
+    <h3>System Flow</h3>
+    <div class="mermaid">
+graph TD
+    A[Start] --> B{Is Valid?}
+    B -->|Yes| C[Process Data]
+    B -->|No| D[Show Error]
+    C --> E[Save to Database]
+    E --> F[Send Notification]
+    F --> G[End]
+    D --> G
+    </div>
+</div>
+
+<style>
+.diagram-container {
+    margin: 20px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.diagram-container h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.mermaid {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background: white;
+    border-radius: 5px;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 2. SEQUENCE DIAGRAM -->
+<!-- Use for: API interactions, communication flows -->
+<!-- ===================================== -->
+
+<div class="diagram-container">
+    <h3>Authentication Flow</h3>
+    <div class="mermaid">
+sequenceDiagram
+    participant User
+    participant Client
+    participant Server
+    participant Database
+    
+    User->>Client: Enter credentials
+    Client->>Server: POST /auth/login
+    Server->>Database: Verify user
+    Database-->>Server: User data
+    Server-->>Client: JWT token
+    Client-->>User: Login success
+    </div>
+</div>
+
+
+<!-- ===================================== -->
+<!-- 3. CLASS DIAGRAM -->
+<!-- Use for: Data models, object relationships -->
+<!-- ===================================== -->
+
+<div class="diagram-container">
+    <h3>Data Model</h3>
+    <div class="mermaid">
+classDiagram
+    class User {
+        +string id
+        +string email
+        +string name
+        +datetime created_at
+        +login()
+        +logout()
+    }
+    
+    class Post {
+        +string id
+        +string title
+        +string content
+        +datetime published_at
+        +publish()
+        +delete()
+    }
+    
+    class Comment {
+        +string id
+        +string text
+        +datetime created_at
+        +edit()
+        +delete()
+    }
+    
+    User "1" --> "*" Post : writes
+    Post "1" --> "*" Comment : has
+    User "1" --> "*" Comment : writes
+    </div>
+</div>
+
+
+<!-- ===================================== -->
+<!-- 4. STATE DIAGRAM -->
+<!-- Use for: State machines, status transitions -->
+<!-- ===================================== -->
+
+<div class="diagram-container">
+    <h3>Order Status Flow</h3>
+    <div class="mermaid">
+stateDiagram-v2
+    [*] --> Draft
+    Draft --> Submitted : submit()
+    Submitted --> Approved : approve()
+    Submitted --> Rejected : reject()
+    Approved --> Processing : process()
+    Processing --> Completed : complete()
+    Rejected --> [*]
+    Completed --> [*]
+    </div>
+</div>
+
+
+<!-- ===================================== -->
+<!-- 5. GANTT CHART -->
+<!-- Use for: Project timelines, schedules -->
+<!-- ===================================== -->
+
+<div class="diagram-container">
+    <h3>Project Timeline</h3>
+    <div class="mermaid">
+gantt
+    title Project Roadmap
+    dateFormat YYYY-MM-DD
+    section Phase 1
+    Research & Planning    :done, p1, 2026-01-01, 2026-01-15
+    Design                 :done, p2, 2026-01-16, 2026-02-01
+    section Phase 2
+    Development            :active, p3, 2026-02-01, 2026-03-15
+    Testing                :p4, 2026-03-01, 2026-03-20
+    section Phase 3
+    Deployment             :p5, 2026-03-20, 2026-04-01
+    Monitoring             :p6, 2026-04-01, 2026-04-15
+    </div>
+</div>
+
+
+<!-- ===================================== -->
+<!-- 6. ENTITY RELATIONSHIP DIAGRAM -->
+<!-- Use for: Database schemas -->
+<!-- ===================================== -->
+
+<div class="diagram-container">
+    <h3>Database Schema</h3>
+    <div class="mermaid">
+erDiagram
+    USER ||--o{ POST : creates
+    USER {
+        string id PK
+        string email
+        string name
+        datetime created_at
+    }
+    POST ||--o{ COMMENT : has
+    POST {
+        string id PK
+        string user_id FK
+        string title
+        string content
+        datetime published_at
+    }
+    COMMENT {
+        string id PK
+        string post_id FK
+        string user_id FK
+        string text
+        datetime created_at
+    }
+    USER ||--o{ COMMENT : writes
+    </div>
+</div>
+
+
+<!-- ===================================== -->
+<!-- 7. PIE CHART -->
+<!-- Use for: Data distribution, percentages -->
+<!-- ===================================== -->
+
+<div class="diagram-container">
+    <h3>Technology Stack Distribution</h3>
+    <div class="mermaid">
+pie title Programming Languages
+    "Python" : 45
+    "JavaScript" : 30
+    "TypeScript" : 15
+    "Go" : 10
+    </div>
+</div>
+
+
+<!-- ===================================== -->
+<!-- 8. GIT GRAPH -->
+<!-- Use for: Version control flows, branching -->
+<!-- ===================================== -->
+
+<div class="diagram-container">
+    <h3>Git Workflow</h3>
+    <div class="mermaid">
+gitGraph
+    commit id: "Initial commit"
+    branch develop
+    checkout develop
+    commit id: "Add feature A"
+    commit id: "Add feature B"
+    checkout main
+    merge develop
+    branch hotfix
+    checkout hotfix
+    commit id: "Fix critical bug"
+    checkout main
+    merge hotfix
+    </div>
+</div>
+
+
+<!-- ===================================== -->
+<!-- 9. CUSTOM STYLED DIAGRAM CONTAINER -->
+<!-- Use for: Enhanced presentation -->
+<!-- ===================================== -->
+
+<div class="diagram-card">
+    <div class="diagram-header">
+        <h3>System Architecture</h3>
+        <span class="diagram-badge">Updated Today</span>
+    </div>
+    <div class="diagram-body">
+        <div class="mermaid">
+graph LR
+    A[Frontend] -->|API Calls| B[Backend]
+    B -->|Queries| C[Database]
+    B -->|Cache| D[Redis]
+    B -->|Queue| E[RabbitMQ]
+    E -->|Process| F[Workers]
+    F -->|Store| C
+        </div>
+    </div>
+    <div class="diagram-footer">
+        <p>This diagram shows the main components and their interactions.</p>
+    </div>
+</div>
+
+<style>
+.diagram-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.diagram-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.diagram-header h3 {
+    margin: 0;
+    color: white;
+}
+
+.diagram-badge {
+    background: rgba(255,255,255,0.2);
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+}
+
+.diagram-body {
+    padding: 30px;
+    background: #f8f9fa;
+}
+
+.diagram-footer {
+    padding: 15px 20px;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- 10. SIDE-BY-SIDE COMPARISON DIAGRAMS -->
+<!-- Use for: Before/After, alternatives -->
+<!-- ===================================== -->
+
+<div class="diagram-comparison">
+    <div class="diagram-side">
+        <h4>Before</h4>
+        <div class="mermaid">
+graph TD
+    A[Monolith] --> B[Database]
+    A --> C[File System]
+        </div>
+    </div>
+    
+    <div class="comparison-arrow">→</div>
+    
+    <div class="diagram-side">
+        <h4>After</h4>
+        <div class="mermaid">
+graph TD
+    A[API Gateway] --> B[Service 1]
+    A --> C[Service 2]
+    A --> D[Service 3]
+    B --> E[DB 1]
+    C --> F[DB 2]
+    D --> G[DB 3]
+        </div>
+    </div>
+</div>
+
+<style>
+.diagram-comparison {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 20px;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.diagram-side {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.diagram-side h4 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.comparison-arrow {
+    font-size: 2.5rem;
+    color: #3498db;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .diagram-comparison {
+        grid-template-columns: 1fr;
+    }
+    
+    .comparison-arrow {
+        transform: rotate(90deg);
+    }
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- THEME CUSTOMIZATION -->
+<!-- ===================================== -->
+
+<script>
+// Professional Theme
+const professionalTheme = {
+    theme: 'base',
+    themeVariables: {
+        primaryColor: '#e1f5ff',
+        primaryTextColor: '#2c3e50',
+        primaryBorderColor: '#3498db',
+        lineColor: '#7f8c8d',
+        secondaryColor: '#f8f9fa',
+        tertiaryColor: '#e8f5e9',
+        fontSize: '16px'
+    }
+};
+
+// Dark Theme
+const darkTheme = {
+    theme: 'dark',
+    themeVariables: {
+        primaryColor: '#60a5fa',
+        primaryTextColor: '#e5e5e5',
+        primaryBorderColor: '#818cf8',
+        lineColor: '#a3a3a3',
+        secondaryColor: '#2d2d2d',
+        tertiaryColor: '#404040',
+        fontSize: '16px'
+    }
+};
+
+// Creative Theme
+const creativeTheme = {
+    theme: 'base',
+    themeVariables: {
+        primaryColor: '#f093fb',
+        primaryTextColor: '#2d3748',
+        primaryBorderColor: '#667eea',
+        lineColor: '#718096',
+        secondaryColor: '#ffd89b',
+        tertiaryColor: '#4facfe',
+        fontSize: '16px'
+    }
+};
+
+// Apply theme
+mermaid.initialize(professionalTheme); // Change to desired theme
+</script>
+
+
+<!-- ===================================== -->
+<!-- RESPONSIVE DIAGRAM WRAPPER -->
+<!-- ===================================== -->
+
+<style>
+/* Make diagrams responsive */
+.mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Scrollable on very small screens */
+@media (max-width: 480px) {
+    .diagram-container {
+        overflow-x: auto;
+    }
+    
+    .mermaid {
+        min-width: 600px; /* Prevent diagram from becoming too small */
+    }
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- DIAGRAM WITH LEGEND -->
+<!-- ===================================== -->
+
+<div class="diagram-with-legend">
+    <div class="diagram-main">
+        <div class="mermaid">
+graph TB
+    A[Component A]:::completed --> B[Component B]:::inProgress
+    B --> C[Component C]:::planned
+    C --> D[Component D]:::planned
+    
+    classDef completed fill:#d1fae5,stroke:#16a34a
+    classDef inProgress fill:#fef3c7,stroke:#f59e0b
+    classDef planned fill:#e5e7eb,stroke:#6b7280
+        </div>
+    </div>
+    
+    <div class="diagram-legend">
+        <h4>Legend</h4>
+        <div class="legend-item">
+            <span class="legend-color completed"></span>
+            <span>Completed</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-color in-progress"></span>
+            <span>In Progress</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-color planned"></span>
+            <span>Planned</span>
+        </div>
+    </div>
+</div>
+
+<style>
+.diagram-with-legend {
+    display: flex;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.diagram-main {
+    flex: 1;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.diagram-legend {
+    width: 200px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.diagram-legend h4 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.legend-color.completed {
+    background: #d1fae5;
+    border: 2px solid #16a34a;
+}
+
+.legend-color.in-progress {
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+}
+
+.legend-color.planned {
+    background: #e5e7eb;
+    border: 2px solid #6b7280;
+}
+
+@media (max-width: 768px) {
+    .diagram-with-legend {
+        flex-direction: column;
+    }
+    
+    .diagram-legend {
+        width: 100%;
+    }
+}
+</style>
+
+
+<!-- ===================================== -->
+<!-- USAGE NOTES -->
+<!-- ===================================== -->
+
+<!--
+DIAGRAM TYPE SELECTION:
+
+1. Flowchart (graph) - Process flows, logic, decisions
+2. Sequence - API calls, interactions, communication
+3. Class - Data models, OOP structures, relationships
+4. State - State machines, status transitions
+5. Gantt - Timelines, project schedules, roadmaps
+6. ER Diagram - Database schemas, data relationships
+7. Pie - Distributions, percentages, breakdowns
+8. Git Graph - Version control flows, branching strategies
+
+MERMAID SYNTAX TIPS:
+
+Flowchart directions: TD (top-down), LR (left-right), BT (bottom-top), RL (right-left)
+Node shapes: [] square, () rounded, {} diamond, (()) circle, [[]] subroutine
+Arrows: --> solid, -.-> dotted, ==> thick, --text--> labeled
+Styling: Use classDef and :::className for custom styles
+
+RESPONSIVE CONSIDERATIONS:
+
+- Diagrams should scale on mobile
+- Consider horizontal scrolling for complex diagrams
+- Use simpler diagrams on mobile (create mobile-specific versions)
+- Test diagram readability at different screen sizes
+
+ACCESSIBILITY:
+
+- Provide text description below complex diagrams
+- Use sufficient color contrast
+- Don't rely on color alone (use labels, shapes)
+- Consider alt text for screen readers
+
+PERFORMANCE:
+
+- Mermaid renders on page load (may take 100-500ms)
+- For many diagrams, consider lazy loading
+- Keep diagrams reasonably sized (< 50 nodes)
+-->
