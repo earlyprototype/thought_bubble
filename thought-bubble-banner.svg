@@ -138,8 +138,8 @@
     <rect x="244" y="50" width="30" height="10" fill="#FF8875"/>
   </g>
   
-  <!-- Terminal prompt area - right side -->
-  <g transform="translate(630, 30)">
+  <!-- Terminal prompt area - aligned under big text -->
+  <g transform="translate(280, 180)">
     <!-- Prompt -->
     <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="15" fill="#6e7681">
       <tspan x="0" y="18">$</tspan>
