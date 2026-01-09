@@ -11,8 +11,8 @@
   <rect width="1000" height="220" fill="url(#pixels)" opacity="0.2"/>
   
   <!-- Animated thought bubble - pixelated square blocks in vertical sequence -->
-  <g transform="translate(80, 30)">
-    <g transform="translate(35.5, 92.5) scale(1.2) translate(-35.5, -92.5)">
+  <g transform="translate(80, 60)">
+    <g transform="translate(35.5, 92.5) scale(1.44) translate(-35.5, -92.5)">
     <!-- Small square block (bottom) - moved to overlap more with medium square -->
     <rect x="10" y="103" width="20" height="20" fill="none" stroke="#bc8cff" stroke-width="2" opacity="0.4">
       <animate attributeName="opacity" values="0.4;0.2;0.4" dur="3s" repeatCount="indefinite"/>
@@ -138,8 +138,8 @@
     <rect x="244" y="50" width="30" height="10" fill="#FF8875"/>
   </g>
   
-  <!-- Terminal prompt area - bottom, aligned under big text -->
-  <g transform="translate(280, 175)">
+  <!-- Terminal prompt area - right side -->
+  <g transform="translate(630, 30)">
     <!-- Prompt -->
     <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="15" fill="#6e7681">
       <tspan x="0" y="18">$</tspan>
@@ -171,17 +171,17 @@
   </g>
   
   
-  <!-- Bottom status bar - distributed across full width -->
+  <!-- Bottom status bar - aligned to right under big text, equal spacing between items -->
   <rect x="0" y="200" width="1000" height="20" fill="#FEFEFE"/>
   <text font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="11" y="213">
-    <tspan x="30" fill="#7ee787">●</tspan>
+    <tspan x="280" fill="#7ee787">●</tspan>
     <tspan fill="#6e7681"> design assets</tspan>
-    <tspan x="250" fill="#58a6ff">●</tspan>
+    <tspan x="406" fill="#58a6ff">●</tspan>
     <tspan fill="#6e7681"> responsive templates</tspan>
-    <tspan x="500" fill="#bc8cff">●</tspan>
+    <tspan x="578" fill="#bc8cff">●</tspan>
     <tspan fill="#6e7681"> interactive examples</tspan>
-    <tspan x="740" fill="#f78166">●</tspan>
+    <tspan x="750" fill="#f78166">●</tspan>
     <tspan fill="#6e7681"> ready for AI prompts</tspan>
-    <tspan x="920" fill="#484f58">v1.0</tspan>
   </text>
+  <text font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="11" x="920" y="189" fill="#484f58">v1.0</text>
 </svg>
