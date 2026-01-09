@@ -8,7 +8,7 @@ Transform any documentation, system architecture, or plan into beautiful interac
 
 ## What Is This?
 
-An LLM-integrated one-shot tool that generates pretty, interactive HTML visualisations with embedded workflow and system diagrams from any structured content. No build tools, no frameworks - just pure HTML, CSS, and JavaScript that works everywhere.
+An LLM-integrated one-shot tool that generates pretty, interactive HTML visualisations with embedded (Mermaid code-based) workflow and system diagrams from any structured content. No build tools, no frameworks - just pure HTML, CSS, and JavaScript that works everywhere.
 
 ## 🚀 NEW: MCP Server Available!
 
