@@ -143,7 +143,7 @@
     <!-- Prompt -->
     <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="15" fill="#6e7681">
       <tspan x="0" y="18">$</tspan>
-      <tspan fill="#c9d1d9"> though_bubble</tspan>
+      <tspan fill="#c9d1d9"> thought_bubble</tspan>
       <tspan fill="#6e7681"> --mode=</tspan><tspan fill="#a5d6ff">visualize</tspan>
     </text>
     
