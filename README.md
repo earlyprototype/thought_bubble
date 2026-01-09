@@ -1,6 +1,6 @@
 ![Thought Bubble](thought-bubble-banner.svg)
 
-# thought_bubble
+# thought_bubble [+ MCP]
 
 **Abrakedabra - your boring documents are now a lovely website with workflow diagrams**
 
