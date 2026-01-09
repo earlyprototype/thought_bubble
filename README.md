@@ -2,20 +2,24 @@
 
 # thought_bubble
 
-**Abrakedabra - your boring documents are now a lovely website with logical flow**
+**Abrakedabra - your boring documents are now a lovely website with workflow diagrams**
 
-Transform any documentation, system architecture, or plan into beautiful interactive HTML visualizations using AI.
+Transform any documentation, system architecture, or plan into beautiful interactive HTML visualisations using AI.
 
 ## What Is This?
 
-A prompt-engineering framework that enables LLMs to generate stunning, interactive HTML visualizations from any structured content. No build tools, no frameworks - just pure HTML, CSS, and JavaScript that works everywhere.
+An LLM-integrated one-shot tool that generates pretty interactive HTML visualizations with embedded workflow and system diagrams from any structured content. No build tools, no frameworks - just pure HTML, CSS, and JavaScript that works everywhere.
 
 ## How It Works
 
 1. **You provide:** Your content (markdown, JSON, text, diagrams)
+         |
 2. **LLM receives:** Prompt template + your content + design asset library
-3. **LLM generates:** Custom interactive HTML visualization
-4. **You open:** The HTML file in any browser
+3. **LLM detects:** Workflows, system architecture, processes + relationships
+4. **LLM generates:** Mermaid diagram code + custom HTML
+         |
+5. **You open:** The HTML file in any browser
+6. **You experience:** Clarity and joy
 
 ## Quick Start
 
