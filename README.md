@@ -8,7 +8,7 @@ Transform any documentation, system architecture, or plan into beautiful interac
 
 ## What Is This?
 
-An LLM-integrated one-shot tool that generates pretty interactive HTML visualizations with embedded workflow and system diagrams from any structured content. No build tools, no frameworks - just pure HTML, CSS, and JavaScript that works everywhere.
+An LLM-integrated one-shot tool that generates pretty, interactive HTML visualisations with embedded workflow and system diagrams from any structured content. No build tools, no frameworks - just pure HTML, CSS, and JavaScript that works everywhere.
 
 ## 🚀 NEW: MCP Server Available!
 
@@ -17,7 +17,7 @@ An LLM-integrated one-shot tool that generates pretty interactive HTML visualiza
 **Benefits:**
 - ✅ **Automated analysis** - AI identifies systems, workflows, and data models in your content
 - ✅ **Smart diagram generation** - Automatic Mermaid diagram creation (flowchart, sequence, ER, class, state, C4)
-- ✅ **One-command workflow** - Just say "visualize this" and the AI handles everything
+- ✅ **One-command workflow** - Just say "visualise this" and the AI handles everything
 - ✅ **No copy-paste** - Direct integration with your AI assistant
 
 **Quick Setup:** See [`thought_bubble_mcp/START_HERE.md`](thought_bubble_mcp/START_HERE.md) for 5-minute installation.
@@ -25,11 +25,11 @@ An LLM-integrated one-shot tool that generates pretty interactive HTML visualiza
 ## How It Works
 
 ### With MCP Server (Recommended)
-1. **You say:** "Analyze and visualize this documentation"
-2. **AI analyzes:** Identifies systems, workflows, data models automatically
-3. **You select:** Choose which items to visualize
+1. **You say:** "Analyse and visualise this documentation"
+2. **AI analyses:** Identifies systems, workflows, data models automatically
+3. **You select:** Choose which items to visualise
 4. **AI generates:** Creates Mermaid diagrams + complete HTML
-5. **You open:** Beautiful visualization in your browser
+5. **You open:** Beautiful visualisation in your browser
 
 ### Manual Method
 1. **You provide:** Your content (markdown, JSON, text, diagrams)
@@ -56,7 +56,7 @@ Then add to your MCP config and restart your AI client. See full instructions in
 
 **Usage:**
 ```
-"Use thought-bubble tools to analyze this content and create a visualization:
+"Use thought-bubble tools to analyse this content and create a visualisation:
 
 [paste your documentation]"
 ```
@@ -67,7 +67,7 @@ Then add to your MCP config and restart your AI client. See full instructions in
 1. Copy the contents of prompt_template.md
 2. Attach your source document/content
 3. Send to your LLM
-4. Receive beautiful HTML visualization
+4. Receive beautiful HTML visualisation
 ```
 
 ### Option 3: Use with Cursor/AI IDE
@@ -75,16 +75,16 @@ Then add to your MCP config and restart your AI client. See full instructions in
 ```
 1. Open your documentation file
 2. Reference this repo: @thought_bubble
-3. Say: "Visualize this using thought_bubble"
+3. Say: "Visualise this using thought_bubble"
 4. AI generates custom HTML
 ```
 
-## What Can You Visualize?
+## What Can You Visualise?
 
 - System architectures
 - Development plans
 - API documentation
-- Organization charts
+- Organisation charts
 - Project roadmaps
 - Process flows
 - Data models
@@ -122,9 +122,9 @@ Then add to your MCP config and restart your AI client. See full instructions in
 
 See the `examples/` folder for:
 
-- **system_architecture.html** - Technical system integration visualization
+- **system_architecture.html** - Technical system integration visualisation
 - **project_plan.html** - Development roadmap with milestones
-- **org_structure.html** - Organization hierarchy and teams
+- **org_structure.html** - Organisation hierarchy and teams
 
 ## Files in This Repo
 
@@ -151,23 +151,23 @@ thought_bubble/
 │       ├── color_schemes.css         # Theme definitions
 │       ├── animations.css            # Animation library
 │       └── responsive.css            # Responsive utilities
-└── examples/                          # Example visualizations
+└── examples/                          # Example visualisations
 ```
 
 ## Usage Tips
 
 ### For Best Results:
 
-1. **Provide structure** - The more organized your content, the better the output
+1. **Provide structure** - The more organised your content, the better the output
 2. **Specify preferences** - Tell the LLM which components/theme you want
 3. **Include diagrams** - Mermaid diagrams render beautifully
 4. **Define sections** - Clear section headers help create navigation
-5. **Add metadata** - Status, dates, authors enhance the visualization
+5. **Add metadata** - Status, dates, authors enhance the visualisation
 
 ### Example Prompt:
 
 ```
-Using thought_bubble, create an interactive HTML visualization of this content.
+Using thought_bubble, create an interactive HTML visualisation of this content.
 
 Theme: Professional
 Include: Sidebar navigation, Mermaid diagrams, stat cards, timeline layout
@@ -176,15 +176,15 @@ Focus: Make complex relationships easy to understand
 [Your content here]
 ```
 
-## Customization
+## Customisation
 
-The LLM can customize:
+The LLM can customise:
 - Color schemes and themes
 - Component selection
 - Layout structure
 - Navigation style
 - Animation intensity
-- Content organization
+- Content organisation
 
 ## Browser Support
 
@@ -197,14 +197,14 @@ The LLM can customize:
 
 The thought_bubble MCP server exposes two powerful tools:
 
-### 1. `analyze_content`
-Analyzes your documentation to identify:
+### 1. `analyse_content`
+Analyses your documentation to identify:
 - Workflows (processes, sequences, flows)
 - Systems (architectures, components, services)
 - Data Models (entities, schemas, objects)
 - Relationships (connections, integrations)
 
-### 2. `generate_visualization`
+### 2. `generate_visualisation`
 Generates interactive HTML with:
 - Mermaid diagrams (flowchart, sequence, class, ER, state, C4)
 - Theme selection (professional, dark, technical, minimal, creative)
