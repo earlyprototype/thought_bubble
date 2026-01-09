@@ -1,3 +1,5 @@
+![Thought Bubble](thought-bubble-banner.svg)
+
 # thought_bubble
 
 **Abrakedabra - your boring documents are now a lovely website with logical flow**

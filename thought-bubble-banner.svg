@@ -1,0 +1,187 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 220">
+  <!-- Background -->
+  <rect width="1000" height="220" fill="#FEFEFE"/>
+  
+  <!-- Pixel grid overlay - very subtle -->
+  <defs>
+    <pattern id="pixels" width="8" height="8" patternUnits="userSpaceOnUse">
+      <rect width="8" height="8" fill="none" stroke="#FCFCFC" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="1000" height="220" fill="url(#pixels)" opacity="0.2"/>
+  
+  <!-- Animated thought bubble - pixelated square blocks in vertical sequence -->
+  <g transform="translate(80, 30)">
+    <g transform="translate(35.5, 92.5) scale(1.2) translate(-35.5, -92.5)">
+    <!-- Small square block (bottom) - moved to overlap more with medium square -->
+    <rect x="10" y="103" width="20" height="20" fill="none" stroke="#bc8cff" stroke-width="2" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.2;0.4" dur="3s" repeatCount="indefinite"/>
+    </rect>
+    
+    <!-- Medium square block (middle) -->
+    <rect x="18" y="75" width="35" height="35" fill="none" stroke="#7ee787" stroke-width="2.5" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.3;0.5" dur="3.5s" repeatCount="indefinite"/>
+    </rect>
+    
+    <!-- Large square block (top) - positioned to overlap more with medium block -->
+    <rect x="40" y="10" width="70" height="70" fill="none" stroke="#58a6ff" stroke-width="3" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.4;0.6" dur="4s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="46" y="16" width="58" height="58" fill="none" stroke="#58a6ff" stroke-width="2" opacity="0.4"/>
+    
+    <!-- Connection lines between blocks (bottom to middle to top) -->
+    <line x1="25" y1="98" x2="28" y2="103" stroke="#6e7681" stroke-width="1.5" opacity="0.4"/>
+    <line x1="48" y1="78" x2="55" y2="80" stroke="#6e7681" stroke-width="1.5" opacity="0.4"/>
+    
+    <!-- Rising thought pixels - inside the large block -->
+    <rect x="62" y="60" width="5" height="5" fill="#58a6ff" opacity="0.7">
+      <animate attributeName="y" values="65;25;65" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.2;0.7" dur="6s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="80" y="65" width="4" height="4" fill="#7ee787" opacity="0.6">
+      <animate attributeName="y" values="70;30;70" dur="7s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="7s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="70" y="40" width="4" height="4" fill="#bc8cff" opacity="0.5">
+      <animate attributeName="y" values="55;20;55" dur="8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.1;0.5" dur="8s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="55" y="48" width="5" height="5" fill="#f78166" opacity="0.6">
+      <animate attributeName="y" values="60;28;60" dur="6.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="6.5s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="85" y="45" width="4" height="4" fill="#d29922" opacity="0.5">
+      <animate attributeName="y" values="58;23;58" dur="7.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="7.5s" repeatCount="indefinite"/>
+    </rect>
+    </g>
+  </g>
+  
+  <!-- THOUGHT BUBBLE in chunky pixel blocks - center - vibrant complementary tones -->
+  <g transform="translate(280, 30)">
+    <!-- T -->
+    <rect x="0" y="0" width="36" height="10" fill="#4A9FD8"/>
+    <rect x="12" y="10" width="12" height="50" fill="#4A9FD8"/>
+    
+    <!-- H -->
+    <rect x="48" y="0" width="10" height="60" fill="#5DC9B9"/>
+    <rect x="58" y="25" width="20" height="10" fill="#5DC9B9"/>
+    <rect x="78" y="0" width="10" height="60" fill="#5DC9B9"/>
+    
+    <!-- O -->
+    <rect x="100" y="0" width="30" height="10" fill="#FF8B7A"/>
+    <rect x="100" y="0" width="10" height="60" fill="#FF8B7A"/>
+    <rect x="120" y="0" width="10" height="60" fill="#FF8B7A"/>
+    <rect x="100" y="50" width="30" height="10" fill="#FF8B7A"/>
+    
+    <!-- U -->
+    <rect x="142" y="0" width="10" height="60" fill="#F5A962"/>
+    <rect x="172" y="0" width="10" height="60" fill="#F5A962"/>
+    <rect x="142" y="50" width="40" height="10" fill="#F5A962"/>
+    
+    <!-- G -->
+    <rect x="194" y="0" width="30" height="10" fill="#B888D9"/>
+    <rect x="194" y="0" width="10" height="60" fill="#B888D9"/>
+    <rect x="194" y="50" width="30" height="10" fill="#B888D9"/>
+    <rect x="214" y="28" width="10" height="32" fill="#B888D9"/>
+    <rect x="214" y="28" width="10" height="10" fill="#B888D9"/>
+    
+    <!-- H -->
+    <rect x="236" y="0" width="10" height="60" fill="#5BB2E8"/>
+    <rect x="246" y="25" width="20" height="10" fill="#5BB2E8"/>
+    <rect x="266" y="0" width="10" height="60" fill="#5BB2E8"/>
+    
+    <!-- T -->
+    <rect x="288" y="0" width="36" height="10" fill="#6FD49A"/>
+    <rect x="300" y="10" width="12" height="50" fill="#6FD49A"/>
+  </g>
+  
+  <!-- BUBBLE text - original width - vibrant complementary tones -->
+  <g transform="translate(280, 110)">
+    <!-- B -->
+    <rect x="0" y="0" width="10" height="60" fill="#FF7A6B"/>
+    <rect x="0" y="0" width="28" height="10" fill="#FF7A6B"/>
+    <rect x="0" y="25" width="28" height="10" fill="#FF7A6B"/>
+    <rect x="0" y="50" width="28" height="10" fill="#FF7A6B"/>
+    <rect x="28" y="10" width="10" height="15" fill="#FF7A6B"/>
+    <rect x="28" y="35" width="10" height="15" fill="#FF7A6B"/>
+    
+    <!-- U -->
+    <rect x="50" y="0" width="10" height="60" fill="#E89D58"/>
+    <rect x="80" y="0" width="10" height="60" fill="#E89D58"/>
+    <rect x="50" y="50" width="40" height="10" fill="#E89D58"/>
+    
+    <!-- B -->
+    <rect x="102" y="0" width="10" height="60" fill="#C895E8"/>
+    <rect x="102" y="0" width="28" height="10" fill="#C895E8"/>
+    <rect x="102" y="25" width="28" height="10" fill="#C895E8"/>
+    <rect x="102" y="50" width="28" height="10" fill="#C895E8"/>
+    <rect x="130" y="10" width="10" height="15" fill="#C895E8"/>
+    <rect x="130" y="35" width="10" height="15" fill="#C895E8"/>
+    
+    <!-- B -->
+    <rect x="152" y="0" width="10" height="60" fill="#4AA0D8"/>
+    <rect x="152" y="0" width="28" height="10" fill="#4AA0D8"/>
+    <rect x="152" y="25" width="28" height="10" fill="#4AA0D8"/>
+    <rect x="152" y="50" width="28" height="10" fill="#4AA0D8"/>
+    <rect x="180" y="10" width="10" height="15" fill="#4AA0D8"/>
+    <rect x="180" y="35" width="10" height="15" fill="#4AA0D8"/>
+    
+    <!-- L -->
+    <rect x="202" y="0" width="10" height="60" fill="#5FCA92"/>
+    <rect x="202" y="50" width="30" height="10" fill="#5FCA92"/>
+    
+    <!-- E -->
+    <rect x="244" y="0" width="10" height="60" fill="#FF8875"/>
+    <rect x="244" y="0" width="30" height="10" fill="#FF8875"/>
+    <rect x="244" y="25" width="25" height="10" fill="#FF8875"/>
+    <rect x="244" y="50" width="30" height="10" fill="#FF8875"/>
+  </g>
+  
+  <!-- Terminal prompt area - right side -->
+  <g transform="translate(630, 30)">
+    <!-- Prompt -->
+    <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="15" fill="#6e7681">
+      <tspan x="0" y="18">$</tspan>
+      <tspan fill="#c9d1d9"> though_bubble</tspan>
+      <tspan fill="#6e7681"> --mode=</tspan><tspan fill="#a5d6ff">visualize</tspan>
+    </text>
+    
+    <!-- Output lines -->
+    <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="12" fill="#8b949e">
+      <tspan x="0" y="48" fill="#484f58">░░</tspan>
+      <tspan fill="#6e7681"> beautiful HTML visualisations from your docs</tspan>
+    </text>
+    <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="12">
+      <tspan x="0" y="70" fill="#484f58">░░</tspan>
+      <tspan fill="#7ee787"> brought to you by llms</tspan>
+    </text>
+    <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="12">
+      <tspan x="0" y="92" fill="#484f58">░░</tspan>
+      <tspan fill="#58a6ff"> templates</tspan>
+      <tspan fill="#6e7681"> • </tspan>
+      <tspan fill="#bc8cff">components</tspan>
+      <tspan fill="#6e7681"> • </tspan>
+      <tspan fill="#f78166">examples</tspan>
+    </text>
+    <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="11">
+      <tspan x="0" y="114" fill="#484f58">▸</tspan>
+      <tspan fill="#3fb950"> ready to prompt</tspan>
+    </text>
+  </g>
+  
+  
+  <!-- Bottom status bar - distributed across full width -->
+  <rect x="0" y="200" width="1000" height="20" fill="#FEFEFE"/>
+  <text font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="11" y="213">
+    <tspan x="30" fill="#7ee787">●</tspan>
+    <tspan fill="#6e7681"> design assets</tspan>
+    <tspan x="250" fill="#58a6ff">●</tspan>
+    <tspan fill="#6e7681"> responsive templates</tspan>
+    <tspan x="500" fill="#bc8cff">●</tspan>
+    <tspan fill="#6e7681"> interactive examples</tspan>
+    <tspan x="740" fill="#f78166">●</tspan>
+    <tspan fill="#6e7681"> ready for AI prompts</tspan>
+    <tspan x="920" fill="#484f58">v1.0</tspan>
+  </text>
+</svg>
