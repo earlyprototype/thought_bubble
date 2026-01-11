@@ -14,12 +14,12 @@
   <g transform="translate(80, 60)">
     <g transform="translate(35.5, 92.5) scale(1.44) translate(-35.5, -92.5)">
     <!-- Small square block (bottom) - moved to overlap more with medium square -->
-    <rect x="10" y="103" width="20" height="20" fill="none" stroke="#bc8cff" stroke-width="2" opacity="0.4">
+    <rect x="10" y="94" width="20" height="20" fill="none" stroke="#bc8cff" stroke-width="2" opacity="0.4">
       <animate attributeName="opacity" values="0.4;0.2;0.4" dur="3s" repeatCount="indefinite"/>
     </rect>
     
     <!-- Medium square block (middle) -->
-    <rect x="18" y="75" width="35" height="35" fill="none" stroke="#7ee787" stroke-width="2.5" opacity="0.5">
+    <rect x="18" y="66" width="35" height="35" fill="none" stroke="#7ee787" stroke-width="2.5" opacity="0.5">
       <animate attributeName="opacity" values="0.5;0.3;0.5" dur="3.5s" repeatCount="indefinite"/>
     </rect>
     
@@ -92,8 +92,29 @@
     <rect x="300" y="10" width="12" height="50" fill="#6FD49A"/>
   </g>
   
+  <!-- MCP vertical text - with fill, under last T -->
+  <g transform="translate(579, 132)">
+    <!-- M -->
+    <rect x="0" y="0" width="3" height="18" fill="#5DC9B9"/>
+    <rect x="12" y="0" width="3" height="18" fill="#5DC9B9"/>
+    <rect x="0" y="0" width="6" height="3" fill="#5DC9B9"/>
+    <rect x="9" y="0" width="6" height="3" fill="#5DC9B9"/>
+    <rect x="6" y="3" width="3" height="6" fill="#5DC9B9"/>
+    
+    <!-- C -->
+    <rect x="0" y="22" width="3" height="18" fill="#FF7A6B"/>
+    <rect x="0" y="22" width="15" height="3" fill="#FF7A6B"/>
+    <rect x="0" y="37" width="15" height="3" fill="#FF7A6B"/>
+    
+    <!-- P -->
+    <rect x="0" y="44" width="3" height="18" fill="#F5A962"/>
+    <rect x="0" y="44" width="12" height="3" fill="#F5A962"/>
+    <rect x="9" y="44" width="3" height="9" fill="#F5A962"/>
+    <rect x="0" y="50" width="12" height="3" fill="#F5A962"/>
+  </g>
+  
   <!-- BUBBLE text - original width - vibrant complementary tones -->
-  <g transform="translate(280, 110)">
+  <g transform="translate(280, 130)">
     <!-- B -->
     <rect x="0" y="0" width="10" height="60" fill="#FF7A6B"/>
     <rect x="0" y="0" width="28" height="10" fill="#FF7A6B"/>
@@ -143,41 +164,41 @@
       <tspan fill="#6e7681"> --mode=</tspan><tspan fill="#a5d6ff">visualize</tspan>
     </text>
     
-    <!-- Output lines -->
-    <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="12" fill="#8b949e">
-      <tspan x="0" y="48" fill="#484f58">░░</tspan>
-      <tspan fill="#6e7681"> beautiful HTML visual workflows</tspan>
+      <!-- Output lines -->
+      <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="12" fill="#8b949e">
+        <tspan x="0" y="58" fill="#484f58">░░</tspan>
+        <tspan fill="#6e7681"> beautiful HTML visual workflows</tspan>
+      </text>
+      <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="12">
+        <tspan x="0" y="80" fill="#484f58">░░</tspan>
+        <tspan fill="#7ee787"> brought to you by llms</tspan>
+      </text>
+      <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="12">
+        <tspan x="0" y="102" fill="#484f58">░░</tspan>
+        <tspan fill="#bc8cff"> for the visual vibe warrior</tspan>
+      </text>
+    </g>
+  
+  
+  <!-- Bottom status items - 2x2 grid under terminal text on right -->
+  <g transform="translate(660, 169)">
+    <!-- Row 1 -->
+    <text font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="11" y="0">
+      <tspan x="0" fill="#7ee787">●</tspan>
+      <tspan fill="#6e7681"> design assets</tspan>
+      <tspan x="180" fill="#58a6ff">●</tspan>
+      <tspan fill="#6e7681"> templates</tspan>
     </text>
-    <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="12">
-      <tspan x="0" y="70" fill="#484f58">░░</tspan>
-      <tspan fill="#7ee787"> brought to you by llms</tspan>
-    </text>
-    <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="12">
-      <tspan x="0" y="92" fill="#484f58">░░</tspan>
-      <tspan fill="#58a6ff"> templates</tspan>
-      <tspan fill="#6e7681"> • </tspan>
-      <tspan fill="#bc8cff">components</tspan>
-      <tspan fill="#6e7681"> • </tspan>
-      <tspan fill="#f78166">examples</tspan>
-    </text>
-    <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="11">
-      <tspan x="0" y="114" fill="#484f58">▸</tspan>
-      <tspan fill="#3fb950"> ready to prompt</tspan>
+    <!-- Row 2 -->
+    <text font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="11" y="21">
+      <tspan x="0" fill="#bc8cff">●</tspan>
+      <tspan fill="#6e7681"> examples</tspan>
+      <tspan x="180" fill="#f78166">●</tspan>
+      <tspan fill="#6e7681"> ready to prompt</tspan>
     </text>
   </g>
   
-  
-  <!-- Bottom status bar - aligned to right under big text, equal spacing between items -->
+  <!-- Bottom bar -->
   <rect x="0" y="200" width="1000" height="20" fill="#FEFEFE"/>
-  <text font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="11" y="213">
-    <tspan x="280" fill="#7ee787">●</tspan>
-    <tspan fill="#6e7681"> design assets</tspan>
-    <tspan x="423" fill="#58a6ff">●</tspan>
-    <tspan fill="#6e7681"> responsive templates</tspan>
-    <tspan x="610" fill="#bc8cff">●</tspan>
-    <tspan fill="#6e7681"> interactive examples</tspan>
-    <tspan x="797" fill="#f78166">●</tspan>
-    <tspan fill="#6e7681"> ready for AI prompts</tspan>
-  </text>
-  <text font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="11" x="920" y="189" fill="#484f58">v1.0</text>
+  <text font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="11" x="920" y="213" fill="#484f58">v1.0</text>
 </svg>
