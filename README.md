@@ -44,6 +44,45 @@ A Model Context Protocol (MCP) server that works with your AI assistant to autom
 
 ## How It Works
 
+```mermaid
+flowchart LR
+    Doc[📄 Documentation]
+    
+    subgraph main[" "]
+        direction TB
+        User([👤 User])
+        LLM([🤖 LLM Assistant])
+    end
+    
+    MCP{{🔧 thought_bubble MCP}}
+    HTML[(📊 Interactive HTML)]
+    
+    Doc -.->|context| LLM
+    User ==>|analyse & visualise| LLM
+    LLM ==>|analyse_content| MCP
+    MCP ==>|systems identified| LLM
+    LLM ==>|options| User
+    User ==>|selects| LLM
+    LLM ==>|generate_visualisation| MCP
+    MCP ==>|HTML + Charts| HTML
+    
+    style Doc fill:#e1f5ff,stroke:#0066cc,stroke-width:3px
+    style HTML fill:#d4edda,stroke:#28a745,stroke-width:3px
+    style MCP fill:#fff4e1,stroke:#ff9900,stroke-width:3px
+    style User fill:#d5f4f7,stroke:#00838f,stroke-width:3px
+    style LLM fill:#d1e7fd,stroke:#0d47a1,stroke-width:3px
+    style main fill:none,stroke:none
+    
+    linkStyle 0 stroke:#999,stroke-width:2px,stroke-dasharray:5
+    linkStyle 1 stroke:#00838f,stroke-width:3px
+    linkStyle 2 stroke:#0d47a1,stroke-width:3px
+    linkStyle 3 stroke:#ff9900,stroke-width:3px
+    linkStyle 4 stroke:#0d47a1,stroke-width:3px
+    linkStyle 5 stroke:#00838f,stroke-width:3px
+    linkStyle 6 stroke:#0d47a1,stroke-width:3px
+    linkStyle 7 stroke:#28a745,stroke-width:3px
+```
+
 ### The MCP Workflow
 1. **You say:** "Analyse and visualise this documentation"
 2. **thought_bubble MCP:** Identifies systems, workflows, data models automatically 
@@ -175,6 +214,42 @@ gantt
     Production Release        :         rel, after fix, 5d
 ```
 
+### Sequence Diagram: Order Processing
+Essential for API flows, service interactions, and message passing:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant UserService as User Service
+    participant ProductCatalog as Product Catalog
+    participant OrderService as Order Service
+    participant PaymentGateway as Payment Gateway
+    participant Stripe
+    
+    User->>UserService: Login Request
+    UserService-->>User: JWT Token
+    
+    User->>ProductCatalog: Browse Products
+    ProductCatalog-->>User: Product List
+    
+    User->>OrderService: Add to Cart
+    OrderService->>ProductCatalog: Check Stock
+    ProductCatalog-->>OrderService: Stock Available
+    OrderService-->>User: Item Added
+    
+    User->>OrderService: Checkout
+    OrderService->>UserService: Verify User
+    UserService-->>OrderService: User Verified
+    
+    OrderService->>PaymentGateway: Process Payment
+    PaymentGateway->>Stripe: Charge Card
+    Stripe-->>PaymentGateway: Payment Success
+    PaymentGateway-->>OrderService: Payment Confirmed
+    
+    OrderService->>ProductCatalog: Update Stock
+    OrderService-->>User: Order Confirmation
+```
+
 ### User Journey: Onboarding Experience
 Ideal for mapping user experiences and touchpoints:
 
@@ -218,42 +293,6 @@ flowchart TD
     style Success fill:#d4edda
     style Error fill:#f8d7da
     style Activate fill:#d4edda
-```
-
-### Sequence Diagram: Order Processing
-Essential for API flows, service interactions, and message passing:
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant UserService as User Service
-    participant ProductCatalog as Product Catalog
-    participant OrderService as Order Service
-    participant PaymentGateway as Payment Gateway
-    participant Stripe
-    
-    User->>UserService: Login Request
-    UserService-->>User: JWT Token
-    
-    User->>ProductCatalog: Browse Products
-    ProductCatalog-->>User: Product List
-    
-    User->>OrderService: Add to Cart
-    OrderService->>ProductCatalog: Check Stock
-    ProductCatalog-->>OrderService: Stock Available
-    OrderService-->>User: Item Added
-    
-    User->>OrderService: Checkout
-    OrderService->>UserService: Verify User
-    UserService-->>OrderService: User Verified
-    
-    OrderService->>PaymentGateway: Process Payment
-    PaymentGateway->>Stripe: Charge Card
-    Stripe-->>PaymentGateway: Payment Success
-    PaymentGateway-->>OrderService: Payment Confirmed
-    
-    OrderService->>ProductCatalog: Update Stock
-    OrderService-->>User: Order Confirmation
 ```
 
 ### State Diagram: Order Lifecycle
