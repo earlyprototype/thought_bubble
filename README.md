@@ -64,7 +64,8 @@ flowchart LR
     LLM ==>|options| User
     User ==>|selects| LLM
     LLM ==>|generate_visualisation| MCP
-    MCP ==>|HTML + Charts| HTML
+    MCP ==>|HTML + Charts| LLM
+    LLM ==>|saves file| HTML
     
     style Doc fill:#e1f5ff,stroke:#0066cc,stroke-width:3px
     style HTML fill:#d4edda,stroke:#28a745,stroke-width:3px
@@ -80,7 +81,8 @@ flowchart LR
     linkStyle 4 stroke:#0d47a1,stroke-width:3px
     linkStyle 5 stroke:#00838f,stroke-width:3px
     linkStyle 6 stroke:#0d47a1,stroke-width:3px
-    linkStyle 7 stroke:#28a745,stroke-width:3px
+    linkStyle 7 stroke:#ff9900,stroke-width:3px
+    linkStyle 8 stroke:#0d47a1,stroke-width:3px
 ```
 
 ### The MCP Workflow
