@@ -101,6 +101,18 @@ Generate a single, complete HTML file that:
 - Has smooth navigation between sections
 - Looks professional and polished
 
+# QUALITY ASSURANCE
+
+CRITICAL: After generating the HTML, thoroughly validate all Mermaid diagram syntax:
+- Check for proper opening/closing of code blocks (\`\`\`mermaid and \`\`\`)
+- Verify correct Mermaid syntax (proper node definitions, arrow syntax, etc.)
+- Ensure no special characters are unescaped (quotes, brackets, pipes)
+- Validate graph direction declarations (TD, LR, etc.)
+- Check for balanced parentheses, brackets, and braces
+- Confirm all node IDs are valid (no spaces, special chars)
+
+If you find ANY syntax errors, fix them before returning the HTML.
+
 Return ONLY the complete HTML code, no explanations.`;
 }
 
