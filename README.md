@@ -110,6 +110,46 @@ Then add to your MCP config and restart your AI client:
 
 That's it. Your AI will analyse, generate diagrams, and create the complete HTML visualisation.
 
+## Quick Test - Try It Now
+
+Want to test thought_bubble immediately? We've included three ready-to-use test documents:
+
+### 1. API Integration Documentation
+**File:** [`test_doc_1_api_integration.md`](test_doc_1_api_integration.md)
+
+**Content:** Payment Gateway API with authentication flows, service architecture, and data models
+
+**Expected visualisations:**
+- Service architecture diagram (flowchart)
+- Payment processing sequence (sequence diagram)
+- Data model relationships (ER diagram)
+
+### 2. Product Roadmap
+**File:** [`test_doc_2_product_roadmap.md`](test_doc_2_product_roadmap.md)
+
+**Content:** 2026 development roadmap with 9 phases across 4 quarters
+
+**Expected visualisations:**
+- Development timeline (gantt-style flowchart)
+- Feature dependencies (flowchart)
+- Resource allocation
+
+### 3. Organisational Structure
+**File:** [`test_doc_3_org_structure.md`](test_doc_3_org_structure.md)
+
+**Content:** Company hierarchy with 8 executives, VPs, and decision-making frameworks
+
+**Expected visualisations:**
+- Executive leadership hierarchy (flowchart)
+- Decision-making flow (flowchart)
+- Team distribution
+
+**To test:**
+1. Open any test document in your AI assistant
+2. Say: "Use thought-bubble to analyse and visualise this documentation"
+3. Choose which systems to visualise from the identified list
+4. Receive your interactive HTML visualisation
+
 ### Alternative Methods (Without MCP)
 
 **For Claude/ChatGPT (Manual prompt):**

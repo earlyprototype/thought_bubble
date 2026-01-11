@@ -445,13 +445,13 @@
                     <div class="diagram-content">
                         <div class="mermaid">
 flowchart TD
-    Start([Merchant Onboarding]) --> Register[Register Account]
+    Start[Merchant Onboarding] --> Register[Register Account]
     Register --> Credentials[Receive API Credentials]
     Credentials --> GenerateKey[Generate API Key from Dashboard]
     GenerateKey --> ConfigWebhook[Configure Webhook Endpoints]
-    ConfigWebhook --> Ready([Authentication Setup Complete])
+    ConfigWebhook --> Ready[Authentication Setup Complete]
     
-    Ready --> RequestStart([API Request])
+    Ready --> RequestStart[API Request]
     RequestStart --> CheckAuth{Validate Authentication}
     CheckAuth --> CheckKey[Verify API Key in Header]
     CheckKey --> CheckHMAC[Verify HMAC Signature]
@@ -459,7 +459,7 @@ flowchart TD
     CheckTLS --> AuthSuccess{Authentication Valid?}
     AuthSuccess -->|Yes| ProcessRequest[Process API Request]
     AuthSuccess -->|No| Return401[Return 401 Unauthorized]
-    ProcessRequest --> Complete([Request Complete])
+    ProcessRequest --> Complete[Request Complete]
                         </div>
                     </div>
                 </div>
