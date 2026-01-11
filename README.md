@@ -1,83 +1,109 @@
 ![Thought Bubble](thought-bubble-banner.svg)
 
-# thought_bubble [+ MCP]
+# thought_bubble MCP
 
 **Abrakedabra - your boring documents are now a lovely website with workflow diagrams**
 
-Transform any documentation, system architecture, or plan into beautiful interactive HTML visualisations using AI.
+A creative MCP-native tool that transforms any documentation, system architecture, or plan into beautiful interactive HTML visualisations through seamless AI integratio
 
 ## What Is This?
 
-An LLM-integrated one-shot tool that generates pretty, interactive HTML visualisations with embedded (Mermaid code-based) workflow and system diagrams from any structured content. No build tools, no frameworks - just pure HTML, CSS, and JavaScript that works everywhere.
+A Model Context Protocol (MCP) server that works with your AI assistant to automatically analyse documentation and generate stunning, interactive HTML visualisations with embedded Mermaid workflow and system diagrams. No build tools, no frameworks - just pure HTML, CSS, and JavaScript that works everywhere.
 
-## 🚀 NEW: MCP Server Available!
+**MCP-First Design:**
+- Native integration with Claude Desktop, Cursor, and any MCP-compatible client
+- Automated analysis identifies systems, workflows, and data models in your content
+- Smart diagram generation with Mermaid (flowchart, sequence, ER, class, state, C4)
+- One-command workflow - just say "visualise this" and your AI handles everything
+- No copy-paste required - direct integration with your AI assistant
 
-**thought_bubble now has a Model Context Protocol (MCP) server!** This enables seamless integration with AI assistants like Claude Desktop, Cursor, and any MCP-compatible client.
+### See It In Action
 
-**Benefits:**
-- ✅ **Automated analysis** - AI identifies systems, workflows, and data models in your content
-- ✅ **Smart diagram generation** - Automatic Mermaid diagram creation (flowchart, sequence, ER, class, state, C4)
-- ✅ **One-command workflow** - Just say "visualise this" and the AI handles everything
-- ✅ **No copy-paste** - Direct integration with your AI assistant
-
-**Quick Setup:** See [`thought_bubble_mcp/START_HERE.md`](thought_bubble_mcp/START_HERE.md) for 5-minute installation.
+<table>
+<tr>
+<td width="50%">
+<img src="examples/image2.png" alt="Microservices Architecture Visualization">
+<br><em>Microservices Architecture with interactive diagrams</em>
+</td>
+<td width="50%">
+<img src="examples/image1.png" alt="Team Framework Visualization">
+<br><em>Team Operational Framework with metrics</em>
+</td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<img src="examples/image.png" alt="E-Commerce Platform Visualization" width="60%">
+<br><em>E-Commerce Platform with service integration flows</em>
+</td>
+</tr>
+</table>
 
 ## How It Works
 
-### With MCP Server (Recommended)
+### The MCP Workflow
 1. **You say:** "Analyse and visualise this documentation"
-2. **AI analyses:** Identifies systems, workflows, data models automatically
-3. **You select:** Choose which items to visualise
-4. **AI generates:** Creates Mermaid diagrams + complete HTML
+2. **thought_bubble MCP:** Identifies systems, workflows, data models automatically 
+3. **You chose:** Which items to visualise
+4. **thought_bubble MCP:** Creates Mermaid diagrams + complete HTML visualisation
 5. **You open:** Beautiful visualisation in your browser
-
-### Manual Method
-1. **You provide:** Your content (markdown, JSON, text, diagrams)
-         |
-2. **LLM receives:** Prompt template + your content + design asset library
-3. **LLM detects:** Workflows, system architecture, processes + relationships
-4. **LLM generates:** Mermaid diagram code + custom HTML
-         |
-5. **You open:** The HTML file in any browser
 6. **You experience:** Clarity and joy
+
+### Alternative: Standalone Prompt Method
+For environments without MCP support, you can use the standalone prompt-based approach:
+1. Copy `prompt_template.md` + your content
+2. Send to your LLM manually
+3. Receive generated HTML
 
 ## Quick Start
 
-### Option 1: MCP Server (Best Experience)
+### MCP Installation (Primary Method)
 
-**For Claude Desktop / Cursor / MCP Clients:**
+**2-minute setup for Claude Desktop, Cursor, or any MCP client:**
 
 ```bash
 cd thought_bubble_mcp
 npm install && npm run build
 ```
 
-Then add to your MCP config and restart your AI client. See full instructions in [`thought_bubble_mcp/QUICKSTART.md`](thought_bubble_mcp/QUICKSTART.md)
+Then add to your MCP config and restart your AI client:
+
+```json
+{
+  "mcpServers": {
+    "thought-bubble": {
+      "command": "node",
+      "args": ["/absolute/path/to/thought_bubble/thought_bubble_mcp/dist/index.js"]
+    }
+  }
+}
+```
+
+**Note:** Replace `/absolute/path/to/thought_bubble/` with your actual installation path.
+
+**Full instructions:** [`thought_bubble_mcp/START_HERE.md`](thought_bubble_mcp/START_HERE.md)
 
 **Usage:**
 ```
 "Use thought-bubble tools to analyse this content and create a visualisation:
 
-[paste your documentation]"
+[paste/add your documentation as context]"
 ```
 
-### Option 2: Use with Claude/ChatGPT (Manual)
+That's it. Your AI will analyse, generate diagrams, and create the complete HTML visualisation.
 
-```
-1. Copy the contents of prompt_template.md
-2. Attach your source document/content
+### Alternative Methods (Without MCP)
+
+**For Claude/ChatGPT (Manual prompt):**
+1. Copy contents of `prompt_template.md`
+2. Attach your source document
 3. Send to your LLM
-4. Receive beautiful HTML visualisation
-```
+4. Receive HTML visualisation
 
-### Option 3: Use with Cursor/AI IDE
-
-```
+**For Cursor/AI IDE (Workspace reference):**
 1. Open your documentation file
-2. Reference this repo: @thought_bubble
+2. Reference: `@thought_bubble`
 3. Say: "Visualise this using thought_bubble"
 4. AI generates custom HTML
-```
 
 ## What Can You Visualise?
 
@@ -120,26 +146,35 @@ Then add to your MCP config and restart your AI client. See full instructions in
 
 ## Examples
 
-See the `examples/` folder for:
+### E-Commerce Platform
+<img src="examples/image.png" alt="E-Commerce Platform" width="800">
 
-- **system_architecture.html** - Technical system integration visualisation
-- **project_plan.html** - Development roadmap with milestones
-- **org_structure.html** - Organisation hierarchy and teams
+System architecture with service integration points, order processing flow, and database schema.
+
+### Microservices Architecture  
+<img src="examples/image2.png" alt="Microservices Architecture" width="800">
+
+Scalable e-commerce platform with event-driven microservices, message bus, and data layer components.
+
+### Team Operational Framework
+<img src="examples/image1.png" alt="Team Framework" width="800">
+
+Organisational structure with performance metrics, gap analysis, and implementation roadmap.
+
+**View full interactive examples** in the [`examples/`](examples/) folder.
 
 ## Files in This Repo
 
 ```
 thought_bubble/
 ├── README.md                          # This file
-├── prompt_template.md                 # Copy-paste prompt for LLM
-├── base_template.html                 # Core HTML structure
-├── thought_bubble_mcp/                # MCP Server (NEW!)
+├── thought_bubble_mcp/                # MCP Server (Primary interface)
 │   ├── START_HERE.md                 # MCP quick start guide
 │   ├── QUICKSTART.md                 # 5-minute setup
 │   ├── README.md                     # Complete MCP documentation
 │   ├── src/                          # TypeScript source code
 │   └── dist/                         # Built server (after npm run build)
-├── LLM_Design_Assets/
+├── LLM_Design_Assets/                 # Design system for generated HTML
 │   ├── design_rules.md               # Design guidance for LLM
 │   ├── components/
 │   │   ├── cards.html                # Card component library
@@ -151,7 +186,9 @@ thought_bubble/
 │       ├── color_schemes.css         # Theme definitions
 │       ├── animations.css            # Animation library
 │       └── responsive.css            # Responsive utilities
-└── examples/                          # Example visualisations
+├── examples/                          # Example visualisations
+├── base_template.html                 # Core HTML structure
+└── prompt_template.md                 # Legacy: Manual prompt for non-MCP use
 ```
 
 ## Usage Tips
@@ -164,14 +201,23 @@ thought_bubble/
 4. **Define sections** - Clear section headers help create navigation
 5. **Add metadata** - Status, dates, authors enhance the visualisation
 
-### Example Prompt:
+### Example MCP Usage:
 
+**Simply ask your AI:**
+```
+"Use thought-bubble to analyse and visualise this system architecture documentation.
+I'd like flowcharts for the workflows and a professional theme with sidebar navigation."
+
+[paste your documentation]
+```
+
+The AI will use the MCP tools to analyse, create diagrams, and generate the complete visualisation.
+
+**For manual/legacy prompt method:**
 ```
 Using thought_bubble, create an interactive HTML visualisation of this content.
-
 Theme: Professional
 Include: Sidebar navigation, Mermaid diagrams, stat cards, timeline layout
-Focus: Make complex relationships easy to understand
 
 [Your content here]
 ```
@@ -186,32 +232,35 @@ The LLM can customise:
 - Animation intensity
 - Content organisation
 
+## MCP Tools
+
+The thought_bubble MCP server exposes two powerful tools that your AI assistant can use:
+
+### `analyse_content`
+Your AI uses this to analyse documentation and identify:
+- **Workflows** (processes, sequences, flows)
+- **Systems** (architectures, components, services)
+- **Data Models** (entities, schemas, objects)
+- **Relationships** (connections, integrations)
+
+Returns a structured list of visualisation opportunities for you to select from.
+
+### `generate_visualisation`
+Your AI uses this to generate the final interactive HTML with:
+- **Mermaid diagrams** (flowchart, sequence, class, ER, state, C4)
+- **Theme selection** (professional, dark, technical, minimal, creative)
+- **Navigation styles** (sidebar, tabs, minimal)
+- **Responsive design** for all devices
+
+**Complete MCP documentation:** [`thought_bubble_mcp/`](thought_bubble_mcp/) directory
+
 ## Browser Support
 
+Generated visualisations work in:
 - Chrome/Edge (latest)
 - Firefox (latest)
 - Safari (latest)
 - Mobile browsers (iOS, Android)
-
-## MCP Server Tools
-
-The thought_bubble MCP server exposes two powerful tools:
-
-### 1. `analyse_content`
-Analyses your documentation to identify:
-- Workflows (processes, sequences, flows)
-- Systems (architectures, components, services)
-- Data Models (entities, schemas, objects)
-- Relationships (connections, integrations)
-
-### 2. `generate_visualisation`
-Generates interactive HTML with:
-- Mermaid diagrams (flowchart, sequence, class, ER, state, C4)
-- Theme selection (professional, dark, technical, minimal, creative)
-- Navigation styles (sidebar, tabs, minimal)
-- Responsive design
-
-**Learn more:** See [`thought_bubble_mcp/`](thought_bubble_mcp/) directory
 
 ## License
 
@@ -223,7 +272,13 @@ Created to make documentation beautiful and accessible.
 
 ## Contributing
 
-Contributions welcome! Add new components, themes, examples, or enhance the MCP server via PR.
+Contributions welcome! We especially value:
+- MCP server enhancements (new tools, improved analysis)
+- New component patterns and themes
+- Example visualisations
+- Documentation improvements
+
+Submit via PR.
 
 ---
 
