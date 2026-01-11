@@ -17,14 +17,18 @@ For each item you identify, provide:
 - A brief explanation of what it represents
 - Why it would benefit from visualization
 
-Return your analysis as a structured list with categories.
+IMPORTANT WORKFLOW INSTRUCTION:
+After presenting your analysis, STOP and ask the user which items they want to visualize. 
+DO NOT automatically proceed to generate visualizations or call the generate_visualization tool.
+WAIT for the user to explicitly select which numbered items they'd like to visualize.
 
 CONTENT TO ANALYZE:
 ---
 {content}
 ---
 
-Format your response as a numbered list organized by category (WORKFLOWS, SYSTEMS, DATA MODELS, RELATIONSHIPS).`;
+Format your response as a numbered list organized by category (WORKFLOWS, SYSTEMS, DATA MODELS, RELATIONSHIPS).
+Then ask: "Which of these items would you like me to visualize? Please select by number (e.g., 1, 3, 5)"`;
 
 export const MERMAID_GENERATION_PROMPT = `Generate Mermaid diagram code for the selected items.
 
