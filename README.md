@@ -59,12 +59,13 @@ graph LR
 ```
 
 ### The MCP Workflow
-1. **You say:** "Analyse and visualise this documentation"
-2. **thought_bubble MCP:** Identifies systems, workflows, data models automatically 
-3. **You chose:** Which items to visualise
-4. **thought_bubble MCP:** Creates Mermaid diagrams + complete HTML visualisation
-5. **You open:** Beautiful visualisation in your browser
-6. **You experience:** Clarity and joy
+1. **You add:** Documents to LLM context
+2. **You say:** "Analyse and visualise this documentation"
+3. **thought_bubble MCP:** Identifies systems, workflows, data models automatically 
+4. **You choose:** Which items to visualise
+5. **thought_bubble MCP:** Creates Mermaid diagrams + complete HTML visualisation
+6. **You open:** Beautiful visualisation in your browser
+7. **You experience:** Clarity and joy
 
 ### Alternative: Standalone Prompt Method
 For environments without MCP support, you can use the standalone prompt-based approach:
