@@ -45,46 +45,17 @@ A Model Context Protocol (MCP) server that works with your AI assistant to autom
 ## How It Works
 
 ```mermaid
-flowchart LR
-    Doc[📄 Documentation]
+graph LR
+    A[Documentation] --> C[LLM]
+    B[User Request] --> C
+    C <--> D[thought_bubble MCP]
+    C --> E[HTML + Charts Output]
     
-    subgraph main[" "]
-        direction TB
-        User([👤 User])
-        LLM([🤖 LLM Assistant])
-    end
-    
-    MCP{{🔧 thought_bubble MCP}}
-    HTML[(📊 Interactive HTML)]
-    
-    Doc -.->|context| LLM
-    User ==>|analyse & visualise| LLM
-    LLM ==>|analyse_content| MCP
-    MCP ==>|systems identified| LLM
-    LLM ==>|options| User
-    User ==>|selects| LLM
-    LLM ==>|generate_visualisation| MCP
-    MCP ==>|HTML + Charts| LLM
-    LLM ==>|saves file| HTML
-    HTML -.->|opens| User
-    
-    style Doc fill:#e1f5ff,stroke:#0066cc,stroke-width:3px
-    style HTML fill:#d4edda,stroke:#28a745,stroke-width:3px
-    style MCP fill:#fff4e1,stroke:#ff9900,stroke-width:3px
-    style User fill:#d5f4f7,stroke:#00838f,stroke-width:3px
-    style LLM fill:#d1e7fd,stroke:#0d47a1,stroke-width:3px
-    style main fill:none,stroke:none
-    
-    linkStyle 0 stroke:#999,stroke-width:2px,stroke-dasharray:5
-    linkStyle 1 stroke:#00838f,stroke-width:3px
-    linkStyle 2 stroke:#0d47a1,stroke-width:3px
-    linkStyle 3 stroke:#ff9900,stroke-width:3px
-    linkStyle 4 stroke:#0d47a1,stroke-width:3px
-    linkStyle 5 stroke:#00838f,stroke-width:3px
-    linkStyle 6 stroke:#0d47a1,stroke-width:3px
-    linkStyle 7 stroke:#ff9900,stroke-width:3px
-    linkStyle 8 stroke:#0d47a1,stroke-width:3px
-    linkStyle 9 stroke:#00838f,stroke-width:2px,stroke-dasharray:5
+    style A fill:#d5f4f7,stroke:#00838f,stroke-width:3px
+    style B fill:#d5f4f7,stroke:#00838f,stroke-width:3px
+    style C fill:#d1e7fd,stroke:#0d47a1,stroke-width:3px
+    style D fill:#fff4e1,stroke:#ff9900,stroke-width:3px
+    style E fill:#d4edda,stroke:#28a745,stroke-width:3px
 ```
 
 ### The MCP Workflow
