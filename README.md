@@ -148,29 +148,134 @@ That's it. Your AI will analyse, generate diagrams, and create the complete HTML
 - Works offline (after first load)
 - Copy-paste deployable
 
-## Examples
+## Mermaid Diagram Types
 
-### E-Commerce Platform
-<img src="examples/image.png" alt="E-Commerce Platform" width="800">
+thought_bubble supports the full range of Mermaid diagram types to visualise your documentation. Here are some of the most useful ones:
 
-System architecture with service integration points, order processing flow, and database schema.
+**[View all 17 diagram examples in the examples README](examples/README.md#live-diagram-examples)**
 
-### Microservices Architecture  
-<img src="examples/image1.png" alt="Microservices Architecture" width="800">
+### Gantt Chart: Project Timeline
+Perfect for project planning, roadmaps, and scheduling:
 
-Scalable e-commerce platform with event-driven microservices, message bus, and data layer components.
+```mermaid
+gantt
+    title Project Development Timeline
+    dateFormat YYYY-MM-DD
+    section Planning
+    Requirements Gathering    :done,    req, 2026-01-01, 2026-01-14
+    Design & Wireframes       :done,    des, 2026-01-15, 2026-01-28
+    section Development
+    Backend API               :active,  dev1, 2026-01-29, 30d
+    Frontend Components       :         dev2, after dev1, 25d
+    Integration               :         dev3, after dev2, 15d
+    section Testing
+    QA Testing                :         test, after dev3, 20d
+    Bug Fixes                 :         fix, after test, 10d
+    section Deployment
+    Production Release        :         rel, after fix, 5d
+```
 
-### Team Operational Framework
-<img src="examples/image2.png" alt="Team Framework" width="800">
+### User Journey: Onboarding Experience
+Ideal for mapping user experiences and touchpoints:
 
-Organisational structure with performance metrics, gap analysis, and implementation roadmap.
+```mermaid
+journey
+    title New User Onboarding Journey
+    section Discovery
+      Visit Homepage: 5: User
+      Read Features: 4: User
+      View Examples: 5: User
+    section Registration
+      Sign Up: 3: User
+      Verify Email: 2: User
+      Complete Profile: 4: User
+    section First Use
+      Watch Tutorial: 4: User
+      Create First Project: 3: User
+      Invite Team Member: 5: User
+    section Adoption
+      Daily Usage: 5: User
+      Explore Features: 4: User
+      Upgrade Plan: 5: User
+```
 
-### Learning Journey Timeline
-<img src="examples/image3.png" alt="Learning Journey" width="800">
+### Flowchart: User Registration Flow
+Great for processes, workflows, and decision trees:
 
-4-week learning path with skill progression, resources, and milestone tracking.
+```mermaid
+flowchart TD
+    Start([User Visits Registration]) --> Submit[Submit Email & Password]
+    Submit --> Validate{Validate Credentials}
+    Validate -->|Valid| SendEmail[Send Verification Email]
+    Validate -->|Invalid| Error[Show Error Message]
+    Error --> Submit
+    SendEmail --> WaitClick[Wait for User Action]
+    WaitClick --> Click[User Clicks Activation Link]
+    Click --> Activate[Activate Account]
+    Activate --> Success([Registration Complete])
+    
+    style Start fill:#e1f5ff
+    style Success fill:#d4edda
+    style Error fill:#f8d7da
+    style Activate fill:#d4edda
+```
 
-**View full interactive examples** in the [`examples/`](examples/) folder.
+### Sequence Diagram: Order Processing
+Essential for API flows, service interactions, and message passing:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant UserService as User Service
+    participant ProductCatalog as Product Catalog
+    participant OrderService as Order Service
+    participant PaymentGateway as Payment Gateway
+    participant Stripe
+    
+    User->>UserService: Login Request
+    UserService-->>User: JWT Token
+    
+    User->>ProductCatalog: Browse Products
+    ProductCatalog-->>User: Product List
+    
+    User->>OrderService: Add to Cart
+    OrderService->>ProductCatalog: Check Stock
+    ProductCatalog-->>OrderService: Stock Available
+    OrderService-->>User: Item Added
+    
+    User->>OrderService: Checkout
+    OrderService->>UserService: Verify User
+    UserService-->>OrderService: User Verified
+    
+    OrderService->>PaymentGateway: Process Payment
+    PaymentGateway->>Stripe: Charge Card
+    Stripe-->>PaymentGateway: Payment Success
+    PaymentGateway-->>OrderService: Payment Confirmed
+    
+    OrderService->>ProductCatalog: Update Stock
+    OrderService-->>User: Order Confirmation
+```
+
+### State Diagram: Order Lifecycle
+Perfect for state machines, status flows, and lifecycle management:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Draft
+    Draft --> Pending: Submit Order
+    Pending --> Processing: Payment Approved
+    Pending --> Cancelled: Payment Failed
+    Processing --> Shipped: Order Dispatched
+    Processing --> Cancelled: Out of Stock
+    Shipped --> Delivered: Delivery Confirmed
+    Delivered --> Returned: Return Requested
+    Returned --> Refunded: Return Processed
+    Cancelled --> [*]
+    Refunded --> [*]
+    Delivered --> [*]
+```
+
+**Plus many more:** ER diagrams, class diagrams, Git graphs, pie charts, quadrant charts, and C4 architecture diagrams. [See all examples](examples/README.md#live-diagram-examples)
 
 ## Files in This Repo
 
