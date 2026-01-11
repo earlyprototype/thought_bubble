@@ -22,18 +22,22 @@ A Model Context Protocol (MCP) server that works with your AI assistant to autom
 <table>
 <tr>
 <td width="50%">
-<img src="examples/image2.png" alt="Microservices Architecture Visualization">
+<img src="examples/image1.png" alt="Microservices Architecture Visualization">
 <br><em>Microservices Architecture with interactive diagrams</em>
 </td>
 <td width="50%">
-<img src="examples/image1.png" alt="Team Framework Visualization">
+<img src="examples/image2.png" alt="Team Framework Visualization">
 <br><em>Team Operational Framework with metrics</em>
 </td>
 </tr>
 <tr>
-<td colspan="2" align="center">
-<img src="examples/image.png" alt="E-Commerce Platform Visualization" width="60%">
+<td width="50%">
+<img src="examples/image.png" alt="E-Commerce Platform Visualization">
 <br><em>E-Commerce Platform with service integration flows</em>
+</td>
+<td width="50%">
+<img src="examples/image3.png" alt="Learning Journey Visualization">
+<br><em>Learning journey timeline with weekly milestones</em>
 </td>
 </tr>
 </table>
@@ -152,14 +156,19 @@ That's it. Your AI will analyse, generate diagrams, and create the complete HTML
 System architecture with service integration points, order processing flow, and database schema.
 
 ### Microservices Architecture  
-<img src="examples/image2.png" alt="Microservices Architecture" width="800">
+<img src="examples/image1.png" alt="Microservices Architecture" width="800">
 
 Scalable e-commerce platform with event-driven microservices, message bus, and data layer components.
 
 ### Team Operational Framework
-<img src="examples/image1.png" alt="Team Framework" width="800">
+<img src="examples/image2.png" alt="Team Framework" width="800">
 
 Organisational structure with performance metrics, gap analysis, and implementation roadmap.
+
+### Learning Journey Timeline
+<img src="examples/image3.png" alt="Learning Journey" width="800">
+
+4-week learning path with skill progression, resources, and milestone tracking.
 
 **View full interactive examples** in the [`examples/`](examples/) folder.
 
