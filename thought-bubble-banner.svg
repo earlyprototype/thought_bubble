@@ -171,7 +171,7 @@
       </text>
       <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="12">
         <tspan x="0" y="80" fill="#484f58">░░</tspan>
-        <tspan fill="#7ee787"> brought to you by llms</tspan>
+        <tspan fill="#7ee787"> brought to you by early_prototype</tspan>
       </text>
       <text font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace" font-size="12">
         <tspan x="0" y="102" fill="#484f58">░░</tspan>
@@ -200,5 +200,5 @@
   
   <!-- Bottom bar -->
   <rect x="0" y="200" width="1000" height="20" fill="#FEFEFE"/>
-  <text font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="11" x="920" y="213" fill="#484f58">v1.0</text>
+  <text font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="11" x="925" y="213" fill="#484f58">v1.0</text>
 </svg>
