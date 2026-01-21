@@ -207,14 +207,33 @@ Send the final prompt to the LLM to receive your complete HTML visualization.`;
 });
 
 /**
+ * Get workspace configuration
+ */
+function getWorkspaceConfig() {
+  const workspace = process.env.THOUGHT_BUBBLE_WORKSPACE;
+  const nodeEnv = process.env.NODE_ENV || 'development';
+  
+  return {
+    workspace: workspace || process.cwd(),
+    nodeEnv,
+    hasWorkspaceConfig: !!workspace
+  };
+}
+
+/**
  * Start the server
  */
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
   
+  const config = getWorkspaceConfig();
+  
   // Log to stderr (stdout is reserved for MCP protocol messages)
   console.error('thought_bubble MCP Server running on stdio');
+  console.error('Workspace:', config.workspace);
+  console.error('Workspace configured via env:', config.hasWorkspaceConfig);
+  console.error('Environment:', config.nodeEnv);
 }
 
 main().catch((error) => {

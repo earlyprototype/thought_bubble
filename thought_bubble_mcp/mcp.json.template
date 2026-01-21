@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "thought-bubble": {
+      "command": "node",
+      "args": [
+        "C:\\Users\\Fab2\\Desktop\\AI\\_tools\\_thought_bubble\\thought_bubble_mcp\\dist\\index.js"
+      ],
+      "env": {
+        "THOUGHT_BUBBLE_WORKSPACE": "${workspaceFolder}",
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}

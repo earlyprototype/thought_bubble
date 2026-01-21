@@ -14,13 +14,18 @@ This MCP server enables AI assistants (Claude, ChatGPT, Cursor) to analyse docum
 
 ## Installation
 
-### From NPM (when published)
+See **[INSTALLATION.md](./INSTALLATION.md)** for complete setup instructions.
 
-```bash
-npm install -g @thought-bubble/mcp-server
+### Quick Start
+
+**Automated Installer (Recommended for Cursor):**
+
+```powershell
+cd C:\path\to\your\workspace
+powershell -ExecutionPolicy Bypass -File C:\Users\Fab2\Desktop\AI\_tools\_thought_bubble\thought_bubble_mcp\install-to-workspace.ps1
 ```
 
-### From Source
+**Manual Build:**
 
 ```bash
 git clone <repository-url>
@@ -31,24 +36,34 @@ npm run build
 
 ## Configuration
 
-Add this to your MCP client configuration file:
+### Per-Workspace Configuration (Recommended)
 
-### Claude Desktop / Cursor
-
-Create or edit `~/.config/claude/claude_desktop_config.json` (macOS/Linux) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+Create `.cursor/mcp.json` in your workspace root:
 
 ```json
 {
   "mcpServers": {
     "thought-bubble": {
-      "command": "npx",
-      "args": ["-y", "@thought-bubble/mcp-server"]
+      "command": "node",
+      "args": [
+        "C:\\path\\to\\thought_bubble_mcp\\dist\\index.js"
+      ],
+      "env": {
+        "THOUGHT_BUBBLE_WORKSPACE": "${workspaceFolder}",
+        "NODE_ENV": "production"
+      }
     }
   }
 }
 ```
 
-### For Local Development
+The `${workspaceFolder}` variable automatically resolves to your current workspace path, making the configuration portable across machines and team members.
+
+See **[CURSOR_WORKSPACE_VARIABLES.md](../CURSOR_WORKSPACE_VARIABLES.md)** for details on workspace configuration variables.
+
+### Global Configuration
+
+For workspace-agnostic usage, add to `~/.cursor/mcp.json`:
 
 ```json
 {

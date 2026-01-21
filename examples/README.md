@@ -372,26 +372,29 @@ journey
 
 ### Git Graph: Development Workflow
 ```mermaid
-gitgraph
-    commit id: "Initial commit"
-    commit id: "Add base template"
-    branch feature/auth
-    checkout feature/auth
-    commit id: "Add login page"
-    commit id: "Add authentication"
-    checkout main
-    branch feature/dashboard
-    checkout feature/dashboard
-    commit id: "Create dashboard layout"
-    commit id: "Add widgets"
-    checkout main
-    merge feature/auth
-    commit id: "Update dependencies"
-    checkout feature/dashboard
-    commit id: "Polish dashboard"
-    checkout main
-    merge feature/dashboard tag: "v1.0.0"
-    commit id: "Production release"
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#4a90e2','primaryTextColor':'#fff','primaryBorderColor':'#2e6da4','lineColor':'#6c757d','secondaryColor':'#5cb85c','tertiaryColor':'#f0ad4e'}}}%%
+flowchart TD
+    A[Initial commit] --> B[Add base template]
+    B --> C{Branch: feature/auth}
+    C --> D[Add login page]
+    D --> E[Add authentication]
+    B --> F{Branch: feature/dashboard}
+    F --> G[Create dashboard layout]
+    G --> H[Add widgets]
+    E --> I[Merge feature/auth to main]
+    I --> J[Update dependencies]
+    H --> K[Polish dashboard]
+    J --> L[Merge feature/dashboard to main]
+    K --> L
+    L --> M[Production release v1.0.0]
+    
+    style A fill:#4a90e2,stroke:#2e6da4,color:#fff
+    style B fill:#4a90e2,stroke:#2e6da4,color:#fff
+    style I fill:#5cb85c,stroke:#4cae4c,color:#fff
+    style L fill:#5cb85c,stroke:#4cae4c,color:#fff
+    style M fill:#f0ad4e,stroke:#ec971f,color:#fff
+    style C fill:#d9534f,stroke:#c9302c,color:#fff
+    style F fill:#d9534f,stroke:#c9302c,color:#fff
 ```
 
 ### Pie Chart: Technology Stack Distribution
