@@ -809,10 +809,12 @@ flowchart TB
     <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()">☰</button>
 
     <script>
-        // Initialize Mermaid
+        // Initialize Mermaid with proper rendering sequence
         mermaid.initialize({ 
-            startOnLoad: true,
+            startOnLoad: false,
             theme: 'default',
+            logLevel: 'error',
+            securityLevel: 'loose',
             themeVariables: {
                 primaryColor: '#2563eb',
                 primaryTextColor: '#0f172a',
@@ -821,6 +823,19 @@ flowchart TB
                 secondaryColor: '#f1f5f9',
                 tertiaryColor: '#f8fafc'
             }
+        });
+
+        // Make all sections visible for rendering
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+
+        // Render all diagrams
+        mermaid.run().then(() => {
+            // After rendering, hide non-active sections
+            document.querySelectorAll('.section').forEach(s => {
+                if (!s.classList.contains('active')) {
+                    s.style.display = 'none';
+                }
+            });
         });
 
         // Navigation functionality
@@ -836,8 +851,15 @@ flowchart TB
                 item.classList.add('active');
                 
                 // Update active section
-                sections.forEach(section => section.classList.remove('active'));
-                document.getElementById(targetSection).classList.add('active');
+                sections.forEach(section => {
+                    if (section.id === targetSection) {
+                        section.classList.add('active');
+                        section.style.display = 'block';
+                    } else {
+                        section.classList.remove('active');
+                        section.style.display = 'none';
+                    }
+                });
                 
                 // Close mobile menu if open
                 if (window.innerWidth <= 768) {

@@ -101,6 +101,55 @@ Generate a single, complete HTML file that:
 - Has smooth navigation between sections
 - Looks professional and polished
 
+# MERMAID INITIALIZATION - CRITICAL
+
+If using sidebar navigation with hidden sections (display: none), you MUST use this pattern:
+
+\`\`\`javascript
+// Initialize Mermaid with startOnLoad: false
+mermaid.initialize({ 
+    startOnLoad: false,
+    theme: 'default',
+    logLevel: 'error',
+    securityLevel: 'loose'
+});
+
+// Make all sections visible for rendering
+document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+
+// Render all diagrams
+mermaid.run().then(() => {
+    // After rendering, hide non-active sections
+    document.querySelectorAll('.section').forEach(s => {
+        if (!s.classList.contains('active')) {
+            s.style.display = 'none';
+        }
+    });
+});
+
+// Sidebar navigation
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+        const target = item.getAttribute('data-section');
+        
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        item.classList.add('active');
+        
+        document.querySelectorAll('.section').forEach(s => {
+            if (s.id === target) {
+                s.classList.add('active');
+                s.style.display = 'block';
+            } else {
+                s.classList.remove('active');
+                s.style.display = 'none';
+            }
+        });
+    });
+});
+\`\`\`
+
+WHY: Mermaid cannot render diagrams in elements with display: none. This pattern temporarily shows all sections during initial render, then hides them after Mermaid completes.
+
 # QUALITY ASSURANCE
 
 CRITICAL: After generating the HTML, thoroughly validate all Mermaid diagram syntax:

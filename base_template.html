@@ -323,6 +323,9 @@ graph TD
     
     <script>
         // Initialize Mermaid (if using diagrams)
+        // NOTE: This template uses visible sections with smooth scrolling.
+        // If you implement hidden sections (display: none), you MUST use startOnLoad: false
+        // and render diagrams before hiding sections. See MERMAID_SIDEBAR_FIX.md for details.
         mermaid.initialize({ 
             startOnLoad: true,
             theme: 'base',
