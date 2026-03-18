@@ -52,22 +52,18 @@ coverage/
 examples/package.json
 examples/package-lock.json
 examples/node_modules/
-examples/capture_screenshots.js
-examples/capture_hero.js
-examples/composite_hero.js
-examples/capture_both_themes.js
-examples/full_hero.js
-examples/hero_sankey.js
-examples/simple_hero.js
-examples/test_load.js
-examples/regenerate_hero.js
-examples/create_before_after.js
+examples/*.js
 examples/hero_before_after.html
+
+# Temporary image generation files
 create_hero.html
 before_dark.png
 after_dark.png
 before_light.png
 after_light.png
+sankey_example.png
+sankey_only.png
+hero_charts.png
 
 # Working documents (internal use only)
 chat/
