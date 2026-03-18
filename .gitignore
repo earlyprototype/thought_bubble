@@ -55,6 +55,11 @@ examples/node_modules/
 examples/capture_screenshots.js
 examples/capture_hero.js
 examples/composite_hero.js
+examples/capture_both_themes.js
+examples/full_hero.js
+examples/hero_sankey.js
+examples/simple_hero.js
+examples/test_load.js
 examples/hero_before_after.html
 create_hero.html
 hero_before.png
