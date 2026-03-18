@@ -1,166 +1,107 @@
 # thought_bubble Examples
 
-Self-contained HTML visualisations demonstrating thought_bubble capabilities. All examples include live theme switchers.
+Visual gallery of generated output. Every file is self-contained HTML that works offline.
 
 ---
 
-## Chart Library
+## Revenue Flow Architecture
 
-### All D3 Chart Types
-**[Open: all_d3_charts.html](all_d3_charts.html)**
+[![Revenue Sankey](../hero_dark.png)](all_d3_charts.html)
 
-Complete chart library demonstrating all 16 types in one page:
+**Multi-level Sankey diagram**: $847M revenue flow across channels, regions, segments, and product tiers. Glow emphasis, categorical colours, GitHub Dark theme.
 
-![Chart Library Preview](chart_library_preview.png)
-
-Bar, line, area, pie, donut, gantt, timeline, quadrant, sankey, radial, treemap
-
-**Theme:** GitHub Light | **Layout:** Dashboard
+[Open visualization →](all_d3_charts.html)
 
 ---
 
-## Layout Templates
+## Complete Chart Library
 
-Same content rendered three different ways:
+[![Chart Library](chart_library_preview.png)](all_d3_charts.html)
 
-<table>
-<tr>
-<td width="33%">
-<h3>Sidebar Layout</h3>
-<a href="layout_sidebar.html">
-<img src="layout_sidebar_preview.png" alt="Sidebar Layout">
-</a>
-<p>Multi-section navigation</p>
-<p><strong>Best for:</strong> Technical docs, API references</p>
-</td>
-<td width="33%">
-<h3>Magazine Layout</h3>
-<a href="layout_magazine.html">
-<img src="layout_magazine_preview.png" alt="Magazine Layout">
-</a>
-<p>Hero + narrative flow</p>
-<p><strong>Best for:</strong> Reports, case studies</p>
-</td>
-<td width="33%">
-<h3>Dashboard Layout</h3>
-<a href="layout_dashboard.html">
-<img src="layout_dashboard_preview.png" alt="Dashboard Layout">
-</a>
-<p>KPI cards + grid</p>
-<p><strong>Best for:</strong> Monitoring, metrics</p>
-</td>
-</tr>
-</table>
+Bar, line, area, pie, donut, gantt, timeline, quadrant, sankey, radial, treemap with annotations, curve types, colour strategies, and emphasis effects.
+
+**Dashboard layout** | **GitHub Light theme** | **16 chart types**
+
+[Explore all charts →](all_d3_charts.html)
+
+---
+
+## Layout Showcase
+
+### Sidebar Navigation
+
+[![Sidebar Layout](layout_sidebar_preview.png)](layout_sidebar.html)
+
+Fixed navigation for multi-section docs. Best for: API references, technical documentation, user guides.
+
+### Magazine Editorial
+
+[![Magazine Layout](layout_magazine_preview.png)](layout_magazine.html)
+
+Hero section with pull quotes and narrative flow. Best for: case studies, reports, product launches.
+
+### Dashboard Monitoring
+
+[![Dashboard Layout](layout_dashboard_preview.png)](layout_dashboard.html)
+
+Metric cards with responsive chart grid. Best for: KPIs, performance monitoring, analytics.
 
 ---
 
 ## Full Documentation Examples
 
-Real documentation transformed into interactive visualisations.
-
 ### Payment Gateway API
-**[Open: payment_gateway_integration.html](payment_gateway_integration.html)**
 
-![Payment Gateway](payment_gateway_preview.png)
+[![Payment Gateway](payment_gateway_preview.png)](payment_gateway_integration.html)
 
-RESTful API documentation with sequence diagrams, flowcharts, and ER diagrams.
+RESTful API documentation with sequence diagrams, flowcharts, and ER models. 
 
-**Layout:** Sidebar | **Theme:** Technical | **Diagrams:** 5 (sequence, flowchart, ER)
-
----
+**Sidebar layout** | **Technical theme** | **5 diagrams**
 
 ### Product Roadmap 2026
-**[Open: product_roadmap_2026.html](product_roadmap_2026.html)**
 
-![Product Roadmap](product_roadmap_preview.png)
+[![Product Roadmap](product_roadmap_preview.png)](product_roadmap_2026.html)
 
-9-phase development roadmap with $5M ARR target metric.
+9-phase development plan with gantt timeline, donut charts, and annotated area graphs.
 
-**Layout:** Magazine with hero | **Theme:** Gruvbox | **Charts:** Gantt, donut, area with annotations
+**Magazine layout with hero** | **Gruvbox theme** | **$5M ARR target**
 
----
+### Enterprise Org Structure
 
-### TechCorp Org Structure
-**[Open: techcorp_org_structure.html](techcorp_org_structure.html)**
+[![Org Structure](techcorp_org_preview.png)](techcorp_org_structure.html)
 
-![Org Structure](techcorp_org_preview.png)
+850-person organization with department breakdowns, flowcharts, and growth metrics.
 
-Enterprise organization with 850 employees across 8 departments.
-
-**Layout:** Dossier | **Theme:** Professional | **Charts:** Bar, area, flowcharts
+**Dossier layout** | **Professional theme** | **8 departments**
 
 ---
 
 ## Legacy Examples
 
-<table>
-<tr>
-<td width="50%">
-<h3>Microservices Architecture</h3>
-<a href="system_architecture_example.html">
-<img src="image1.png" alt="System Architecture">
-</a>
-<p>Microservices with interactive diagrams</p>
-</td>
-<td width="50%">
-<h3>Team Framework</h3>
-<a href="Team_Framework_Visualization_example.html">
-<img src="image2.png" alt="Team Framework">
-</a>
-<p>Operational framework with metrics</p>
-</td>
-</tr>
-<tr>
-<td width="50%">
-<h3>E-Commerce Platform</h3>
-<a href="ecommerce_platform_visualization.html">
-<img src="image.png" alt="E-Commerce">
-</a>
-<p>Service integration flows</p>
-</td>
-<td width="50%">
-<h3>Learning Journey</h3>
-<a href="learning_path_example.html">
-<img src="image3.png" alt="Learning Path">
-</a>
-<p>Timeline with weekly milestones</p>
-</td>
-</tr>
-</table>
+Additional examples from earlier versions:
 
-[Pattern-Rule Integration](pattern_rule_integration_example.html) | [Travel Itinerary](travel_itinerary_example.html)
+- [System Architecture](system_architecture_example.html) - Microservices with interactive diagrams
+- [Team Framework](Team_Framework_Visualization_example.html) - Operational framework with metrics
+- [E-Commerce Platform](ecommerce_platform_visualization.html) - Service integration flows
+- [Learning Journey](learning_path_example.html) - Timeline with weekly milestones
+- [Pattern-Rule Integration](pattern_rule_integration_example.html)
+- [Travel Itinerary](travel_itinerary_example.html)
 
 ---
 
-## Screenshots Needed
+## Themes
 
-To complete this gallery, please add screenshots for:
-- `chart_library_preview.png` - Screenshot of all_d3_charts.html
-- `layout_sidebar_preview.png` - Screenshot of layout_sidebar.html
-- `layout_magazine_preview.png` - Screenshot of layout_magazine.html  
-- `layout_dashboard_preview.png` - Screenshot of layout_dashboard.html
-- `payment_gateway_preview.png` - Screenshot of payment_gateway_integration.html
-- `product_roadmap_preview.png` - Screenshot of product_roadmap_2026.html
-- `techcorp_org_preview.png` - Screenshot of techcorp_org_structure.html
+All examples include live theme switchers. Available themes:
+
+**Dark**: Tokyo Night, Dracula, Gruvbox, Solarized Dark, GitHub Dark, Technical, Dark  
+**Light**: Solarized Light, GitHub Light, Professional, Minimal, Creative
 
 ---
 
-## How to Use
+## Generate Your Own
 
-Open any HTML file directly in your browser. All files are self-contained and work offline (after loading fonts).
-
-**Generate your own:**
 ```
 "Use thought-bubble to analyze and visualize this documentation."
 ```
 
----
-
-## What's Demonstrated
-
-- 13 layout templates
-- 16 D3 chart types + 5 Mermaid diagram types
-- Section roles (metric, pull-quote, lead, statement, full-width, supporting)
-- Density presets (compact, comfortable, spacious)
-- 12 themes with live switching
-- Responsive design
+Attach your content and the AI handles analysis, diagram generation, and HTML creation.
