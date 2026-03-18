@@ -67,7 +67,7 @@ Real documentation transformed into interactive visualisations showcasing comple
 
 ## D3 Chart Examples
 
-All D3 chart rendering is new in v0.2.0. Previous version only had Mermaid diagrams.
+Individual examples showcasing D3 capabilities.
 
 ### D3 Annotations
 **File:** `d3_annotations.html`
@@ -201,11 +201,9 @@ Study the source to understand:
 
 ---
 
-## What's New in v0.2.0
+## What's Demonstrated
 
-**ALL D3 CHART RENDERING IS NEW.** v0.1.x only had Mermaid diagrams. v0.2.0 added complete D3 chart library with 16+ chart types.
-
-All examples demonstrate:
+All examples include:
 - **13 layout templates** (sidebar, magazine, presentation, dashboard, minimal, editorial, comparison, briefing, tutorial, scorecard, report, dossier, dialogue)
 - **Section roles** (metric, pull-quote, lead, statement, full-width, supporting)
 - **Density presets** (compact, comfortable, spacious)
