@@ -26,30 +26,69 @@ A Model Context Protocol (MCP) server that works with your AI assistant to autom
 
 ### See It In Action
 
-View example visualizations in the [`examples/`](examples/) directory:
+**[Browse the full examples gallery →](examples/)**
+
+#### 16 D3 Chart Types
+
+<p align="center">
+<a href="examples/all_d3_charts.html">
+<img src="examples/chart_library_preview.png" alt="Complete D3 Chart Library" width="100%">
+</a>
+<br><em>Bar, line, area, pie, donut, gantt, timeline, quadrant, sankey, radial, treemap - all with annotations, emphasis effects, and live theme switching</em>
+</p>
+
+#### Layout Templates
+
+Same content rendered three ways to match your use case:
+
+<table>
+<tr>
+<td width="33%">
+<a href="examples/layout_sidebar.html">
+<img src="examples/layout_sidebar_preview.png" alt="Sidebar Layout">
+</a>
+<br><strong>Sidebar</strong> - Multi-section navigation
+<br><em>Best for: API docs, technical references</em>
+</td>
+<td width="33%">
+<a href="examples/layout_magazine.html">
+<img src="examples/layout_magazine_preview.png" alt="Magazine Layout">
+</a>
+<br><strong>Magazine</strong> - Hero + narrative flow
+<br><em>Best for: Reports, case studies</em>
+</td>
+<td width="33%">
+<a href="examples/layout_dashboard.html">
+<img src="examples/layout_dashboard_preview.png" alt="Dashboard Layout">
+</a>
+<br><strong>Dashboard</strong> - KPI cards + grid
+<br><em>Best for: Monitoring, metrics</em>
+</td>
+</tr>
+</table>
+
+#### Full Examples
 
 <table>
 <tr>
 <td width="50%">
-<img src="examples/image1.png" alt="Microservices Architecture Visualization">
-<br><em>Microservices Architecture with interactive diagrams</em>
+<a href="examples/payment_gateway_integration.html">
+<img src="examples/payment_gateway_preview.png" alt="Payment Gateway API">
+</a>
+<br><strong>Payment Gateway API</strong>
+<br><em>RESTful API docs with sequence diagrams and ER models</em>
 </td>
 <td width="50%">
-<img src="examples/image2.png" alt="Team Framework Visualization">
-<br><em>Team Operational Framework with metrics</em>
-</td>
-</tr>
-<tr>
-<td width="50%">
-<img src="examples/image.png" alt="E-Commerce Platform Visualization">
-<br><em>E-Commerce Platform with service integration flows</em>
-</td>
-<td width="50%">
-<img src="examples/image3.png" alt="Learning Journey Visualization">
-<br><em>Learning journey timeline with weekly milestones</em>
+<a href="examples/product_roadmap_2026.html">
+<img src="examples/product_roadmap_preview.png" alt="Product Roadmap">
+</a>
+<br><strong>Product Roadmap 2026</strong>
+<br><em>9-phase development plan with $5M ARR target</em>
 </td>
 </tr>
 </table>
+
+**[View all examples with live previews →](examples/)**
 
 ## How It Works
 
