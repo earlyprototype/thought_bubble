@@ -54,8 +54,11 @@ examples/package-lock.json
 examples/node_modules/
 examples/capture_screenshots.js
 examples/capture_hero.js
+examples/composite_hero.js
 examples/hero_before_after.html
 create_hero.html
+hero_before.png
+hero_after.png
 
 # Working documents (internal use only)
 chat/
