@@ -7,46 +7,50 @@ Self-contained HTML visualisations demonstrating thought_bubble capabilities. Al
 ## Chart Library
 
 ### All D3 Chart Types
-**File:** `all_d3_charts.html`
+**[Open: all_d3_charts.html](all_d3_charts.html)**
 
-One page demonstrating all 16 D3 chart types with real data:
-- Bar chart (categorical comparison)
-- Line chart (trends over time)
-- Area chart (cumulative volume)
-- Pie chart (composition)
-- Donut chart (allocation)
-- Gantt chart (project timeline)
-- Timeline chart (chronological events)
-- Quadrant chart (priority matrix)
-- Sankey diagram (flow volumes)
-- Radial bar chart (multi-axis comparison)
-- Treemap (hierarchical proportions)
+Complete chart library demonstrating all 16 types in one page:
 
-**Theme:** GitHub Light with switcher  
-**Layout:** Dashboard
+![Chart Library Preview](chart_library_preview.png)
+
+Bar, line, area, pie, donut, gantt, timeline, quadrant, sankey, radial, treemap
+
+**Theme:** GitHub Light | **Layout:** Dashboard
 
 ---
 
 ## Layout Templates
 
-Same content rendered in three different layouts:
+Same content rendered three different ways:
 
-### Sidebar Layout
-**File:** `layout_sidebar.html`
-
-Multi-section documentation with fixed navigation. Best for technical docs, API references.
-
-### Magazine Layout
-**File:** `layout_magazine.html`
-
-Hero section with narrative flow and section roles (lead, full-width). Best for reports, case studies.
-
-### Dashboard Layout
-**File:** `layout_dashboard.html`
-
-Metric cards and chart grid. Best for KPI monitoring, operations dashboards.
-
-All three use identical data to show layout impact.
+<table>
+<tr>
+<td width="33%">
+<h3>Sidebar Layout</h3>
+<a href="layout_sidebar.html">
+<img src="layout_sidebar_preview.png" alt="Sidebar Layout">
+</a>
+<p>Multi-section navigation</p>
+<p><strong>Best for:</strong> Technical docs, API references</p>
+</td>
+<td width="33%">
+<h3>Magazine Layout</h3>
+<a href="layout_magazine.html">
+<img src="layout_magazine_preview.png" alt="Magazine Layout">
+</a>
+<p>Hero + narrative flow</p>
+<p><strong>Best for:</strong> Reports, case studies</p>
+</td>
+<td width="33%">
+<h3>Dashboard Layout</h3>
+<a href="layout_dashboard.html">
+<img src="layout_dashboard_preview.png" alt="Dashboard Layout">
+</a>
+<p>KPI cards + grid</p>
+<p><strong>Best for:</strong> Monitoring, metrics</p>
+</td>
+</tr>
+</table>
 
 ---
 
@@ -54,90 +58,98 @@ All three use identical data to show layout impact.
 
 Real documentation transformed into interactive visualisations.
 
-### Payment Gateway Integration API
-**File:** `payment_gateway_integration.html`
+### Payment Gateway API
+**[Open: payment_gateway_integration.html](payment_gateway_integration.html)**
 
-**Content:** RESTful API documentation for payment processing
+![Payment Gateway](payment_gateway_preview.png)
 
-**Demonstrates:**
-- Sidebar layout with navigation
-- Sequence diagrams (authentication, payment processing)
-- Flowchart (service architecture, error handling)
-- ER diagram (data models)
-- Technical theme
+RESTful API documentation with sequence diagrams, flowcharts, and ER diagrams.
 
-**Best For:** API documentation, technical integration guides
+**Layout:** Sidebar | **Theme:** Technical | **Diagrams:** 5 (sequence, flowchart, ER)
 
 ---
 
 ### Product Roadmap 2026
-**File:** `product_roadmap_2026.html`
+**[Open: product_roadmap_2026.html](product_roadmap_2026.html)**
 
-**Content:** 9-phase development roadmap with resource allocation
+![Product Roadmap](product_roadmap_preview.png)
 
-**Demonstrates:**
-- Magazine layout with hero section ($5M ARR metric)
-- Gantt chart (timeline)
-- Donut chart (team allocation)
-- Area chart with annotations (growth projections)
-- Flowchart (dependencies)
-- Section roles (lead, metric, full-width, supporting)
-- Gruvbox theme
+9-phase development roadmap with $5M ARR target metric.
 
-**Best For:** Strategic roadmaps, quarterly reports, investor updates
+**Layout:** Magazine with hero | **Theme:** Gruvbox | **Charts:** Gantt, donut, area with annotations
 
 ---
 
-### TechCorp Organizational Structure
-**File:** `techcorp_org_structure.html`
+### TechCorp Org Structure
+**[Open: techcorp_org_structure.html](techcorp_org_structure.html)**
 
-**Content:** Enterprise org chart with 850 employees across 8 departments
+![Org Structure](techcorp_org_preview.png)
 
-**Demonstrates:**
-- Dossier layout (profile format)
-- Hero with company metric (850 employees)
-- Flowchart (executive hierarchy, decision framework)
-- Bar charts (department sizes, priorities)
-- Area chart with annotations (growth projections)
-- Metric role sections
-- Professional theme
+Enterprise organization with 850 employees across 8 departments.
 
-**Best For:** Org charts, company profiles, research synthesis
+**Layout:** Dossier | **Theme:** Professional | **Charts:** Bar, area, flowcharts
 
 ---
 
 ## Legacy Examples
 
-Older examples demonstrating original capabilities:
+<table>
+<tr>
+<td width="50%">
+<h3>Microservices Architecture</h3>
+<a href="system_architecture_example.html">
+<img src="image1.png" alt="System Architecture">
+</a>
+<p>Microservices with interactive diagrams</p>
+</td>
+<td width="50%">
+<h3>Team Framework</h3>
+<a href="Team_Framework_Visualization_example.html">
+<img src="image2.png" alt="Team Framework">
+</a>
+<p>Operational framework with metrics</p>
+</td>
+</tr>
+<tr>
+<td width="50%">
+<h3>E-Commerce Platform</h3>
+<a href="ecommerce_platform_visualization.html">
+<img src="image.png" alt="E-Commerce">
+</a>
+<p>Service integration flows</p>
+</td>
+<td width="50%">
+<h3>Learning Journey</h3>
+<a href="learning_path_example.html">
+<img src="image3.png" alt="Learning Path">
+</a>
+<p>Timeline with weekly milestones</p>
+</td>
+</tr>
+</table>
 
-- `pattern_rule_integration_example.html` - Technical knowledge graph
-- `system_architecture_example.html` - Microservices architecture
-- `learning_path_example.html` - Educational journey with timeline
-- `travel_itinerary_example.html` - Trip planner
-- `ecommerce_platform_visualization.html` - Platform documentation
-- `Team_Framework_Visualization_example.html` - Team framework
+[Pattern-Rule Integration](pattern_rule_integration_example.html) | [Travel Itinerary](travel_itinerary_example.html)
+
+---
+
+## Screenshots Needed
+
+To complete this gallery, please add screenshots for:
+- `chart_library_preview.png` - Screenshot of all_d3_charts.html
+- `layout_sidebar_preview.png` - Screenshot of layout_sidebar.html
+- `layout_magazine_preview.png` - Screenshot of layout_magazine.html  
+- `layout_dashboard_preview.png` - Screenshot of layout_dashboard.html
+- `payment_gateway_preview.png` - Screenshot of payment_gateway_integration.html
+- `product_roadmap_preview.png` - Screenshot of product_roadmap_2026.html
+- `techcorp_org_preview.png` - Screenshot of techcorp_org_structure.html
 
 ---
 
 ## How to Use
 
-### View in Browser
-```bash
-# Windows
-start examples/all_d3_charts.html
+Open any HTML file directly in your browser. All files are self-contained and work offline (after loading fonts).
 
-# macOS
-open examples/all_d3_charts.html
-
-# Linux
-xdg-open examples/all_d3_charts.html
-```
-
-### Copy and Customize
-All examples are self-contained HTML. Copy and modify content, themes, or structure.
-
-### Generate Your Own
-Use the MCP server with your documentation:
+**Generate your own:**
 ```
 "Use thought-bubble to analyze and visualize this documentation."
 ```
@@ -147,21 +159,8 @@ Use the MCP server with your documentation:
 ## What's Demonstrated
 
 - 13 layout templates
+- 16 D3 chart types + 5 Mermaid diagram types
 - Section roles (metric, pull-quote, lead, statement, full-width, supporting)
 - Density presets (compact, comfortable, spacious)
-- 16 D3 chart types
-- 5 Mermaid diagram types
-- Advanced chart options (annotations, curve types, color strategies, emphasis effects)
 - 12 themes with live switching
 - Responsive design
-
----
-
-## Browser Compatibility
-
-- Chrome/Edge (latest)
-- Firefox (latest)
-- Safari (latest)
-- Mobile browsers
-
-Requires JavaScript enabled.
