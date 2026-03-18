@@ -218,15 +218,60 @@ Fine-grained visual control for individual sections:
 - **full-width** - Breakout visuals that span viewport
 - **supporting** - Appendices and secondary content
 
-### Advanced Chart Capabilities
+### D3 Chart Capabilities
 
-- **16+ chart types** - Mermaid diagrams (flowchart, sequence, class, ER, state) + D3 charts (bar, pie, donut, line, area, gantt, timeline, quadrant, sankey, radial, treemap)
-- **Annotations** - Key data point labels with positioning
-- **Curve types** - Smooth (time series), natural (organic), sharp (raw data), step (discrete)
-- **Color strategies** - Categorical, sequential, diverging, monochrome
-- **Emphasis effects** - Glow (luminous halo), shadow (depth), lift (scale transform)
-- **Pattern encoding** - Accessible fills for WCAG compliance
-- **Animations** - Stagger, draw, grow, fade (respects prefers-reduced-motion)
+**16+ chart types** - bar, pie, donut, line, area, gantt, timeline, quadrant, sankey, radial, treemap
+
+**Example - Revenue chart with annotations:**
+```json
+{
+  "diagramType": "line",
+  "chartData": [
+    {"x": "Q1", "y": 1200000},
+    {"x": "Q2", "y": 1850000},
+    {"x": "Q3", "y": 2100000},
+    {"x": "Q4", "y": 3200000}
+  ],
+  "chartOptions": {
+    "curve": "smooth",
+    "emphasis": "glow",
+    "colorStrategy": "monochrome",
+    "annotations": [
+      {"label": "Product launch +54%", "x": "Q2", "y": 1850000, "dx": 10, "dy": -20},
+      {"label": "Enterprise deals", "x": "Q4", "y": 3200000, "dx": 10, "dy": -20}
+    ]
+  }
+}
+```
+
+**Example - Sankey flow diagram:**
+```json
+{
+  "diagramType": "sankey",
+  "chartData": [{
+    "nodes": [
+      {"id": "direct", "label": "Direct Sales"},
+      {"id": "partner", "label": "Partners"},
+      {"id": "enterprise", "label": "Enterprise"},
+      {"id": "smb", "label": "SMB"}
+    ],
+    "links": [
+      {"source": "direct", "target": "enterprise", "value": 45},
+      {"source": "direct", "target": "smb", "value": 12},
+      {"source": "partner", "target": "enterprise", "value": 28},
+      {"source": "partner", "target": "smb", "value": 35}
+    ]
+  }]
+}
+```
+
+**Chart options:**
+- **Annotations** - Data point labels with dx/dy positioning
+- **Curve types** - `smooth`, `natural`, `sharp`, `step`
+- **Color strategies** - `categorical`, `sequential`, `diverging`, `monochrome`
+- **Emphasis effects** - `glow`, `shadow`, `lift`, `none`
+- **Pattern encoding** - `patterns: true` for WCAG compliance
+- **Animations** - `stagger`, `draw`, `grow`, `fade`, `none`
 
 ### Professional Design
 
