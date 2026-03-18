@@ -16,7 +16,7 @@ export interface AnalysisResult {
 
 export interface SelectedSystem {
   id: number;
-  diagramType: 'flowchart' | 'sequence' | 'class' | 'er' | 'state' | 'c4';
+  diagramType: 'flowchart' | 'sequence' | 'class' | 'er' | 'state';
 }
 
 export interface VisualizationResult {

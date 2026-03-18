@@ -2,15 +2,25 @@
 
 **Transform documentation into beautiful interactive HTML visualisations** using the Model Context Protocol.
 
-This MCP server enables AI assistants (Claude, ChatGPT, Cursor) to analyse documentation and generate stunning, interactive HTML visualisations with Mermaid diagrams.
+This MCP server enables AI assistants (Claude, ChatGPT, Cursor) to analyse documentation and generate stunning, self-contained HTML visualisations with server-side rendered Mermaid diagrams and D3 charts.
 
 ## Features
 
-- **Automated Analysis**: Identifies systems, workflows, data models, and relationships in your content
-- **AI-Powered**: Leverages LLMs for intelligent content analysis and diagram generation
-- **Mermaid Integration**: Generates appropriate diagram types (flowcharts, sequence, class, ER, state, C4)
-- **Professional Output**: Creates complete, self-contained HTML files with responsive design
-- **Customisable**: Choose themes and navigation styles
+- **Server-Side SVG Rendering**: Uses beautiful-mermaid for Mermaid diagrams and D3 for charts
+- **12 Curated Themes**: 7 new stunning themes (Tokyo Night, Dracula, Gruvbox, Solarized, GitHub) + 5 original themes
+- **Self-Contained Output**: No CDN dependencies - works completely offline
+- **Live Theme Switching**: Users can switch themes in the browser without regenerating
+- **D3 Chart Support**: Bar, pie, donut, line, area, gantt, timeline, and quadrant charts
+- **AI-Powered Analysis**: Identifies systems, workflows, data models, and relationships
+- **Responsive Design**: Mobile-first, works on all screen sizes
+
+## What's New in v0.2.0
+
+- **beautiful-mermaid integration** - Server-side SVG rendering with stunning aesthetics
+- **D3 charts** - Bar, pie, line, gantt, and more
+- **12 themes** - Tokyo Night (default), Dracula, Gruvbox, Solarized Dark/Light, GitHub Dark/Light, plus 5 original themes
+- **No CDN required** - Fully self-contained HTML output
+- **Live theme switching** - Built-in theme picker in generated HTML
 
 ## Installation
 
@@ -57,52 +67,24 @@ Create `.cursor/mcp.json` in your workspace root:
 }
 ```
 
-The `${workspaceFolder}` variable automatically resolves to your current workspace path, making the configuration portable across machines and team members.
-
-See **[CURSOR_WORKSPACE_VARIABLES.md](../CURSOR_WORKSPACE_VARIABLES.md)** for details on workspace configuration variables.
-
-### Global Configuration
-
-For workspace-agnostic usage, add to `~/.cursor/mcp.json`:
-
-```json
-{
-  "mcpServers": {
-    "thought-bubble": {
-      "command": "node",
-      "args": ["/absolute/path/to/thought_bubble_mcp/dist/index.js"]
-    }
-  }
-}
-```
-
 ## Usage
 
-The server exposes two tools that work together:
+The server exposes four tools:
 
 ### Tool 1: `analyze_content`
 
 Analyses your documentation to identify visualisation opportunities.
 
-**Input:**
 ```json
 {
   "content": "Your documentation text here..."
 }
 ```
 
-**Output:**
-A prompt for your LLM to analyse the content and identify:
-- Workflows (processes, flows, sequences)
-- Systems (architectures, services, components)
-- Data Models (entities, objects, schemas)
-- Relationships (connections, integrations)
-
 ### Tool 2: `generate_visualization`
 
-Generates the final HTML visualisation with Mermaid diagrams.
+Generates complete HTML with server-side rendered SVG diagrams.
 
-**Input:**
 ```json
 {
   "content": "Original documentation",
@@ -111,69 +93,62 @@ Generates the final HTML visualisation with Mermaid diagrams.
       "id": 1,
       "title": "User Authentication Flow",
       "description": "Login process with OAuth",
-      "diagramType": "flowchart"
+      "diagramType": "flowchart",
+      "mermaidCode": "graph TD\n  A[Start] --> B{Auth?}\n  B -->|Yes| C[Dashboard]\n  B -->|No| D[Login]"
     },
     {
-      "id": 3,
-      "title": "Database Schema",
-      "description": "User and Order tables",
-      "diagramType": "er"
+      "id": 2,
+      "title": "Project Progress",
+      "description": "Progress by phase",
+      "diagramType": "bar",
+      "chartData": [
+        {"label": "Planning", "value": 100},
+        {"label": "Design", "value": 85},
+        {"label": "Development", "value": 60}
+      ]
     }
   ],
-  "theme": "professional",
-  "navigationStyle": "sidebar"
+  "theme": "tokyo_night",
+  "navigationStyle": "sidebar",
+  "enableThemeSwitcher": true
 }
 ```
 
-**Output:**
-Two-step prompts:
-1. Generate Mermaid diagram code for selected systems
-2. Generate complete HTML visualisation
+### Tool 3: `generate_mermaid_prompt`
 
-## Workflow Example
+Generates a prompt for the LLM to create Mermaid diagram code.
 
-Here's how to use the tools with an AI assistant:
+### Tool 4: `list_themes`
 
-**Step 1: Analyse Content**
-```
-User: Use the analyze_content tool with my API documentation
-AI: [Calls tool, receives analysis prompt]
-AI: [Sends prompt to LLM, receives identified systems]
-AI: I found 5 systems:
-    1. Authentication Flow
-    2. Payment Processing
-    3. User Schema
-    ...
-    Which would you like to visualise?
-```
-
-**Step 2: Generate Visualisation**
-```
-User: Let's visualise items 1, 2, and 3
-AI: [Calls generate_visualization tool]
-AI: [Receives Mermaid generation prompt]
-AI: [Sends to LLM, gets Mermaid diagrams]
-AI: [Receives final HTML generation prompt]
-AI: [Sends to LLM, gets complete HTML]
-AI: Here's your interactive visualisation! [Provides HTML file]
-```
+Lists all 12 available themes with their details.
 
 ## Themes
 
-- `professional` - Clean, corporate design
-- `dark` - Dark mode with high contrast
-- `technical` - Developer-focused styling
-- `minimal` - Stripped-down, essential elements
-- `creative` - Bold colours and modern design
+### New Themes (7)
+| Theme | Mode | Description |
+|-------|------|-------------|
+| `tokyo_night` | Dark | Popular VSCode theme, purple/blue |
+| `dracula` | Dark | Vibrant purple, pink, cyan |
+| `gruvbox` | Dark | Retro warm tones |
+| `solarized_dark` | Dark | Academic precision colours |
+| `solarized_light` | Light | Clean, print-friendly |
+| `github_light` | Light | Familiar, clean |
+| `github_dark` | Dark | Modern GitHub dark |
 
-## Navigation Styles
+### Original Themes (5)
+| Theme | Mode | Description |
+|-------|------|-------------|
+| `professional` | Light | Corporate blue/slate |
+| `dark` | Dark | Generic dark mode |
+| `technical` | Dark | Cyan/green terminal style |
+| `minimal` | Light | Black/white minimalist |
+| `creative` | Light | Purple gradients |
 
-- `sidebar` - Fixed sidebar navigation (recommended for 5+ sections)
-- `tabs` - Tab-based navigation
-- `minimal` - Simple anchor navigation
+See **[THEMES.md](./THEMES.md)** for detailed theme documentation.
 
 ## Diagram Types
 
+### Mermaid Diagrams (beautiful-mermaid)
 | Type | Best For |
 |------|----------|
 | `flowchart` | Processes, workflows, decision trees |
@@ -182,6 +157,16 @@ AI: Here's your interactive visualisation! [Provides HTML file]
 | `er` | Database schemas, entity relationships |
 | `state` | State machines, status transitions |
 | `c4` | System architecture, component diagrams |
+
+### D3 Charts
+| Type | Best For |
+|------|----------|
+| `bar` | Categorical comparisons |
+| `pie` / `donut` | Part-to-whole relationships |
+| `line` / `area` | Trends over time |
+| `gantt` | Project timelines, schedules |
+| `timeline` | Chronological events |
+| `quadrant` | Priority matrices, positioning |
 
 ## Development
 
@@ -195,8 +180,8 @@ npm run build
 # Watch mode for development
 npm run watch
 
-# Test locally
-node dist/index.js
+# Run proof of concept
+node dist/renderers/proof_of_concept.js
 ```
 
 ## Project Structure
@@ -204,15 +189,24 @@ node dist/index.js
 ```
 thought_bubble_mcp/
 ├── src/
-│   ├── index.ts              # Main MCP server
+│   ├── index.ts                    # Main MCP server
 │   ├── tools/
-│   │   ├── analyze_content.ts       # Tool 1: Content analysis
-│   │   └── generate_visualization.ts # Tool 2: HTML generation
-│   ├── prompts/
-│   │   └── templates.ts      # Prompt templates
-│   └── types.ts              # TypeScript interfaces
+│   │   ├── analyze_content.ts      # Content analysis
+│   │   └── generate_visualization.ts # HTML generation
+│   ├── renderers/
+│   │   ├── mermaid_renderer.ts     # beautiful-mermaid wrapper
+│   │   └── d3_renderer.ts          # D3 chart rendering
+│   ├── builders/
+│   │   └── html_builder.ts         # HTML generation
+│   ├── themes/
+│   │   ├── types.ts                # Theme interfaces
+│   │   ├── definitions.ts          # 12 theme definitions
+│   │   └── index.ts                # Theme exports
+│   └── prompts/
+│       └── templates.ts            # LLM prompt templates
 ├── package.json
 ├── tsconfig.json
+├── THEMES.md                       # Theme documentation
 └── README.md
 ```
 
@@ -222,7 +216,7 @@ thought_bubble_mcp/
 
 1. Check the configuration file path is correct
 2. Restart your AI client application
-3. Check logs: `tail -f ~/Library/Logs/Claude/mcp*.log` (macOS)
+3. Check logs for errors
 
 ### Tool calls failing
 
@@ -230,12 +224,18 @@ thought_bubble_mcp/
 2. Check the command path in your config
 3. Try running manually: `node dist/index.js`
 
-### Mermaid diagrams not rendering
+### Diagrams not rendering correctly
 
-The generated HTML includes Mermaid via CDN. Ensure:
-1. Internet connection for first load
-2. Browser JavaScript is enabled
-3. No CSP restrictions blocking CDN
+1. For Mermaid: ensure `mermaidCode` is valid Mermaid syntax
+2. For D3 charts: ensure `chartData` is an array of objects with correct properties
+3. Check console for error messages
+
+## Migration from v0.1.x
+
+1. **Default theme changed**: From `professional` to `tokyo_night`
+2. **New tools available**: `generate_mermaid_prompt`, `list_themes`
+3. **Input format updated**: `mermaidCode` is now optional (for Mermaid types) and `chartData` added (for D3 types)
+4. **Theme switcher**: Now included by default (disable with `enableThemeSwitcher: false`)
 
 ## Contributing
 
@@ -243,6 +243,7 @@ Contributions welcome! Please ensure:
 - TypeScript types are correct
 - Code follows existing patterns
 - README is updated for new features
+- Themes meet WCAG AA contrast requirements
 
 ## Licence
 
@@ -252,7 +253,8 @@ MIT
 
 - [thought_bubble](https://github.com/your-org/thought_bubble) - Core visualisation framework
 - [Model Context Protocol](https://modelcontextprotocol.io) - MCP specification
-- [Mermaid](https://mermaid.js.org) - Diagram rendering
+- [beautiful-mermaid](https://github.com/lukilabs/beautiful-mermaid) - Server-side Mermaid rendering
+- [D3.js](https://d3js.org) - Data visualisation library
 
 ---
 

@@ -3,7 +3,7 @@
  */
 
 import { z } from 'zod';
-import { ANALYSIS_PROMPT, formatAnalysisForUser } from '../prompts/templates.js';
+import { ANALYSIS_PROMPT, DESIGN_THINKING_ADDENDUM, formatAnalysisForUser } from '../prompts/templates.js';
 import type { AnalysisResult, IdentifiedItem } from '../types.js';
 
 export const analyzeContentSchema = z.object({
@@ -18,7 +18,7 @@ export type AnalyzeContentInput = z.infer<typeof analyzeContentSchema>;
  */
 export function analyzeContent(input: AnalyzeContentInput): string {
   // Replace content placeholder in the analysis prompt
-  const prompt = ANALYSIS_PROMPT.replace('{content}', input.content);
+  const prompt = ANALYSIS_PROMPT.replace('{content}', input.content) + '\n\n' + DESIGN_THINKING_ADDENDUM;
   
   return prompt;
 }

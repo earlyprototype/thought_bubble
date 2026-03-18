@@ -48,16 +48,16 @@ After user selects diagram options, generate a **complete, self-contained HTML f
 # FRAMEWORK ASSETS
 
 You have access to:
-- Essential design rules (ESSENTIAL_DESIGN_RULES.md)
+- Design system guidelines via `get_design_guide` (MCP tool) — covers typography, layouts, D3 styling, spacing, colour theory, and product philosophy
 - Component library (cards, timelines, badges, grids)
-- Colour themes (professional, dark, technical)
-- Navigation patterns (sidebar, tabs)
-- Mermaid diagram support
+- 12 colour themes with theme-specific typography via Google Fonts
+- 6 layout templates (magazine, dashboard, presentation, sidebar, minimal, editorial)
+- Server-side Mermaid and D3 chart rendering
 - Responsive layouts
 
 # DESIGN PRINCIPLES
 
-Follow ESSENTIAL_DESIGN_RULES.md. Core principles:
+Follow the DesignTeam/DesignGuide design system (accessible via `get_design_guide`). Core principles:
 
 1. **Visual Hierarchy** - Size, colour, spacing guide the eye
 2. **Consistency** - Uniform spacing, colours, typography

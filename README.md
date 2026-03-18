@@ -8,14 +8,17 @@ A creative, MCP-native tool that transforms any documentation, system architectu
 
 ## What Is This?
 
-A Model Context Protocol (MCP) server that works with your AI assistant to automatically analyse documentation and generate stunning, interactive HTML visualisations with embedded Mermaid workflow and system diagrams. No build tools, no frameworks - just pure HTML, CSS, and JavaScript that works everywhere.
+A Model Context Protocol (MCP) server that works with your AI assistant to automatically analyse documentation and generate stunning, interactive HTML visualisations with embedded diagrams and charts. No build tools, no frameworks - just pure HTML, CSS, and JavaScript that works everywhere.
 
 **MCP-First Design:**
 - Native integration with Claude Desktop, Cursor, and any MCP-compatible client
 - Automated analysis identifies systems, workflows, and data models in your content
-- Smart diagram generation with Mermaid (flowchart, sequence, ER, class, state, C4)
+- **Server-side SVG rendering** with beautiful-mermaid and D3 (no CDN required!)
+- Smart diagram generation: Mermaid (flowchart, sequence, ER, class, state, C4) + D3 charts (bar, pie, line, gantt)
+- **12 curated themes** including Tokyo Night, Dracula, Gruvbox, GitHub, and Solarized
+- **Live theme switching** - users can change themes without regenerating
 - One-command workflow - just say "visualise this" and your AI handles everything
-- No copy-paste required - direct integration with your AI assistant
+- Self-contained HTML that works completely offline
 
 ### See It In Action
 
@@ -184,16 +187,17 @@ Want to test thought_bubble immediately? We've included three ready-to-use test 
 
 - **20+ card styles** (info, stats, features, timelines)
 - **Navigation patterns** (sidebar, tabs, breadcrumbs, sticky headers)
-- **Diagram support** (Mermaid, flowcharts, class diagrams)
+- **Diagram support** (Mermaid: flowcharts, sequence, class, ER, state, C4 | D3: bar, pie, line, gantt, timeline)
 - **Interactive elements** (accordions, tabs, tooltips, modals)
 - **Layout systems** (grid, masonry, timeline, kanban)
 
 ### Professional Design
 
-- **5 color themes** (professional, creative, technical, minimal, dark)
+- **12 curated themes** - New: Tokyo Night, Dracula, Gruvbox, Solarized Dark/Light, GitHub Dark/Light. Original: Professional, Creative, Technical, Minimal, Dark
+- **Live theme switching** - Users can change themes in the browser without regenerating
 - **Responsive layouts** (mobile, tablet, desktop)
 - **Smooth animations** (scroll effects, hover states, transitions)
-- **Accessibility** (ARIA labels, keyboard navigation, contrast)
+- **Accessibility** (ARIA labels, keyboard navigation, WCAG AA contrast)
 
 ### Self-Contained
 

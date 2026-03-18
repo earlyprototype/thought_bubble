@@ -1,7 +1,7 @@
 {
   "name": "@thought-bubble/mcp-server",
-  "version": "0.1.0",
-  "description": "MCP server for thought_bubble - Transform documentation into beautiful interactive HTML visualizations",
+  "version": "0.2.0",
+  "description": "MCP server for thought_bubble - Transform documentation into beautiful interactive HTML visualizations with server-side SVG rendering",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
@@ -10,24 +10,41 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "poc": "node --loader ts-node/esm src/renderers/proof_of_concept.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "keywords": [
     "mcp",
     "model-context-protocol",
     "visualization",
     "documentation",
-    "html"
+    "html",
+    "mermaid",
+    "d3",
+    "svg"
   ],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
+    "beautiful-mermaid": "^0.1.3",
+    "d3": "^7.9.0",
+    "d3-sankey": "^0.12.3",
+    "jsdom": "^24.0.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "@types/d3-sankey": "^0.12.5",
+    "@types/jsdom": "^21.1.6",
     "@types/node": "^20.0.0",
-    "typescript": "^5.3.0"
+    "@vitest/ui": "^4.0.18",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.0",
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
   },
   "engines": {
     "node": ">=18.0.0"

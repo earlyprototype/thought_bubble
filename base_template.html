@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="tokyo_night">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +7,209 @@
     <meta name="generator" content="thought_bubble - Abrakedabra: your boring documents are now a lovely website with logical flow">
     <title>thought_bubble - [Your Title Here]</title>
     
-    <!-- Optional: Mermaid for diagrams -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <!-- 
+    NOTE: This template uses the new theme system with 12 curated themes.
+    For server-side SVG rendering, use the MCP server to generate HTML.
+    This template is for reference and manual HTML creation.
+    -->
     
     <style>
+        /* ============================================= */
+        /* THEME VARIABLES - 12 CURATED THEMES */
+        /* ============================================= */
+        
+        /* Tokyo Night (Default) */
+        :root, [data-theme="tokyo_night"] {
+            --bg: #1a1b26;
+            --fg: #a9b1d6;
+            --accent: #7aa2f7;
+            --muted: #565f89;
+            --success: #9ece6a;
+            --warning: #e0af68;
+            --error: #f7768e;
+            --info: #7dcfff;
+            --surface: #24283b;
+            --border: #414868;
+            --shadow: rgba(0, 0, 0, 0.5);
+            --text-secondary: #565f89;
+        }
+        
+        /* Dracula */
+        [data-theme="dracula"] {
+            --bg: #282a36;
+            --fg: #f8f8f2;
+            --accent: #bd93f9;
+            --muted: #6272a4;
+            --success: #50fa7b;
+            --warning: #ffb86c;
+            --error: #ff5555;
+            --info: #8be9fd;
+            --surface: #343746;
+            --border: #44475a;
+            --shadow: rgba(0, 0, 0, 0.4);
+            --text-secondary: #6272a4;
+        }
+        
+        /* Gruvbox */
+        [data-theme="gruvbox"] {
+            --bg: #282828;
+            --fg: #ebdbb2;
+            --accent: #fe8019;
+            --muted: #928374;
+            --success: #b8bb26;
+            --warning: #fabd2f;
+            --error: #fb4934;
+            --info: #83a598;
+            --surface: #3c3836;
+            --border: #504945;
+            --shadow: rgba(0, 0, 0, 0.4);
+            --text-secondary: #928374;
+        }
+        
+        /* Solarized Dark */
+        [data-theme="solarized_dark"] {
+            --bg: #002b36;
+            --fg: #839496;
+            --accent: #268bd2;
+            --muted: #586e75;
+            --success: #859900;
+            --warning: #b58900;
+            --error: #dc322f;
+            --info: #2aa198;
+            --surface: #073642;
+            --border: #586e75;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --text-secondary: #657b83;
+        }
+        
+        /* Solarized Light */
+        [data-theme="solarized_light"] {
+            --bg: #fdf6e3;
+            --fg: #657b83;
+            --accent: #268bd2;
+            --muted: #93a1a1;
+            --success: #859900;
+            --warning: #b58900;
+            --error: #dc322f;
+            --info: #2aa198;
+            --surface: #eee8d5;
+            --border: #93a1a1;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --text-secondary: #93a1a1;
+        }
+        
+        /* GitHub Light */
+        [data-theme="github_light"] {
+            --bg: #ffffff;
+            --fg: #24292f;
+            --accent: #0969da;
+            --muted: #57606a;
+            --success: #1a7f37;
+            --warning: #9a6700;
+            --error: #cf222e;
+            --info: #0969da;
+            --surface: #f6f8fa;
+            --border: #d0d7de;
+            --shadow: rgba(31, 35, 40, 0.12);
+            --text-secondary: #57606a;
+        }
+        
+        /* GitHub Dark */
+        [data-theme="github_dark"] {
+            --bg: #0d1117;
+            --fg: #c9d1d9;
+            --accent: #58a6ff;
+            --muted: #8b949e;
+            --success: #3fb950;
+            --warning: #d29922;
+            --error: #f85149;
+            --info: #58a6ff;
+            --surface: #161b22;
+            --border: #30363d;
+            --shadow: rgba(0, 0, 0, 0.4);
+            --text-secondary: #8b949e;
+        }
+        
+        /* Professional (Original) */
+        [data-theme="professional"] {
+            --bg: #ffffff;
+            --fg: #333333;
+            --accent: #3498db;
+            --muted: #7f8c8d;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --error: #e74c3c;
+            --info: #3498db;
+            --surface: #f8f9fa;
+            --border: #e0e0e0;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --text-secondary: #7f8c8d;
+        }
+        
+        /* Dark (Original) */
+        [data-theme="dark"] {
+            --bg: #1a1a1a;
+            --fg: #e5e5e5;
+            --accent: #60a5fa;
+            --muted: #a3a3a3;
+            --success: #34d399;
+            --warning: #fbbf24;
+            --error: #f87171;
+            --info: #60a5fa;
+            --surface: #2d2d2d;
+            --border: #404040;
+            --shadow: rgba(0, 0, 0, 0.4);
+            --text-secondary: #a3a3a3;
+        }
+        
+        /* Technical (Original) */
+        [data-theme="technical"] {
+            --bg: #0f172a;
+            --fg: #f1f5f9;
+            --accent: #00d9ff;
+            --muted: #64748b;
+            --success: #10b981;
+            --warning: #fbbf24;
+            --error: #ef4444;
+            --info: #00d9ff;
+            --surface: #1e293b;
+            --border: #334155;
+            --shadow: rgba(0, 0, 0, 0.5);
+            --text-secondary: #94a3b8;
+        }
+        
+        /* Minimal (Original) */
+        [data-theme="minimal"] {
+            --bg: #ffffff;
+            --fg: #1a202c;
+            --accent: #3182ce;
+            --muted: #718096;
+            --success: #38a169;
+            --warning: #dd6b20;
+            --error: #e53e3e;
+            --info: #3182ce;
+            --surface: #fafafa;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.05);
+            --text-secondary: #718096;
+        }
+        
+        /* Creative (Original) */
+        [data-theme="creative"] {
+            --bg: #ffffff;
+            --fg: #2d3748;
+            --accent: #667eea;
+            --muted: #718096;
+            --success: #4facfe;
+            --warning: #ffd89b;
+            --error: #f093fb;
+            --info: #5ddef4;
+            --surface: #f5f7fa;
+            --border: #e2e8f0;
+            --shadow: rgba(102, 126, 234, 0.15);
+            --text-secondary: #718096;
+        }
+        
         /* ============================================= */
         /* RESET & BASE STYLES */
         /* ============================================= */
@@ -21,47 +220,38 @@
             box-sizing: border-box;
         }
         
-        /* ============================================= */
-        /* THEME VARIABLES */
-        /* Choose one theme or customize your own */
-        /* ============================================= */
+        html {
+            scroll-behavior: smooth;
+        }
         
-        :root {
-            /* Professional Theme (default) */
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
-            --success: #27ae60;
-            --warning: #f39c12;
-            --background: #ffffff;
-            --surface: #f8f9fa;
-            --text: #333333;
-            --text-light: #7f8c8d;
-            --border: #e0e0e0;
-            --shadow: rgba(0, 0, 0, 0.1);
+        body {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--fg);
+            background: var(--bg);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
         /* ============================================= */
         /* TYPOGRAPHY */
         /* ============================================= */
         
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: var(--text);
-            background: var(--background);
-        }
-        
-        h1 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary); }
-        h2 { font-size: 2rem; margin-bottom: 0.875rem; color: var(--primary); }
-        h3 { font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--primary); }
-        h4 { font-size: 1.25rem; margin-bottom: 0.625rem; color: var(--primary); }
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--accent); }
+        h2 { font-size: 2rem; margin-bottom: 0.875rem; color: var(--fg); }
+        h3 { font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--fg); }
+        h4 { font-size: 1.25rem; margin-bottom: 0.625rem; color: var(--fg); }
         
         p { margin-bottom: 1rem; }
         
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        a:hover { opacity: 0.8; }
+        
         /* ============================================= */
         /* LAYOUT */
-        /* Customize based on your content structure */
         /* ============================================= */
         
         .container {
@@ -69,28 +259,51 @@
             min-height: 100vh;
         }
         
-        /* Optional: Sidebar Navigation */
+        /* Theme Switcher */
+        .theme-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .theme-switcher select {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--fg);
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .theme-switcher select:hover {
+            border-color: var(--accent);
+        }
+        
+        /* Sidebar Navigation */
         .sidebar {
             width: 280px;
-            background: var(--primary);
-            color: white;
+            background: var(--surface);
+            color: var(--fg);
             padding: 20px;
             position: fixed;
             height: 100vh;
             overflow-y: auto;
+            border-right: 1px solid var(--border);
         }
         
         .sidebar h2 {
-            color: white;
+            color: var(--accent);
             font-size: 1.2rem;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 2px solid rgba(255,255,255,0.2);
+            border-bottom: 2px solid var(--border);
         }
         
         .sidebar nav a {
             display: block;
-            color: rgba(255,255,255,0.9);
+            color: var(--fg);
             text-decoration: none;
             padding: 10px 15px;
             margin: 5px 0;
@@ -99,33 +312,34 @@
         }
         
         .sidebar nav a:hover {
-            background: rgba(255,255,255,0.1);
+            background: var(--border);
             padding-left: 20px;
         }
         
         .sidebar nav a.active {
-            background: var(--secondary);
+            background: var(--accent);
+            color: var(--bg);
         }
         
         /* Main Content */
         .main-content {
-            margin-left: 280px; /* Match sidebar width, or set to 0 if no sidebar */
+            margin-left: 280px;
             padding: 40px;
             flex: 1;
         }
         
         /* ============================================= */
         /* COMPONENTS */
-        /* Add component styles as needed */
         /* ============================================= */
         
         /* Section */
         .section {
-            background: white;
+            background: var(--surface);
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 2px 10px var(--shadow);
             margin-bottom: 30px;
+            border: 1px solid var(--border);
         }
         
         .section h2 {
@@ -136,10 +350,10 @@
         
         /* Card */
         .card {
-            background: var(--surface);
+            background: var(--bg);
             padding: 20px;
             border-radius: 8px;
-            border-left: 4px solid var(--secondary);
+            border-left: 4px solid var(--accent);
             margin-bottom: 20px;
             transition: transform 0.3s, box-shadow 0.3s;
         }
@@ -153,14 +367,29 @@
             margin-bottom: 10px;
         }
         
-        /* Card colour variants for categorization */
-        .card.blue { border-left-color: #3498db; } /* Blue - General/Primary */
-        .card.purple { border-left-color: #9b59b6; } /* Purple - Security/Auth */
-        .card.orange { border-left-color: #e67e22; } /* Orange - Business Logic */
-        .card.green { border-left-color: #27ae60; } /* Green - Financial/Success */
-        .card.red { border-left-color: #e74c3c; } /* Red - Alerts/Communications */
-        .card.teal { border-left-color: #16a085; } /* Teal - Data/Analytics */
-        .card.yellow { border-left-color: #f39c12; } /* Yellow - Warnings/Important */
+        /* Diagram Container */
+        .diagram-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--bg);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            overflow: auto;
+        }
+        
+        .diagram-container svg {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
         
         /* Code Block */
         .code-block {
@@ -183,27 +412,6 @@
             font-size: 0.9em;
         }
         
-        /* Diagram Container */
-        .diagram-container {
-            margin: 20px 0;
-            padding: 20px;
-            background: var(--surface);
-            border-radius: 8px;
-        }
-        
-        .mermaid {
-            display: flex;
-            justify-content: center;
-        }
-        
-        /* Grid Layout */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
         /* ============================================= */
         /* RESPONSIVE */
         /* ============================================= */
@@ -220,6 +428,13 @@
                 padding: 20px;
             }
             
+            .theme-switcher {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 10px 20px;
+            }
+            
             h1 { font-size: 2rem; }
             h2 { font-size: 1.5rem; }
             
@@ -228,26 +443,40 @@
             }
         }
         
-        /* ============================================= */
-        /* UTILITIES */
-        /* ============================================= */
-        
-        .text-center { text-align: center; }
-        .text-muted { color: var(--text-light); }
-        .mt-20 { margin-top: 20px; }
-        .mb-20 { margin-bottom: 20px; }
-        
-        /* ============================================= */
-        /* CUSTOM STYLES */
-        /* Add your custom styles here */
-        /* ============================================= */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
         
     </style>
 </head>
 <body>
+    <!-- Theme Switcher -->
+    <div class="theme-switcher">
+        <select id="theme-select" onchange="setTheme(this.value)">
+            <optgroup label="New Themes">
+                <option value="tokyo_night" selected>Tokyo Night</option>
+                <option value="dracula">Dracula</option>
+                <option value="gruvbox">Gruvbox</option>
+                <option value="solarized_dark">Solarized Dark</option>
+                <option value="solarized_light">Solarized Light</option>
+                <option value="github_light">GitHub Light</option>
+                <option value="github_dark">GitHub Dark</option>
+            </optgroup>
+            <optgroup label="Original Themes">
+                <option value="professional">Professional</option>
+                <option value="dark">Dark</option>
+                <option value="technical">Technical</option>
+                <option value="minimal">Minimal</option>
+                <option value="creative">Creative</option>
+            </optgroup>
+        </select>
+    </div>
+
     <div class="container">
-        <!-- Optional: Sidebar Navigation -->
-        <!-- Remove this section if not needed -->
+        <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <h2>Navigation</h2>
             <nav>
@@ -262,7 +491,7 @@
             <!-- Header/Hero Section -->
             <header class="section">
                 <h1>Document Title</h1>
-                <p class="text-muted">Subtitle or description goes here</p>
+                <p style="color: var(--text-secondary);">Subtitle or description goes here</p>
             </header>
             
             <!-- Content Section 1 -->
@@ -305,13 +534,15 @@
                 <h2>Section 3 Title</h2>
                 <p>Your content goes here...</p>
                 
-                <!-- Example: Mermaid Diagram -->
+                <!-- Example: Diagram Container (SVG goes here) -->
                 <div class="diagram-container">
-                    <div class="mermaid">
-graph TD
-    A[Start] --> B[Process]
-    B --> C[End]
-                    </div>
+                    <!-- 
+                    For server-side rendered SVGs, use the MCP server.
+                    The SVG will be embedded directly here.
+                    -->
+                    <p style="color: var(--text-secondary); text-align: center;">
+                        [Diagram SVG will be embedded here by the MCP server]
+                    </p>
                 </div>
             </section>
         </main>
@@ -322,20 +553,22 @@ graph TD
     <!-- ============================================= -->
     
     <script>
-        // Initialize Mermaid (if using diagrams)
-        // NOTE: This template uses visible sections with smooth scrolling.
-        // If you implement hidden sections (display: none), you MUST use startOnLoad: false
-        // and render diagrams before hiding sections. See MERMAID_SIDEBAR_FIX.md for details.
-        mermaid.initialize({ 
-            startOnLoad: true,
-            theme: 'base',
-            themeVariables: {
-                primaryColor: '#e1f5ff',
-                primaryTextColor: '#333',
-                primaryBorderColor: '#3498db',
-                lineColor: '#666'
+        // Theme switching
+        function setTheme(themeName) {
+            document.documentElement.setAttribute('data-theme', themeName);
+            localStorage.setItem('thought-bubble-theme', themeName);
+            
+            const select = document.getElementById('theme-select');
+            if (select) select.value = themeName;
+        }
+        
+        // Initialize theme from localStorage
+        function initTheme() {
+            const saved = localStorage.getItem('thought-bubble-theme');
+            if (saved) {
+                setTheme(saved);
             }
-        });
+        }
         
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -374,6 +607,9 @@ graph TD
                 }
             });
         });
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initTheme);
     </script>
 </body>
 </html>

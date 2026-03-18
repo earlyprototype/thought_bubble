@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>thought_bubble MCP Showcase</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 3rem 1.5rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 4rem;
+      color: white;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      opacity: 0.9;
+      font-weight: 400;
+    }
+
+    .stats {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .card-number {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-layout {
+      font-size: 0.875rem;
+      color: #718096;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .card-description {
+      color: #4a5568;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .feature-tag {
+      background: #edf2f7;
+      color: #4a5568;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .card-footer {
+      padding: 1.5rem;
+      background: #f7fafc;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background 0.2s;
+      width: 100%;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background: #5a67d8;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      color: white;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        gap: 1rem;
+      }
+
+      .stat {
+        padding: 0.75rem 1rem;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>thought_bubble MCP Showcase</h1>
+      <p class="subtitle">Comprehensive examples demonstrating all capabilities</p>
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-value">13</span>
+          <span class="stat-label">Layouts</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">59</span>
+          <span class="stat-label">Diagrams</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">10</span>
+          <span class="stat-label">Themes</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- Dashboard -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-number">01</span>
+          <h2 class="card-title">SaaS Health Dashboard</h2>
+          <p class="card-layout">Dashboard Layout</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">Real-time KPI monitoring with metric cards, area chart, and donut chart. Demonstrates compact density and GitHub Light theme.</p>
+          <div class="features">
+            <span class="feature-tag">metric cards</span>
+            <span class="feature-tag">area chart</span>
+            <span class="feature-tag">donut chart</span>
+            <span class="feature-tag">compact density</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="01_dashboard_saas_metrics.html" class="btn">View Example →</a>
+        </div>
+      </div>
+
+      <!-- Magazine -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-number">02</span>
+          <h2 class="card-title">Developer Experience</h2>
+          <p class="card-layout">Magazine Layout</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">Narrative-driven article with hero section, pull-quote, lead paragraph, and full-width breakout chart. Spacious density for reading.</p>
+          <div class="features">
+            <span class="feature-tag">hero section</span>
+            <span class="feature-tag">pull-quote</span>
+            <span class="feature-tag">lead role</span>
+            <span class="feature-tag">spacious</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="02_magazine_dx_revolution.html" class="btn">View Example →</a>
+        </div>
+      </div>
+
+      <!-- Presentation -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-number">03</span>
+          <h2 class="card-title">Board Update Q1 2026</h2>
+          <p class="card-layout">Presentation Layout</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">Full-screen slide deck with statement slides, metric slides, and visual slides. Snap-scroll navigation with Dark theme.</p>
+          <div class="features">
+            <span class="feature-tag">statement slides</span>
+            <span class="feature-tag">metric slides</span>
+            <span class="feature-tag">snap-scroll</span>
+            <span class="feature-tag">dark theme</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="03_presentation_board_update.html" class="btn">View Example →</a>
+        </div>
+      </div>
+
+      <!-- Comparison -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-number">04</span>
+          <h2 class="card-title">Cloud Provider Evaluation</h2>
+          <p class="card-layout">Comparison Layout</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">Side-by-side vendor comparison with radial charts for capability scores and bar chart for cost analysis. Tokyo Night theme.</p>
+          <div class="features">
+            <span class="feature-tag">parallel columns</span>
+            <span class="feature-tag">radial charts</span>
+            <span class="feature-tag">bar chart</span>
+            <span class="feature-tag">annotations</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="04_comparison_cloud_providers.html" class="btn">View Example →</a>
+        </div>
+      </div>
+
+      <!-- Briefing -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-number">05</span>
+          <h2 class="card-title">Sprint 47 Review</h2>
+          <p class="card-layout">Briefing Layout</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">Team update with lead item, stats strip (4 metrics), work breakdown, and next actions. Compact for information density.</p>
+          <div class="features">
+            <span class="feature-tag">stats strip</span>
+            <span class="feature-tag">lead role</span>
+            <span class="feature-tag">supporting role</span>
+            <span class="feature-tag">compact</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="05_briefing_sprint_review.html" class="btn">View Example →</a>
+        </div>
+      </div>
+
+      <!-- Tutorial -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-number">06</span>
+          <h2 class="card-title">REST API Design Guide</h2>
+          <p class="card-layout">Tutorial Layout</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">Step-by-step guide with progress spine, ER diagrams, flowcharts, and sequence diagrams. Gruvbox theme for warm aesthetic.</p>
+          <div class="features">
+            <span class="feature-tag">numbered steps</span>
+            <span class="feature-tag">ER diagram</span>
+            <span class="feature-tag">flowchart</span>
+            <span class="feature-tag">sequence</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="06_tutorial_rest_api_design.html" class="btn">View Example →</a>
+        </div>
+      </div>
+
+      <!-- Scorecard -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-number">07</span>
+          <h2 class="card-title">Security Audit Results</h2>
+          <p class="card-layout">Scorecard Layout</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">Assessment with overall grade, category scores, trend analysis, and recommendations. Solarized Dark for scientific precision.</p>
+          <div class="features">
+            <span class="feature-tag">overall score</span>
+            <span class="feature-tag">category cards</span>
+            <span class="feature-tag">multi-series line</span>
+            <span class="feature-tag">recommendations</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="07_scorecard_security_audit.html" class="btn">View Example →</a>
+        </div>
+      </div>
+
+      <!-- Report -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-number">08</span>
+          <h2 class="card-title">RFC: Microservices Migration</h2>
+          <p class="card-layout">Report Layout</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">Formal RFC with cover, TOC, architecture diagrams, Gantt timeline, and risk quadrant. Print-friendly with Professional theme.</p>
+          <div class="features">
+            <span class="feature-tag">print-friendly</span>
+            <span class="feature-tag">gantt chart</span>
+            <span class="feature-tag">quadrant</span>
+            <span class="feature-tag">appendices</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="08_report_rfc_microservices.html" class="btn">View Example →</a>
+        </div>
+      </div>
+
+      <!-- Dossier -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-number">09</span>
+          <h2 class="card-title">Company Profile: Stripe</h2>
+          <p class="card-layout">Dossier Layout</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">Deep-dive research with hero, facts strip (5 metrics), Sankey flow, area chart, quadrant, and statement. Dracula theme.</p>
+          <div class="features">
+            <span class="feature-tag">hero + facts</span>
+            <span class="feature-tag">sankey diagram</span>
+            <span class="feature-tag">quadrant</span>
+            <span class="feature-tag">statement</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="09_dossier_company_profile_stripe.html" class="btn">View Example →</a>
+        </div>
+      </div>
+
+      <!-- Dialogue -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-number">10</span>
+          <h2 class="card-title">Build vs Buy Decision</h2>
+          <p class="card-layout">Dialogue Layout</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">ADR with parallel arguments, cost comparison, trade-offs analysis (full-width), and hybrid decision. Technical theme.</p>
+          <div class="features">
+            <span class="feature-tag">parallel columns</span>
+            <span class="feature-tag">multi-series line</span>
+            <span class="feature-tag">annotations</span>
+            <span class="feature-tag">decision</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="10_dialogue_build_vs_buy.html" class="btn">View Example →</a>
+        </div>
+      </div>
+
+      <!-- Editorial -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-number">11</span>
+          <h2 class="card-title">On Technical Debt</h2>
+          <p class="card-layout">Editorial Layout</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">Academic essay with centred layout, full-width treemap breakout, multi-series line, and diverging bar chart. Spacious for reading.</p>
+          <div class="features">
+            <span class="feature-tag">academic style</span>
+            <span class="feature-tag">treemap</span>
+            <span class="feature-tag">full-width role</span>
+            <span class="feature-tag">spacious</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="11_editorial_technical_debt.html" class="btn">View Example →</a>
+        </div>
+      </div>
+
+      <!-- Minimal -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-number">12</span>
+          <h2 class="card-title">Global Energy Transition</h2>
+          <p class="card-layout">Minimal Layout</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">Visual-first deep dive with viewport-filling area chart hero, donut breakdown. Creative theme with bold typography.</p>
+          <div class="features">
+            <span class="feature-tag">visual-first</span>
+            <span class="feature-tag">area chart hero</span>
+            <span class="feature-tag">animations</span>
+            <span class="feature-tag">creative theme</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="12_minimal_energy_transition.html" class="btn">View Example →</a>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-number">13</span>
+          <h2 class="card-title">API Documentation</h2>
+          <p class="card-layout">Sidebar Layout</p>
+        </div>
+        <div class="card-body">
+          <p class="card-description">Technical reference with fixed sidebar navigation, sequence diagrams, flowcharts, and bar chart. GitHub Light theme.</p>
+          <div class="features">
+            <span class="feature-tag">fixed sidebar</span>
+            <span class="feature-tag">sequence diagram</span>
+            <span class="feature-tag">flowchart</span>
+            <span class="feature-tag">reference docs</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="13_sidebar_api_documentation.html" class="btn">View Example →</a>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>Generated by thought_bubble MCP v0.2.0</p>
+      <p style="margin-top: 0.5rem; opacity: 0.7;">See README.md for detailed documentation</p>
+    </footer>
+  </div>
+</body>
+</html>
