@@ -171,7 +171,7 @@ That's it. Your AI will analyse, generate diagrams, and create the complete HTML
 Want to test thought_bubble immediately? We've included three ready-to-use test documents:
 
 ### 1. API Integration Documentation
-**File:** [`test_doc_1_api_integration.md`](test_doc_1_api_integration.md)
+**File:** [`test_inputs/test_doc_1_api_integration.md`](test_inputs/test_doc_1_api_integration.md)
 
 **Content:** Payment Gateway API with authentication flows, service architecture, and data models
 
@@ -181,7 +181,7 @@ Want to test thought_bubble immediately? We've included three ready-to-use test 
 - Data model relationships (ER diagram)
 
 ### 2. Product Roadmap
-**File:** [`test_doc_2_product_roadmap.md`](test_doc_2_product_roadmap.md)
+**File:** [`test_inputs/test_doc_2_product_roadmap.md`](test_inputs/test_doc_2_product_roadmap.md)
 
 **Content:** 2026 development roadmap with 9 phases across 4 quarters
 
@@ -191,7 +191,7 @@ Want to test thought_bubble immediately? We've included three ready-to-use test 
 - Resource allocation
 
 ### 3. Organisational Structure
-**File:** [`test_doc_3_org_structure.md`](test_doc_3_org_structure.md)
+**File:** [`test_inputs/test_doc_3_org_structure.md`](test_inputs/test_doc_3_org_structure.md)
 
 **Content:** Company hierarchy with 8 executives, VPs, and decision-making frameworks
 
