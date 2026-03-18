@@ -6,9 +6,13 @@ Visual gallery of generated output. Every file is self-contained HTML that works
 
 ## Revenue Flow Architecture
 
-[![Revenue Sankey](../hero_dark.png)](all_d3_charts.html)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../hero_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="../hero_light.png">
+  <img src="../hero_light.png" alt="Multi-level Sankey diagram: $847M revenue flow" width="100%">
+</picture>
 
-**Multi-level Sankey diagram**: $847M revenue flow across channels, regions, segments, and product tiers. Glow emphasis, categorical colours, GitHub Dark theme.
+**Multi-level Sankey diagram**: $847M revenue flow across channels, regions, segments, and product tiers with glow emphasis and categorical colours.
 
 [Open visualization →](all_d3_charts.html)
 
