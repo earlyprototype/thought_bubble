@@ -65,9 +65,9 @@ Real documentation transformed into interactive visualisations showcasing comple
 
 ---
 
-## D3 Feature Examples
+## D3 Chart Examples
 
-Individual examples showcasing new v0.2.0 D3 capabilities.
+All D3 chart rendering is new in v0.2.0. Previous version only had Mermaid diagrams.
 
 ### D3 Annotations
 **File:** `d3_annotations.html`
@@ -125,10 +125,10 @@ Demonstrates pattern fills alongside color for colorblind accessibility and prin
 
 ---
 
-### New Chart Types - Sankey & Radial
-**File:** `d3_new_charts.html`
+### Sankey & Radial Charts
+**File:** `d3_sankey_radial.html`
 
-**Feature:** New v0.2.0 chart types  
+**Feature:** Flow and circular comparison charts  
 **Chart Types:** Sankey diagram, radial bar chart  
 **Layout:** Magazine
 
@@ -203,7 +203,9 @@ Study the source to understand:
 
 ## What's New in v0.2.0
 
-All new examples demonstrate:
+**ALL D3 CHART RENDERING IS NEW.** v0.1.x only had Mermaid diagrams. v0.2.0 added complete D3 chart library with 16+ chart types.
+
+All examples demonstrate:
 - **13 layout templates** (sidebar, magazine, presentation, dashboard, minimal, editorial, comparison, briefing, tutorial, scorecard, report, dossier, dialogue)
 - **Section roles** (metric, pull-quote, lead, statement, full-width, supporting)
 - **Density presets** (compact, comfortable, spacious)
