@@ -6,6 +6,32 @@
 
 ---
 
+## v0.2.0 Major Changes (March 2026)
+
+### Architectural Enhancements
+- **13 layout templates** replacing the original 6 (sidebar, magazine, presentation, dashboard, minimal, editorial + 7 new: comparison, briefing, tutorial, scorecard, report, dossier, dialogue)
+- **Section roles system** for semantic visual structure (metric, pull-quote, lead, statement, full-width, supporting)
+- **Density presets** for context-appropriate spacing (compact, comfortable, spacious)
+- **chartOptions fully exposed** to LLM with emphasis, curve, animation, colorStrategy, annotations, patterns
+
+### Renderer Capabilities
+- **3 new chart types**: sankey, radial, treemap
+- **SVG filter library**: glow, premium glow, inner shadow for emphasis effects
+- **Curve type mapping**: smooth, natural, sharp, step for line/area charts
+- **Color strategy engine**: categorical, sequential, diverging, monochrome
+- **Pattern encoding**: accessible fills for WCAG compliance
+- **Annotation system**: data point labels with positioning
+
+### Schema & Interface
+- `role` field on Section interface and selectedSystems
+- `density` top-level parameter
+- `animation` field on Section interface
+- Full chartOptions exposure in both Zod and JSON schemas
+- 13 layout enum values with composition guidance
+- Enriched theme descriptions with personality
+
+---
+
 ## Overview
 
 thought_bubble is an MCP (Model Context Protocol) server that transforms content into self-contained HTML visualisations with server-side rendered SVG charts and diagrams. It communicates with an LLM via the MCP protocol -- the LLM makes creative decisions, the server renders them.
@@ -128,7 +154,7 @@ This is the menu the LLM orders from. If a type is not here, the LLM cannot sele
 **Key interfaces:**
 
 ```typescript
-// Zod schema -- runtime validation of LLM input
+// Zod schema -- runtime validation of LLM input (v0.2.0)
 generateVisualizationSchema = z.object({
   content: z.string(),
   selectedSystems: z.array(z.object({
@@ -138,14 +164,29 @@ generateVisualizationSchema = z.object({
     diagramType: z.enum([...]),       // Must match index.ts enum
     mermaidCode: z.string().optional(),
     chartData: z.array(z.any()).optional(),
-    chartOptions: z.object({          // CURRENTLY: only title, xLabel, yLabel
+    chartOptions: z.object({
       title: z.string().optional(),
       xLabel: z.string().optional(),
       yLabel: z.string().optional(),
+      // v0.2.0 additions:
+      emphasis: z.enum(['glow', 'shadow', 'lift', 'none']).optional(),
+      curve: z.enum(['smooth', 'sharp', 'step', 'natural']).optional(),
+      animation: z.enum(['stagger', 'draw', 'grow', 'fade', 'none']).optional(),
+      colorStrategy: z.enum(['categorical', 'sequential', 'diverging', 'monochrome']).optional(),
+      annotations: z.array(z.object({
+        label: z.string(),
+        x: z.union([z.string(), z.number()]),
+        y: z.number(),
+        dx: z.number().optional(),
+        dy: z.number().optional(),
+      })).optional(),
+      patterns: z.boolean().optional(),
     }).optional(),
+    role: z.enum(['default', 'metric', 'pull-quote', 'lead', 'statement', 'full-width', 'supporting']).optional(),
   })),
   theme: z.enum([...]),
-  layout: z.enum([...]).optional(),
+  layout: z.enum([...]).optional(),      // 13 layouts in v0.2.0
+  density: z.enum(['compact', 'comfortable', 'spacious']).optional().default('comfortable'),
   hero: z.object({...}).optional(),
   title: z.string().optional(),
   subtitle: z.string().optional(),
@@ -198,11 +239,18 @@ The `content` field is always a single `<p>` wrapping the description. The `diag
 | `GanttChartData` | `{task, start, end, category?, progress?}` | Gantt charts |
 | `TimelineData` | `{event, date, description?}` | Timeline charts |
 | `QuadrantData` | `{label, x, y}` | Quadrant charts |
-| `ChartAnnotation` | `{dataIndex?, x?, y?, label, type?, color?}` | Annotations |
-| `ChartOptions` | `{width?, height?, title?, xLabel?, yLabel?, showLegend?, showGrid?, animate?, annotations?, labelStrategy?}` | All render functions |
+| `ChartAnnotation` | `{label, x, y, dx?, dy?}` | Annotations |
+| `ChartOptions` | `{width?, height?, title?, xLabel?, yLabel?, showLegend?, showGrid?, emphasis?, curve?, animation?, colorStrategy?, annotations?, patterns?}` | All render functions |
 
-**IMPORTANT -- ChartOptions vs Zod schema gap:**
-`ChartOptions` has fields (`showLegend`, `showGrid`, `animate`, `annotations`, `labelStrategy`) that are NOT exposed in the Zod schema or JSON Schema. The LLM cannot reach them. Only `title`, `xLabel`, `yLabel` are exposed.
+**ChartOptions (v0.2.0 - fully exposed to LLM):**
+- `emphasis` - Highlight technique (glow, shadow, lift, none)
+- `curve` - Line/area interpolation (smooth, natural, sharp, step)
+- `animation` - Entry animation (stagger, draw, grow, fade, none)
+- `colorStrategy` - Color approach (categorical, sequential, diverging, monochrome)
+- `annotations` - Array of data point labels with positioning
+- `patterns` - Boolean flag for accessibility pattern fills
+
+All creative levers are now exposed via both Zod and JSON schemas to the LLM.
 
 **Key internal functions:**
 
@@ -277,6 +325,10 @@ This flexibility is intentional -- LLMs don't always use consistent field names.
 **Key interfaces:**
 
 ```typescript
+export type SectionRole =
+  | 'default' | 'metric' | 'pull-quote' | 'lead'
+  | 'statement' | 'full-width' | 'supporting';
+
 interface Section {
   id: string;
   title: string;
@@ -285,23 +337,38 @@ interface Section {
     svg: string;           // SVG/HTML string, injected raw via ${section.diagram.svg}
     caption?: string;
   };
+  animation?: 'stagger' | 'draw' | 'grow' | 'fade' | 'none';
+  role?: SectionRole;
 }
 
-type NavigationStyle = 'sidebar' | 'tabs' | 'minimal';
-type LayoutTemplate = 'sidebar' | 'magazine' | 'presentation' | 'dashboard' | 'minimal' | 'editorial';
+type NavigationStyle = 'sidebar' | 'tabs' | 'minimal';  // Legacy, use layout instead
+type LayoutTemplate = 
+  | 'sidebar' | 'magazine' | 'presentation' | 'dashboard' | 'minimal' | 'editorial'
+  | 'comparison' | 'briefing' | 'tutorial' | 'scorecard' | 'report' | 'dossier' | 'dialogue';
+type Density = 'compact' | 'comfortable' | 'spacious';
 
 interface HTMLBuilderOptions {
   title: string;
   subtitle?: string;
   theme: ThemeName;
-  navigationStyle: NavigationStyle;
-  layout?: LayoutTemplate;       // Overrides navigationStyle if present
+  navigationStyle: NavigationStyle;  // Legacy, overridden by layout if present
+  layout?: LayoutTemplate;
+  density?: Density;
   sections: Section[];
   enableThemeSwitcher?: boolean;
   footer?: string;
   hero?: { title: string; subtitle?: string; metric?: { value: string; label: string } };
 }
 ```
+
+**Section roles (v0.2.0):**
+- `metric` - Large KPI cards with value + label styling
+- `pull-quote` - Display-font blockquote with accent border
+- `lead` - Wider opening paragraph (900px vs 720px body width)
+- `statement` - Large centred text for key messages
+- `full-width` - Breakout visual spanning viewport width
+- `supporting` - Appendix/secondary content with reduced prominence
+
 `diagram` is optional in the `Section` interface. The builder handles missing diagrams. However, `generate_visualization.ts` always constructs a diagram object.
 
 **Layout resolution (line ~1281):**
@@ -315,20 +382,33 @@ If the LLM provides both `layout` and `navigationStyle`, `layout` wins.
 4. Layout builder function -- routes to specific builder based on layout choice
 5. JavaScript -- theme switcher (per-document localStorage persistence), IntersectionObserver for section entry animations, presentation navigation (if applicable)
 
-**Layout builders:**
+**Layout builders (v0.2.0 - 13 layouts):**
 
-| Function | Layout | HTML structure |
-|----------|--------|---------------|
-| `buildSidebarLayout` | sidebar | Fixed 280px sidebar nav + scrollable main content |
-| `buildMinimalLayout` | minimal | Single column, `.layout-minimal` wrapper strips card chrome |
-| `buildEditorialLayout` | editorial | 720px max-width centred column, small-caps section headers, justified text |
-| `buildMagazineLayout` | magazine | 70vh hero section, alternating text/visual grid, full-width every 3rd section |
-| `buildPresentationLayout` | presentation | 100vh snap-scroll slides, title slide + content slides, slide indicators |
-| `buildDashboardLayout` | dashboard | Header bar, 12-column grid, first chart span-12, rest span-6 |
+| Function | Layout | Pattern | HTML Structure |
+|----------|--------|---------|----------------|
+| `buildSidebarLayout` | sidebar | Hierarchical | Fixed 280px sidebar nav + scrollable main |
+| `buildMinimalLayout` | minimal | Single focus | Visual-first hero (first diagram 70vh), supporting prose below |
+| `buildEditorialLayout` | editorial | Narrative | 720px centred column, small-caps headers, justified text |
+| `buildMagazineLayout` | magazine | Narrative | 70vh hero + alternating grid, pull quotes, full-width breakouts |
+| `buildPresentationLayout` | presentation | Sequential | 100vh snap-scroll slides with statement/metric/visual variations |
+| `buildDashboardLayout` | dashboard | Hub-and-spoke | Metric card row + 12-column chart grid with span variations |
+| `buildComparisonLayout` | comparison | Comparative | Parallel columns (2-3 contenders) + shared comparison section |
+| `buildBriefingLayout` | briefing | Digest | Lead item (40vh) + medium grid + inline stats strip + actions |
+| `buildTutorialLayout` | tutorial | Instructional | Numbered steps with progress spine, concept → demo → takeaway |
+| `buildScorecardLayout` | scorecard | Evaluative | Overall score + semantic-color category cards + breakdown |
+| `buildReportLayout` | report | Formal hierarchical | Cover page + auto-generated TOC + numbered sections + print styles |
+| `buildDossierLayout` | dossier | Intelligence | Profile header + facts strip + narrative + deep dives |
+| `buildDialogueLayout` | dialogue | Argumentative | Central question + parallel argument columns + trade-offs + conclusion |
 
-**Dead CSS (defined but never generated by any builder):**
-- `.pull-quote` -- display font, italic, accent border-left, large text. Magazine guide describes pull quotes but no builder generates them.
-- `.metric-card`, `.metric-card .value`, `.metric-card .label`, `.metric-card .change` -- full metric card styling with positive/negative colour states. Dashboard guide describes metric cards but the builder just uses `.dashboard-card`.
+**Section role rendering (v0.2.0):**
+- `role: 'metric'` → Generates `.metric-card` elements with large value display
+- `role: 'pull-quote'` → Generates `<blockquote class="pull-quote">` with display font
+- `role: 'lead'` → First section wider (900px) with larger text
+- `role: 'statement'` → Large centred text (display font, max-width 15ch)
+- `role: 'full-width'` → Section breaks out to viewport width (1200px max)
+- `role: 'supporting'` → Reduced prominence styling for appendices
+
+Previously "dead CSS" (`.pull-quote`, `.metric-card`) is now actively used by the section roles system.
 
 **Theme switching (JavaScript):**
 - `initTheme()` -- reads from per-document localStorage key (`tb-theme:` + `document.title`), falls back to `data-theme` attribute on `<html>`
@@ -493,20 +573,28 @@ Located at `DesignTeam/DesignGuide/`. These are reference documents for the deve
 
 ---
 
-## Known Architectural Gaps
+## Known Architectural Gaps (As of March 2026)
 
-1. **ChartOptions is under-exposed.** The TypeScript interface has `showLegend`, `showGrid`, `animate`, `annotations`, `labelStrategy`. The Zod/JSON schemas only expose `title`, `xLabel`, `yLabel`. The LLM cannot access the full interface.
+### Resolved (v0.2.0)
+- ~~ChartOptions is under-exposed~~ - **RESOLVED**: Full chartOptions now exposed including emphasis, curve, animation, colorStrategy, annotations, patterns
+- ~~Dead CSS for pull-quote and metric-card~~ - **RESOLVED**: Section roles system now generates these elements
+- ~~No section-level variation~~ - **RESOLVED**: Section roles (metric, pull-quote, lead, statement, full-width, supporting) implemented
+- ~~6 layouts only~~ - **RESOLVED**: 13 layout templates now available
 
-2. **Dead CSS.** `.pull-quote` and `.metric-card` styles exist in `html_builder.ts` but no builder function generates elements with these classes.
+### Remaining
 
-3. **Description is flattened.** `generate_visualization.ts` wraps `system.description` in `<p>` tags. The `Section.content` field accepts any HTML but receives only a single paragraph.
+1. **Description is flattened.** `generate_visualization.ts` wraps `system.description` in `<p>` tags. The `Section.content` field accepts any HTML but receives only a single paragraph.
 
-4. **diagramType is required.** The Zod schema requires it, but the `Section.diagram` field is optional. Sections cannot currently be prose-only.
+2. **diagramType is required.** The Zod schema requires it, but the `Section.diagram` field is optional. Sections cannot currently be prose-only.
 
-5. **Theme definitions drift from Typography.md.** Some font pairings in `definitions.ts` don't match the Typography guide's recommendations (Dracula display, Creative display).
+3. **Theme definitions drift from Typography.md.** Some font pairings in `definitions.ts` don't match the Typography guide's recommendations (Dracula display, Creative display).
 
-6. **scales.sequential and scales.diverging are not CSS-variable accessible.** Only `scales.primary` is exposed as `--scale-1` through `--scale-5`. Sequential (9 colours) and diverging (11 colours) are only available in TypeScript at render time.
+4. **scales.sequential and scales.diverging are not CSS-variable accessible.** Only `scales.primary` is exposed as `--scale-1` through `--scale-5`. Sequential (9 colours) and diverging (11 colours) are only available in TypeScript at render time.
 
-7. **Hero is magazine-only.** The `hero` schema field is only consumed by `buildMagazineLayout()`. Other layouts ignore it.
+5. **Hero is not universally available.** The `hero` schema field is consumed by `buildMagazineLayout()` and `buildDossierLayout()` but other layouts ignore it.
 
-8. **No section-level variation.** All sections within a layout receive identical visual treatment. No weight, prominence, or role differentiation.
+### Design Decisions (Not Gaps)
+
+- **Pattern encoding is opt-in.** `patterns: true` must be explicitly requested rather than being automatic. This is intentional - patterns add visual complexity and should only be used when accessibility requires it.
+- **Animation respects prefers-reduced-motion.** All animations are wrapped in `@media (prefers-reduced-motion: no-preference)` which means users who have requested reduced motion will see instant transitions. This is correct accessibility behavior.
+- **C4 diagrams not supported.** beautiful-mermaid library doesn't support C4 syntax. This is a known limitation of the underlying renderer.

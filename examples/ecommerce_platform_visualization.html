@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Platform - System Visualization</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --background: #ffffff;
+            --surface: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --sidebar-width: 280px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--surface);
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--background);
+            border-right: 1px solid var(--border);
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-header p {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .nav-menu {
+            padding: 1.5rem 0;
+        }
+
+        .nav-item {
+            padding: 0.75rem 1.5rem;
+            color: var(--text);
+            text-decoration: none;
+            display: block;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--surface);
+            border-left-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: var(--surface);
+            border-left-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 3rem;
+            max-width: 1400px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            opacity: 0.95;
+        }
+
+        /* Sections */
+        section {
+            background: var(--background);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        section h2 {
+            font-size: 1.875rem;
+            color: var(--text);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        section p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .diagram-container {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--surface);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .service-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+        }
+
+        .service-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.125rem;
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            font-size: 0.875rem;
+            margin: 0;
+        }
+
+        .schema-table {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+        }
+
+        .schema-table h4 {
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .schema-table ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .schema-table li {
+            padding: 0.5rem 0;
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 1.875rem;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Mermaid diagram styling */
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1>E-Commerce Platform</h1>
+                <p>System Architecture & Workflows</p>
+            </div>
+            <div class="nav-menu">
+                <a href="#overview" class="nav-item">Overview</a>
+                <a href="#registration" class="nav-item">User Registration Flow</a>
+                <a href="#architecture" class="nav-item">Microservices Architecture</a>
+                <a href="#integration" class="nav-item">Service Integration</a>
+                <a href="#database" class="nav-item">Database Schema</a>
+                <a href="#order-flow" class="nav-item">Order Processing Flow</a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="hero">
+                <h1>E-Commerce Platform</h1>
+                <p>Complete system visualization with microservices architecture, workflows, and data models</p>
+            </div>
+
+            <!-- Overview -->
+            <section id="overview">
+                <h2>System Overview</h2>
+                <p>This e-commerce platform is built on a microservices architecture with four core services handling authentication, product management, order processing, and payment integration.</p>
+                
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3>User Service</h3>
+                        <p>Handles authentication and user profile management with secure JWT-based authentication</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Product Catalog</h3>
+                        <p>Manages product inventory, pricing, and stock levels for the entire platform</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Order Service</h3>
+                        <p>Orchestrates shopping cart functionality and checkout process coordination</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Payment Gateway</h3>
+                        <p>Integrates with Stripe for secure payment processing and transaction management</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Registration Flow -->
+            <section id="registration">
+                <h2>User Registration Flow</h2>
+                <p>Four-step registration process from initial submission through email verification and account activation.</p>
+                
+                <div class="diagram-container">
+                    <div class="mermaid">
+flowchart TD
+    Start([User Visits Registration]) --> Submit[Submit Email & Password]
+    Submit --> Validate{Validate Credentials}
+    Validate -->|Valid| SendEmail[Send Verification Email]
+    Validate -->|Invalid| Error[Show Error Message]
+    Error --> Submit
+    SendEmail --> WaitClick[Wait for User Action]
+    WaitClick --> Click[User Clicks Activation Link]
+    Click --> Activate[Activate Account]
+    Activate --> Success([Registration Complete])
+    
+    style Start fill:#e1f5ff
+    style Success fill:#d4edda
+    style Error fill:#f8d7da
+    style Activate fill:#d4edda
+                    </div>
+                </div>
+            </section>
+
+            <!-- Microservices Architecture -->
+            <section id="architecture">
+                <h2>Microservices Architecture</h2>
+                <p>The platform's service-oriented architecture enables scalability and independent deployment of each service component.</p>
+                
+                <div class="diagram-container">
+                    <div class="mermaid">
+graph TB
+    subgraph "Client Layer"
+        Client[Web/Mobile Client]
+    end
+    
+    subgraph "Service Layer"
+        UserService[User Service<br/>Authentication & Profiles]
+        ProductCatalog[Product Catalog<br/>Inventory Management]
+        OrderService[Order Service<br/>Shopping Cart & Checkout]
+        PaymentGateway[Payment Gateway<br/>Stripe Integration]
+    end
+    
+    subgraph "External Services"
+        Stripe[Stripe API]
+        EmailService[Email Service]
+    end
+    
+    Client --> UserService
+    Client --> ProductCatalog
+    Client --> OrderService
+    
+    OrderService --> UserService
+    OrderService --> ProductCatalog
+    OrderService --> PaymentGateway
+    
+    PaymentGateway --> Stripe
+    UserService --> EmailService
+    
+    style UserService fill:#dae8fc
+    style ProductCatalog fill:#d5e8d4
+    style OrderService fill:#fff2cc
+    style PaymentGateway fill:#f8cecc
+                    </div>
+                </div>
+            </section>
+
+            <!-- Service Integration Points -->
+            <section id="integration">
+                <h2>Service Integration Points</h2>
+                <p>How services communicate and coordinate to process user requests and maintain data consistency across the platform.</p>
+                
+                <div class="diagram-container">
+                    <div class="mermaid">
+flowchart LR
+    User[User Request] --> UserService[User Service]
+    UserService -->|JWT Token| OrderService[Order Service]
+    
+    OrderService -->|Check Stock| ProductCatalog[Product Catalog]
+    ProductCatalog -->|Stock Available| OrderService
+    
+    OrderService -->|Process Payment| PaymentGateway[Payment Gateway]
+    PaymentGateway -->|Charge Card| Stripe[Stripe API]
+    Stripe -->|Success/Failure| PaymentGateway
+    
+    PaymentGateway -->|Payment Confirmed| OrderService
+    OrderService -->|Order Complete| UserService
+    UserService -->|Send Confirmation| Email[Email Service]
+    
+    style UserService fill:#dae8fc
+    style OrderService fill:#fff2cc
+    style PaymentGateway fill:#f8cecc
+    style ProductCatalog fill:#d5e8d4
+                    </div>
+                </div>
+            </section>
+
+            <!-- Database Schema -->
+            <section id="database">
+                <h2>Database Schema</h2>
+                <p>Three core entity tables with relationships supporting the platform's data model.</p>
+                
+                <div class="diagram-container">
+                    <div class="mermaid">
+erDiagram
+    Users ||--o{ Orders : places
+    Products ||--o{ Orders : "included in"
+    
+    Users {
+        int id PK
+        string email
+        string password_hash
+        datetime created_at
+    }
+    
+    Products {
+        int id PK
+        string name
+        decimal price
+        int stock
+    }
+    
+    Orders {
+        int id PK
+        int user_id FK
+        decimal total
+        string status
+    }
+                    </div>
+                </div>
+
+                <div class="schema-table">
+                    <h4>Users Table</h4>
+                    <ul>
+                        <li>id (Primary Key)</li>
+                        <li>email (Unique, Indexed)</li>
+                        <li>password_hash (Encrypted)</li>
+                        <li>created_at (Timestamp)</li>
+                    </ul>
+                </div>
+
+                <div class="schema-table">
+                    <h4>Products Table</h4>
+                    <ul>
+                        <li>id (Primary Key)</li>
+                        <li>name (Product Title)</li>
+                        <li>price (Decimal)</li>
+                        <li>stock (Integer, Inventory Count)</li>
+                    </ul>
+                </div>
+
+                <div class="schema-table">
+                    <h4>Orders Table</h4>
+                    <ul>
+                        <li>id (Primary Key)</li>
+                        <li>user_id (Foreign Key → Users)</li>
+                        <li>total (Decimal, Order Total)</li>
+                        <li>status (Enum: pending, processing, completed, cancelled)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Order Processing Flow -->
+            <section id="order-flow">
+                <h2>Order Processing Flow</h2>
+                <p>Complete sequence diagram showing the interaction between services during the order checkout and payment process.</p>
+                
+                <div class="diagram-container">
+                    <div class="mermaid">
+sequenceDiagram
+    participant User
+    participant UserService as User Service
+    participant ProductCatalog as Product Catalog
+    participant OrderService as Order Service
+    participant PaymentGateway as Payment Gateway
+    participant Stripe
+    
+    User->>UserService: Login Request
+    UserService-->>User: JWT Token
+    
+    User->>ProductCatalog: Browse Products
+    ProductCatalog-->>User: Product List
+    
+    User->>OrderService: Add to Cart
+    OrderService->>ProductCatalog: Check Stock
+    ProductCatalog-->>OrderService: Stock Available
+    OrderService-->>User: Item Added
+    
+    User->>OrderService: Checkout
+    OrderService->>UserService: Verify User
+    UserService-->>OrderService: User Verified
+    
+    OrderService->>PaymentGateway: Process Payment
+    PaymentGateway->>Stripe: Charge Card
+    Stripe-->>PaymentGateway: Payment Success
+    PaymentGateway-->>OrderService: Payment Confirmed
+    
+    OrderService->>ProductCatalog: Update Stock
+    OrderService-->>User: Order Confirmation
+    UserService->>User: Confirmation Email
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        // Smooth scroll and active navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-item');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Intersection Observer for active nav highlighting
+            const sections = document.querySelectorAll('section');
+            const observerOptions = {
+                threshold: 0.3
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+</html>

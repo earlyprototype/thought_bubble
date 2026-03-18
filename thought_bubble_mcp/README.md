@@ -7,18 +7,33 @@ This MCP server enables AI assistants (Claude, ChatGPT, Cursor) to analyse docum
 ## Features
 
 - **Server-Side SVG Rendering**: Uses beautiful-mermaid for Mermaid diagrams and D3 for charts
+- **13 Layout Templates**: Sidebar, magazine, presentation, dashboard, minimal, editorial, comparison, briefing, tutorial, scorecard, report, dossier, dialogue
+- **Section Roles**: Metric, pull-quote, lead, statement, full-width, supporting for fine-grained visual control
+- **Density Presets**: Compact, comfortable, spacious to match content type
 - **12 Curated Themes**: 7 new stunning themes (Tokyo Night, Dracula, Gruvbox, Solarized, GitHub) + 5 original themes
+- **Advanced Chart Capabilities**: Annotations, curve types (smooth/natural/sharp/step), color strategies (categorical/sequential/diverging/monochrome), emphasis effects (glow/shadow/lift), pattern encoding for accessibility
 - **Self-Contained Output**: No CDN dependencies - works completely offline
 - **Live Theme Switching**: Users can switch themes in the browser without regenerating
-- **D3 Chart Support**: Bar, pie, donut, line, area, gantt, timeline, and quadrant charts
+- **16+ Chart Types**: Bar, pie, donut, line, area, gantt, timeline, quadrant, sankey, radial, treemap + Mermaid diagrams
 - **AI-Powered Analysis**: Identifies systems, workflows, data models, and relationships
 - **Responsive Design**: Mobile-first, works on all screen sizes
 
 ## What's New in v0.2.0
 
+### Core Enhancements
 - **beautiful-mermaid integration** - Server-side SVG rendering with stunning aesthetics
-- **D3 charts** - Bar, pie, line, gantt, and more
-- **12 themes** - Tokyo Night (default), Dracula, Gruvbox, Solarized Dark/Light, GitHub Dark/Light, plus 5 original themes
+- **13 layout templates** - From sidebar to dialogue, covering all major information architecture patterns
+- **Section roles** - Metric, pull-quote, lead, statement, full-width, supporting for semantic visual structure
+- **Density presets** - Compact/comfortable/spacious for context-appropriate spacing
+
+### Chart Capabilities
+- **16+ chart types** - Bar, pie, donut, line, area, gantt, timeline, quadrant, sankey, radial, treemap + Mermaid diagrams
+- **Advanced styling** - Annotations, curve types, color strategies, emphasis effects, pattern encoding
+- **Accessibility** - Pattern fills alongside color for WCAG compliance
+
+### Themes & Appearance
+- **12 curated themes** - Tokyo Night (default), Dracula, Gruvbox, Solarized Dark/Light, GitHub Dark/Light, plus 5 original themes
+- **Theme-specific typography** - Carefully paired display + body + mono fonts per theme
 - **No CDN required** - Fully self-contained HTML output
 - **Live theme switching** - Built-in theme picker in generated HTML
 
@@ -94,7 +109,8 @@ Generates complete HTML with server-side rendered SVG diagrams.
       "title": "User Authentication Flow",
       "description": "Login process with OAuth",
       "diagramType": "flowchart",
-      "mermaidCode": "graph TD\n  A[Start] --> B{Auth?}\n  B -->|Yes| C[Dashboard]\n  B -->|No| D[Login]"
+      "mermaidCode": "graph TD\n  A[Start] --> B{Auth?}\n  B -->|Yes| C[Dashboard]\n  B -->|No| D[Login]",
+      "role": "default"
     },
     {
       "id": 2,
@@ -105,14 +121,43 @@ Generates complete HTML with server-side rendered SVG diagrams.
         {"label": "Planning", "value": 100},
         {"label": "Design", "value": 85},
         {"label": "Development", "value": 60}
-      ]
+      ],
+      "chartOptions": {
+        "title": "Project Phase Completion",
+        "emphasis": "glow",
+        "colorStrategy": "sequential",
+        "animation": "grow",
+        "annotations": [
+          {"label": "On track", "x": "Planning", "y": 100, "dx": 10, "dy": -10}
+        ]
+      },
+      "role": "full-width"
     }
   ],
   "theme": "tokyo_night",
-  "navigationStyle": "sidebar",
+  "layout": "magazine",
+  "density": "comfortable",
+  "hero": {
+    "title": "Authentication System Documentation",
+    "subtitle": "OAuth 2.0 implementation guide",
+    "metric": {"value": "99.9%", "label": "Uptime"}
+  },
   "enableThemeSwitcher": true
 }
 ```
+
+**Key parameters:**
+
+- `layout` - One of 13 templates (sidebar, magazine, presentation, dashboard, minimal, editorial, comparison, briefing, tutorial, scorecard, report, dossier, dialogue)
+- `density` - Spacing preset (compact, comfortable, spacious)
+- `role` - Section role (default, metric, pull-quote, lead, statement, full-width, supporting)
+- `chartOptions` - Advanced chart styling:
+  - `emphasis` - Highlight technique (glow, shadow, lift, none)
+  - `curve` - Line interpolation (smooth, natural, sharp, step)
+  - `animation` - Entry animation (stagger, draw, grow, fade, none)
+  - `colorStrategy` - Color approach (categorical, sequential, diverging, monochrome)
+  - `annotations` - Data point labels with positioning
+  - `patterns` - Add accessible pattern fills (boolean)
 
 ### Tool 3: `generate_mermaid_prompt`
 
@@ -146,27 +191,49 @@ Lists all 12 available themes with their details.
 
 See **[THEMES.md](./THEMES.md)** for detailed theme documentation.
 
-## Diagram Types
+## Diagram and Chart Types
 
 ### Mermaid Diagrams (beautiful-mermaid)
 | Type | Best For |
 |------|----------|
-| `flowchart` | Processes, workflows, decision trees |
+| `flowchart` | Processes, workflows, decision trees, architecture |
 | `sequence` | API calls, interactions, message flows |
 | `class` | Object models, data structures |
 | `er` | Database schemas, entity relationships |
 | `state` | State machines, status transitions |
-| `c4` | System architecture, component diagrams |
+
+**Note:** C4 diagrams are not currently supported.
 
 ### D3 Charts
 | Type | Best For |
 |------|----------|
-| `bar` | Categorical comparisons |
-| `pie` / `donut` | Part-to-whole relationships |
-| `line` / `area` | Trends over time |
-| `gantt` | Project timelines, schedules |
-| `timeline` | Chronological events |
-| `quadrant` | Priority matrices, positioning |
+| `bar` | Exact comparison, categorical data |
+| `pie` / `donut` | Part-to-whole relationships (max 6 categories recommended) |
+| `line` / `area` | Trends over time, cumulative volume |
+| `gantt` | Project timelines, milestone schedules |
+| `timeline` | Chronological event sequences with central spine |
+| `quadrant` | 2D positioning, priority matrices, impact analysis |
+| `sankey` | Flow volumes, revenue streams |
+| `radial` | Multi-axis comparison in circular layout |
+| `treemap` | Hierarchical proportions, taxonomy |
+
+## Layout Templates
+
+| Layout | Pattern | Best For |
+|--------|---------|----------|
+| `sidebar` | Hierarchical | Multi-section docs with 7+ sections, API documentation |
+| `magazine` | Narrative | Reports, case studies with hero section and pull quotes |
+| `presentation` | Sequential | Pitch decks, board presentations with snap-scroll slides |
+| `dashboard` | Hub-and-spoke | KPI monitoring with metric cards and chart grid |
+| `minimal` | Single focus | Single-topic deep dives with visual-first hero |
+| `editorial` | Narrative | Essays, narratives with centred academic style |
+| `comparison` | Comparative | Vendor evaluation, A/B tests with parallel columns |
+| `briefing` | Digest | Sprint reviews, status updates with stats strip |
+| `tutorial` | Instructional | Step-by-step guides with progress spine |
+| `scorecard` | Evaluative | Maturity assessments with semantic-color scoring |
+| `report` | Formal hierarchical | RFCs, compliance docs with cover and TOC |
+| `dossier` | Intelligence | Research synthesis with profile header and facts |
+| `dialogue` | Argumentative | ADRs with structured arguments and trade-offs |
 
 ## Development
 

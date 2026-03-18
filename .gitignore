@@ -44,6 +44,7 @@ credentials.json
 # Test outputs and artifacts
 test_outputs/
 test-output/
+showcase_examples/
 coverage/
 .nyc_output/
 

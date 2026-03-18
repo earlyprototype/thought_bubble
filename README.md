@@ -14,13 +14,19 @@ A Model Context Protocol (MCP) server that works with your AI assistant to autom
 - Native integration with Claude Desktop, Cursor, and any MCP-compatible client
 - Automated analysis identifies systems, workflows, and data models in your content
 - **Server-side SVG rendering** with beautiful-mermaid and D3 (no CDN required!)
-- Smart diagram generation: Mermaid (flowchart, sequence, ER, class, state, C4) + D3 charts (bar, pie, line, gantt)
+- Smart diagram generation: Mermaid (flowchart, sequence, ER, class, state) + D3 charts (bar, pie, donut, line, area, gantt, timeline, quadrant, sankey, radial, treemap)
+- **13 layout templates** (sidebar, magazine, presentation, dashboard, minimal, editorial, comparison, briefing, tutorial, scorecard, report, dossier, dialogue)
+- **Section roles** (metric, pull-quote, lead, statement, full-width, supporting) for fine-grained visual control
+- **Density presets** (compact, comfortable, spacious) to match content type
 - **12 curated themes** including Tokyo Night, Dracula, Gruvbox, GitHub, and Solarized
+- **Advanced chart styling** (annotations, curve types, color strategies, emphasis effects, pattern encoding for accessibility)
 - **Live theme switching** - users can change themes without regenerating
 - One-command workflow - just say "visualise this" and your AI handles everything
 - Self-contained HTML that works completely offline
 
 ### See It In Action
+
+View example visualizations in the [`examples/`](examples/) directory:
 
 <table>
 <tr>
@@ -183,21 +189,54 @@ Want to test thought_bubble immediately? We've included three ready-to-use test 
 
 ## Features
 
-### Rich Component Library
+### 13 Layout Templates
 
-- **20+ card styles** (info, stats, features, timelines)
-- **Navigation patterns** (sidebar, tabs, breadcrumbs, sticky headers)
-- **Diagram support** (Mermaid: flowcharts, sequence, class, ER, state, C4 | D3: bar, pie, line, gantt, timeline)
-- **Interactive elements** (accordions, tabs, tooltips, modals)
-- **Layout systems** (grid, masonry, timeline, kanban)
+Each optimised for specific content types and use cases:
+
+- **sidebar** - Multi-section docs with fixed navigation (7+ sections)
+- **magazine** - Reports and case studies with hero section and pull quotes
+- **presentation** - Pitch decks with full-viewport snap-scroll slides
+- **dashboard** - KPI monitoring with metric cards and chart grid
+- **minimal** - Single-topic deep dives with visual-first hero
+- **editorial** - Essays and narratives with centred academic style
+- **comparison** - Vendor evaluation with parallel columns
+- **briefing** - Sprint reviews with lead item and stats strip
+- **tutorial** - Step-by-step guides with progress spine
+- **scorecard** - Maturity assessments with semantic-colour scoring
+- **report** - RFCs and compliance docs with cover and TOC
+- **dossier** - Research synthesis with profile header and facts
+- **dialogue** - ADRs with structured arguments and trade-offs
+
+### Section Roles
+
+Fine-grained visual control for individual sections:
+
+- **metric** - Large KPI cards with values and labels
+- **pull-quote** - Display-font blockquotes for standout insights
+- **lead** - Wider opening paragraphs with larger text
+- **statement** - Large centred text for key messages
+- **full-width** - Breakout visuals that span viewport
+- **supporting** - Appendices and secondary content
+
+### Advanced Chart Capabilities
+
+- **16+ chart types** - Mermaid diagrams (flowchart, sequence, class, ER, state) + D3 charts (bar, pie, donut, line, area, gantt, timeline, quadrant, sankey, radial, treemap)
+- **Annotations** - Key data point labels with positioning
+- **Curve types** - Smooth (time series), natural (organic), sharp (raw data), step (discrete)
+- **Color strategies** - Categorical, sequential, diverging, monochrome
+- **Emphasis effects** - Glow (luminous halo), shadow (depth), lift (scale transform)
+- **Pattern encoding** - Accessible fills for WCAG compliance
+- **Animations** - Stagger, draw, grow, fade (respects prefers-reduced-motion)
 
 ### Professional Design
 
-- **12 curated themes** - New: Tokyo Night, Dracula, Gruvbox, Solarized Dark/Light, GitHub Dark/Light. Original: Professional, Creative, Technical, Minimal, Dark
+- **12 curated themes** - Tokyo Night, Dracula, Gruvbox, Solarized Dark/Light, GitHub Dark/Light, Professional, Creative, Technical, Minimal, Dark
+- **Typography pairings** - Theme-specific font combinations (display + body + mono)
+- **Density presets** - Compact (information-dense), comfortable (balanced), spacious (generous whitespace)
 - **Live theme switching** - Users can change themes in the browser without regenerating
-- **Responsive layouts** (mobile, tablet, desktop)
-- **Smooth animations** (scroll effects, hover states, transitions)
-- **Accessibility** (ARIA labels, keyboard navigation, WCAG AA contrast)
+- **Responsive layouts** - Mobile, tablet, desktop breakpoints
+- **Smooth animations** - Entry choreography, hover states, transitions
+- **Accessibility** - ARIA labels, keyboard navigation, WCAG AA contrast, pattern encoding
 
 ### Self-Contained
 
@@ -207,11 +246,34 @@ Want to test thought_bubble immediately? We've included three ready-to-use test 
 - Works offline (after first load)
 - Copy-paste deployable
 
-## Mermaid Diagram Types
+## Chart and Diagram Types
 
-thought_bubble supports the full range of Mermaid diagram types to visualise your documentation. Here are some of the most useful ones:
+thought_bubble supports a comprehensive range of visualization types. See [`showcase_examples/README.md`](showcase_examples/README.md) for live examples of each.
 
-**[View all 17 diagram examples in the examples README](examples/README.md#live-diagram-examples)**
+### D3 Charts
+
+- **bar** - Exact comparison, categorical data with rounded bars and value labels
+- **line** - Trends over time with configurable curve interpolation
+- **area** - Cumulative volume, growth trajectories with gradient fills
+- **pie/donut** - Composition breakdown (maximum 6 categories recommended)
+- **radial** - Multi-axis comparison in circular layout
+- **gantt** - Project timelines and milestone schedules
+- **timeline** - Chronological event sequences with central spine
+- **quadrant** - 2D positioning matrices (priority, impact analysis)
+- **sankey** - Flow volumes and revenue streams
+- **treemap** - Hierarchical proportions and taxonomy
+
+### Mermaid Diagrams
+
+- **flowchart** - Processes, workflows, decision trees, architecture
+- **sequence** - API interactions, authentication flows, message passing
+- **class** - Object models, data structures, relationships
+- **er** - Database schemas, entity relationships
+- **state** - State machines, status transitions, lifecycle management
+
+Note: C4 diagrams are not currently supported.
+
+**[View comprehensive examples with all chart types](showcase_examples/README.md)**
 
 ### Gantt Chart: Project Timeline
 Perfect for project planning, roadmaps, and scheduling:
@@ -343,23 +405,27 @@ thought_bubble/
 ├── README.md                          # This file
 ├── thought_bubble_mcp/                # MCP Server (Primary interface)
 │   ├── START_HERE.md                 # MCP quick start guide
-│   ├── QUICKSTART.md                 # 5-minute setup
 │   ├── README.md                     # Complete MCP documentation
+│   ├── ARCHITECTURE.md               # Complete architectural reference
+│   ├── THEMES.md                     # Theme documentation
 │   ├── src/                          # TypeScript source code
+│   │   ├── index.ts                  # MCP server entry point
+│   │   ├── tools/                    # Tool implementations
+│   │   ├── renderers/                # D3 and Mermaid rendering
+│   │   ├── builders/                 # HTML assembly
+│   │   ├── themes/                   # Theme system
+│   │   └── prompts/                  # LLM prompt templates
+│   ├── scripts/                      # Showcase generation scripts
 │   └── dist/                         # Built server (after npm run build)
-├── LLM_Design_Assets/                 # Design system for generated HTML
-│   ├── design_rules.md               # Design guidance for LLM
-│   ├── components/
-│   │   ├── cards.html                # Card component library
-│   │   ├── navigation.html           # Navigation patterns
-│   │   ├── diagrams.html             # Diagram examples
-│   │   ├── layouts.html              # Layout systems
-│   │   └── interactive.html          # Interactive elements
-│   └── styles/
-│       ├── color_schemes.css         # Theme definitions
-│       ├── animations.css            # Animation library
-│       └── responsive.css            # Responsive utilities
-├── examples/                          # Example visualisations
+├── LLM_Design_Assets/                 # Design system documentation
+│   └── ESSENTIAL_DESIGN_RULES.md     # Core design principles
+├── DesignTeam/                        # Internal design documentation
+│   └── DesignGuide/                  # Detailed design guides (POV, Typography, Layouts, D3, Color, Spacing)
+├── showcase_examples/                 # 13 comprehensive example visualizations
+│   ├── README.md                     # Detailed example documentation
+│   ├── index.html                    # Example gallery
+│   └── *.html                        # Individual examples
+├── test_inputs/                       # Test documents for generating examples
 ├── base_template.html                 # Core HTML structure
 └── prompt_template.md                 # Legacy: Manual prompt for non-MCP use
 ```
@@ -407,25 +473,37 @@ The LLM can customise:
 
 ## MCP Tools
 
-The thought_bubble MCP server exposes two powerful tools that your AI assistant can use:
+The thought_bubble MCP server exposes 5 tools for your AI assistant:
 
-### `analyse_content`
-Your AI uses this to analyse documentation and identify:
+### `analyze_content`
+Analyses documentation to identify visualisation opportunities:
 - **Workflows** (processes, sequences, flows)
 - **Systems** (architectures, components, services)
 - **Data Models** (entities, schemas, objects)
-- **Relationships** (connections, integrations)
+- **Metrics/KPIs** (key performance indicators)
 
-Returns a structured list of visualisation opportunities for you to select from.
+Returns structured analysis with layout recommendations.
 
-### `generate_visualisation`
-Your AI uses this to generate the final interactive HTML with:
-- **Mermaid diagrams** (flowchart, sequence, class, ER, state, C4)
-- **Theme selection** (professional, dark, technical, minimal, creative)
-- **Navigation styles** (sidebar, tabs, minimal)
+### `generate_visualization`
+Generates complete self-contained HTML with:
+- **13 layout templates** (sidebar, magazine, presentation, dashboard, minimal, editorial, comparison, briefing, tutorial, scorecard, report, dossier, dialogue)
+- **Section roles** (metric, pull-quote, lead, statement, full-width, supporting)
+- **Density presets** (compact, comfortable, spacious)
+- **16+ diagram/chart types** (Mermaid + D3)
+- **Advanced chart options** (annotations, curve types, color strategies, emphasis effects, patterns)
+- **12 themes** with live switching capability
 - **Responsive design** for all devices
 
-**Complete MCP documentation:** [`thought_bubble_mcp/`](thought_bubble_mcp/) directory
+### `generate_mermaid_prompt`
+Returns prompt template to help LLMs generate Mermaid diagram code.
+
+### `list_themes`
+Lists all 12 available themes with their details (name, mode, category, personality).
+
+### `get_design_guide`
+Retrieves design guide documentation (POV, Typography, Layouts, D3StyleGuide, ColorTheory, Spacing).
+
+**Complete MCP documentation:** [`thought_bubble_mcp/README.md`](thought_bubble_mcp/README.md) | **Architecture reference:** [`thought_bubble_mcp/ARCHITECTURE.md`](thought_bubble_mcp/ARCHITECTURE.md)
 
 ## Browser Support
 

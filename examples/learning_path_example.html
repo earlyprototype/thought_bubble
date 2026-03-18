@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe - Ship - Learn: AI Development Journey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1a1a2e;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-attachment: fixed;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Floating Particles Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+        
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Mega Hero */
+        .mega-hero {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 4px;
+            padding: 60px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 30px rgba(0,0,0,0.15);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .mega-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .mega-hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: -3px;
+            text-transform: uppercase;
+        }
+        
+        .mega-hero p {
+            font-size: 1.3rem;
+            color: #555;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            font-weight: 400;
+            letter-spacing: -0.3px;
+        }
+        
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            padding: 10px 20px;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+        
+        .badge.days {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        .badge.hours {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+        
+        .badge.projects {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+        
+        /* Tab Navigation */
+        .tab-nav {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 0;
+            padding: 0;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow-x: auto;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .tab-btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 18px 25px;
+            border: none;
+            background: transparent;
+            border-radius: 0;
+            border-right: 1px solid rgba(0,0,0,0.1);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #666;
+            position: relative;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        
+        .tab-btn:last-child {
+            border-right: none;
+        }
+        
+        .tab-btn:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .tab-btn.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+        
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Kanban Board */
+        .kanban-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .kanban-column {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 0;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .kanban-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid;
+        }
+        
+        .kanban-column.week1 .kanban-header { border-color: #f093fb; }
+        .kanban-column.week2 .kanban-header { border-color: #4facfe; }
+        .kanban-column.week3 .kanban-header { border-color: #43e97b; }
+        .kanban-column.week4 .kanban-header { border-color: #ffd89b; }
+        
+        .week-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.1rem;
+        }
+        
+        .week1 .week-icon { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .week2 .week-icon { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .week3 .week-icon { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .week4 .week-icon { background: linear-gradient(135deg, #ffd89b 0%, #f6d365 100%); }
+        
+        .kanban-title h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            color: #1a1a2e;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        
+        .kanban-subtitle {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .kanban-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 0;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid;
+            border: 1px solid rgba(0,0,0,0.05);
+            border-left: 3px solid;
+        }
+        
+        .week1 .kanban-card { border-left-color: #f093fb; }
+        .week2 .kanban-card { border-left-color: #4facfe; }
+        .week3 .kanban-card { border-left-color: #43e97b; }
+        .week4 .kanban-card { border-left-color: #ffd89b; }
+        
+        .kanban-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        .kanban-card h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+        
+        .kanban-card p {
+            color: #666;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        
+        /* Skill Tree */
+        .skill-tree {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 0;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .skill-tree h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+        
+        .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+        
+        .skill-node {
+            background: white;
+            border-radius: 0;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+        
+        .skill-node::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+        
+        .skill-node:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+        
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .skill-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 15px;
+            letter-spacing: -0.3px;
+        }
+        
+        .skill-progress {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 0;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .skill-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            border-radius: 0;
+            transition: width 1s ease;
+        }
+        
+        .skill-level {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Resources Section */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .resource-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 0;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+        
+        .resource-card.docs::before { background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%); }
+        .resource-card.tools::before { background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%); }
+        .resource-card.community::before { background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%); }
+        
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+            border-color: rgba(102, 126, 234, 0.2);
+        }
+        
+        .resource-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .resource-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        
+        .resource-card p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .resource-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 2px;
+            font-weight: 600;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        
+        .resource-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* Tips Masonry */
+        .tips-masonry {
+            column-count: 2;
+            column-gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .tip-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 0;
+            padding: 20px;
+            margin-bottom: 20px;
+            break-inside: avoid;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 3px solid;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-left: 3px solid;
+        }
+        
+        .tip-card:nth-child(4n+1) { border-left-color: #f093fb; }
+        .tip-card:nth-child(4n+2) { border-left-color: #4facfe; }
+        .tip-card:nth-child(4n+3) { border-left-color: #43e97b; }
+        .tip-card:nth-child(4n+4) { border-left-color: #ffd89b; }
+        
+        .tip-card h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+        
+        .tip-icon {
+            font-size: 1.5rem;
+        }
+        
+        .tip-card p {
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 1200px) {
+            .kanban-board { grid-template-columns: repeat(2, 1fr); }
+            .skill-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 768px) {
+            .mega-hero { padding: 40px 30px; }
+            .mega-hero h1 { font-size: 2.5rem; }
+            .kanban-board { grid-template-columns: 1fr; }
+            .skill-grid { grid-template-columns: 1fr; }
+            .tips-masonry { column-count: 1; }
+            .tab-nav { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+    
+    <main class="main-content">
+        <div class="mega-hero">
+            <h1>Vibe - Ship - Learn</h1>
+            <p>Your 30-day transformation from curious beginner to shipping AI-powered apps. Build real products, learn by doing, and join the future of development.</p>
+            <div class="hero-badges">
+                <div class="badge days">30 Days</div>
+                <div class="badge hours">100+ Hours</div>
+                <div class="badge projects">3 Real Projects</div>
+            </div>
+        </div>
+        
+        <nav class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('journey')">The Journey</button>
+            <button class="tab-btn" onclick="switchTab('skills')">Skill Tree</button>
+            <button class="tab-btn" onclick="switchTab('resources')">Resources</button>
+            <button class="tab-btn" onclick="switchTab('tips')">Pro Tips</button>
+        </nav>
+        
+        <!-- Tab 1: The Journey (Kanban) -->
+        <div id="journey" class="tab-content active">
+            <div class="kanban-board">
+                <div class="kanban-column week1">
+                    <div class="kanban-header">
+                        <div class="week-icon">1</div>
+                        <div class="kanban-title">
+                            <h3>Week 1</h3>
+                            <div class="kanban-subtitle">Foundations</div>
+                        </div>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Setup Cursor & AI Tools</h4>
+                        <p>Install Cursor IDE, configure AI features, learn keyboard shortcuts</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Prompt Engineering 101</h4>
+                        <p>Master the art of talking to AI: context, specificity, iteration</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Next.js Starter Project</h4>
+                        <p>Initialize your first project with TypeScript and Tailwind</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Database Fundamentals</h4>
+                        <p>Set up Prisma, design your first schema, run migrations</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Build Landing Page</h4>
+                        <p>Create responsive hero section, navigation, and footer</p>
+                    </div>
+                </div>
+                
+                <div class="kanban-column week2">
+                    <div class="kanban-header">
+                        <div class="week-icon">2</div>
+                        <div class="kanban-title">
+                            <h3>Week 2</h3>
+                            <div class="kanban-subtitle">Core Features</div>
+                        </div>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Authentication System</h4>
+                        <p>Implement NextAuth.js with Google & GitHub OAuth</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Protected Routes</h4>
+                        <p>Create middleware, session management, role-based access</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>API Routes & CRUD</h4>
+                        <p>Build RESTful endpoints for your main features</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Form Handling</h4>
+                        <p>React Hook Form, validation, error handling, UX polish</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Real-time Features</h4>
+                        <p>Add WebSocket support for live updates and notifications</p>
+                    </div>
+                </div>
+                
+                <div class="kanban-column week3">
+                    <div class="kanban-header">
+                        <div class="week-icon">3</div>
+                        <div class="kanban-title">
+                            <h3>Week 3</h3>
+                            <div class="kanban-subtitle">Polish & Integration</div>
+                        </div>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Stripe Payments</h4>
+                        <p>Subscription billing, webhooks, customer portal</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Email System</h4>
+                        <p>Transactional emails with Resend, templates, scheduling</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Testing Strategy</h4>
+                        <p>Unit tests, integration tests, E2E with Playwright</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Performance Optimization</h4>
+                        <p>Image optimization, lazy loading, code splitting, caching</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>SEO & Analytics</h4>
+                        <p>Meta tags, sitemaps, Google Analytics, Plausible</p>
+                    </div>
+                </div>
+                
+                <div class="kanban-column week4">
+                    <div class="kanban-header">
+                        <div class="week-icon">4</div>
+                        <div class="kanban-title">
+                            <h3>Week 4</h3>
+                            <div class="kanban-subtitle">Ship & Iterate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Deploy to Vercel</h4>
+                        <p>Production deployment, environment variables, custom domain</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Monitoring Setup</h4>
+                        <p>Sentry for errors, Vercel Analytics, uptime monitoring</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Documentation</h4>
+                        <p>README, API docs, user guides, video walkthrough</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Launch Day</h4>
+                        <p>ProductHunt, HackerNews, Twitter, Reddit communities</p>
+                    </div>
+                    
+                    <div class="kanban-card">
+                        <h4>Gather Feedback</h4>
+                        <p>User interviews, analytics review, iterate on features</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab 2: Skill Tree -->
+        <div id="skills" class="tab-content">
+            <div class="skill-tree">
+                <h2>Your Skill Development</h2>
+                <div class="skill-grid">
+                    <div class="skill-node">
+                        <div class="skill-icon">⚡</div>
+                        <div class="skill-name">AI Prompting</div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-fill" style="width: 95%"></div>
+                        </div>
+                        <div class="skill-level">Master Level</div>
+                    </div>
+                    
+                    <div class="skill-node">
+                        <div class="skill-icon">💻</div>
+                        <div class="skill-name">TypeScript</div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-fill" style="width: 85%"></div>
+                        </div>
+                        <div class="skill-level">Advanced</div>
+                    </div>
+                    
+                    <div class="skill-node">
+                        <div class="skill-icon">⚛️</div>
+                        <div class="skill-name">React/Next.js</div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-fill" style="width: 90%"></div>
+                        </div>
+                        <div class="skill-level">Expert</div>
+                    </div>
+                    
+                    <div class="skill-node">
+                        <div class="skill-icon">🗄️</div>
+                        <div class="skill-name">Database Design</div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-fill" style="width: 75%"></div>
+                        </div>
+                        <div class="skill-level">Proficient</div>
+                    </div>
+                    
+                    <div class="skill-node">
+                        <div class="skill-icon">🔐</div>
+                        <div class="skill-name">Authentication</div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-fill" style="width: 80%"></div>
+                        </div>
+                        <div class="skill-level">Advanced</div>
+                    </div>
+                    
+                    <div class="skill-node">
+                        <div class="skill-icon">🎨</div>
+                        <div class="skill-name">UI/UX Design</div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-fill" style="width: 70%"></div>
+                        </div>
+                        <div class="skill-level">Intermediate</div>
+                    </div>
+                    
+                    <div class="skill-node">
+                        <div class="skill-icon">🚀</div>
+                        <div class="skill-name">Deployment</div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-fill" style="width: 88%"></div>
+                        </div>
+                        <div class="skill-level">Advanced</div>
+                    </div>
+                    
+                    <div class="skill-node">
+                        <div class="skill-icon">🐛</div>
+                        <div class="skill-name">Debugging</div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-fill" style="width: 92%"></div>
+                        </div>
+                        <div class="skill-level">Expert</div>
+                    </div>
+                    
+                    <div class="skill-node">
+                        <div class="skill-icon">💳</div>
+                        <div class="skill-name">Payments</div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-fill" style="width: 65%"></div>
+                        </div>
+                        <div class="skill-level">Learning</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab 3: Resources -->
+        <div id="resources" class="tab-content">
+            <div class="resources-grid">
+                <div class="resource-card docs">
+                    <div class="resource-icon">📚</div>
+                    <h3>Next.js Documentation</h3>
+                    <p>The official Next.js 14 docs with App Router, Server Components, and all the latest features.</p>
+                    <a href="https://nextjs.org/docs" class="resource-link" target="_blank">Explore Docs</a>
+                </div>
+                
+                <div class="resource-card docs">
+                    <div class="resource-icon">🤖</div>
+                    <h3>Cursor Documentation</h3>
+                    <p>Master Cursor's AI features, keyboard shortcuts, and advanced prompting techniques.</p>
+                    <a href="https://cursor.sh/docs" class="resource-link" target="_blank">Learn Cursor</a>
+                </div>
+                
+                <div class="resource-card tools">
+                    <div class="resource-icon">🛠️</div>
+                    <h3>Prisma Studio</h3>
+                    <p>Visual database browser for exploring and manipulating your data with a beautiful UI.</p>
+                    <a href="https://www.prisma.io/studio" class="resource-link" target="_blank">Try Studio</a>
+                </div>
+                
+                <div class="resource-card tools">
+                    <div class="resource-icon">⚡</div>
+                    <h3>Vercel Platform</h3>
+                    <p>Deploy, monitor, and scale your Next.js applications with one-click deployments.</p>
+                    <a href="https://vercel.com" class="resource-link" target="_blank">Get Started</a>
+                </div>
+                
+                <div class="resource-card community">
+                    <div class="resource-icon">💬</div>
+                    <h3>AI Coding Discord</h3>
+                    <p>Join thousands of developers building with AI tools. Get help, share wins, find collaborators.</p>
+                    <a href="#" class="resource-link" target="_blank">Join Community</a>
+                </div>
+                
+                <div class="resource-card community">
+                    <div class="resource-icon">🎓</div>
+                    <h3>BuildSpace Courses</h3>
+                    <p>Free project-based courses for learning web3, AI, and full-stack development.</p>
+                    <a href="https://buildspace.so" class="resource-link" target="_blank">Start Learning</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab 4: Pro Tips -->
+        <div id="tips" class="tab-content">
+            <div class="tips-masonry">
+                <div class="tip-card">
+                    <h4><span class="tip-icon">💡</span> Context is King</h4>
+                    <p>When prompting AI, always provide file structure, dependencies, and error messages. The more context, the better the output.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4><span class="tip-icon">🎯</span> Start Small, Ship Fast</h4>
+                    <p>Don't build everything at once. Ship an MVP in week 2, then iterate based on real user feedback.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4><span class="tip-icon">🔄</span> Iterate with AI</h4>
+                    <p>If AI-generated code doesn't work, don't start over. Ask it to fix specific issues or explain its reasoning.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4><span class="tip-icon">📝</span> Document as You Build</h4>
+                    <p>Write README sections after each feature. Future you (and contributors) will thank you.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4><span class="tip-icon">🧪</span> Test Critical Paths</h4>
+                    <p>You don't need 100% coverage. Focus on authentication, payments, and core user flows.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4><span class="tip-icon">🚨</span> Set Up Monitoring Early</h4>
+                    <p>Add Sentry on day one. You'll catch bugs before users complain about them.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4><span class="tip-icon">💰</span> Stripe Test Mode</h4>
+                    <p>Use Stripe's test mode extensively. Test webhooks with their CLI tool before going live.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4><span class="tip-icon">🎨</span> Copy Great Design</h4>
+                    <p>Don't reinvent the wheel. Study apps you love, then recreate their patterns with AI's help.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4><span class="tip-icon">⚡</span> Performance Matters</h4>
+                    <p>Optimize images, use lazy loading, and implement caching. Users notice slow apps.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4><span class="tip-icon">🎉</span> Launch Publicly</h4>
+                    <p>Share your progress on Twitter. Build in public. The accountability and feedback are invaluable.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // Create floating particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            particlesContainer.appendChild(particle);
+        }
+        
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Activate button
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
