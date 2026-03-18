@@ -53,6 +53,7 @@ examples/package.json
 examples/package-lock.json
 examples/node_modules/
 examples/capture_screenshots.js
+examples/hero_before_after.html
 
 # Working documents (internal use only)
 chat/
