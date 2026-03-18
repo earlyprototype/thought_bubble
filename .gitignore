@@ -48,6 +48,12 @@ showcase_examples/
 coverage/
 .nyc_output/
 
+# Example screenshot helper files
+examples/package.json
+examples/package-lock.json
+examples/node_modules/
+examples/capture_screenshots.js
+
 # Working documents (internal use only)
 chat/
 COMPREHENSIVE_HANDOVER.md
