@@ -7,7 +7,7 @@
 A creative, MCP-native tool that transforms any documentation, system architecture, or plan into beautiful interactive HTML visualisations through seamless AI integration.
 
 <p align="center">
-<img src="hero_chart_library.png" alt="16 D3 chart types with annotations, emphasis effects, and live theme switching" width="100%">
+<img src="hero_sankey.png" alt="Sankey diagram showing revenue flow with glow emphasis and Tokyo Night theme" width="100%">
 </p>
 
 ## What Is This?
