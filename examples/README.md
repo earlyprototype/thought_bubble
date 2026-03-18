@@ -4,27 +4,11 @@ Visual gallery of generated output. Every file is self-contained HTML that works
 
 ---
 
-## Revenue Flow Architecture
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="../hero_dark_v2.png">
-  <source media="(prefers-color-scheme: light)" srcset="../hero_light_v2.png">
-  <img src="../hero_light_v2.png" alt="Multi-level Sankey diagram: $847M revenue flow" width="100%">
-</picture>
-
-**Multi-level Sankey diagram**: $847M revenue flow across channels, regions, segments, and product tiers with glow emphasis and categorical colours.
-
-[Open visualization →](all_d3_charts.html)
-
----
-
 ## Complete Chart Library
 
 [![Chart Library](chart_library_preview.png)](all_d3_charts.html)
 
-Bar, line, area, pie, donut, gantt, timeline, quadrant, sankey, radial, treemap with annotations, curve types, colour strategies, and emphasis effects.
-
-**Dashboard layout** | **GitHub Light theme** | **16 chart types**
+16 D3 chart types with annotations, emphasis effects, curve interpolation, and colour strategies. Dashboard layout with GitHub Light theme.
 
 [Explore all charts →](all_d3_charts.html)
 
