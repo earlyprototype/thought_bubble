@@ -7,7 +7,11 @@
 A creative, MCP-native tool that transforms any documentation, system architecture, or plan into beautiful interactive HTML visualisations through seamless AI integration.
 
 <p align="center">
-<img src="hero_sankey.png" alt="Sankey diagram showing revenue flow with glow emphasis and Tokyo Night theme" width="100%">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="hero_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="hero_light.png">
+  <img src="hero_light.png" alt="Multi-level Sankey diagram: $847M revenue flow from channels through regions and segments to product tiers" width="100%">
+</picture>
 </p>
 
 ## What Is This?
