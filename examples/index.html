@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>thought_bubble Examples Gallery</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0d1117;
+    color: #c9d1d9;
+    padding: 48px 24px;
+    line-height: 1.6;
+  }
+  
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #79c0ff, #d2a8ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .subtitle {
+    font-size: 1.25rem;
+    color: #8b949e;
+  }
+  
+  .section {
+    margin-bottom: 80px;
+  }
+  
+  .section h2 {
+    font-size: 1.75rem;
+    margin-bottom: 32px;
+    color: #58a6ff;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 24px;
+  }
+  
+  .card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 24px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  
+  .card:hover {
+    border-color: #58a6ff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  
+  .card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+    color: #e6edf3;
+  }
+  
+  .card p {
+    color: #8b949e;
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+  }
+  
+  .meta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  
+  .badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-family: 'JetBrains Mono', monospace;
+    background: #1f6feb;
+    color: #fff;
+  }
+  
+  .badge.layout { background: #7ee787; color: #0d1117; }
+  .badge.theme { background: #d2a8ff; color: #0d1117; }
+  .badge.charts { background: #ffa657; color: #0d1117; }
+  
+  .preview-frame {
+    width: 100%;
+    height: 300px;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    background: #fff;
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>thought_bubble Examples</h1>
+    <p class="subtitle">Click any example to open the full interactive visualisation</p>
+  </header>
+
+  <section class="section">
+    <h2>Chart Library</h2>
+    <div class="grid">
+      <a href="all_d3_charts.html" target="_blank">
+        <div class="card">
+          <iframe src="all_d3_charts.html" class="preview-frame" scrolling="no"></iframe>
+          <h3>All D3 Chart Types</h3>
+          <p>Complete chart library in one page: bar, line, area, pie, donut, gantt, timeline, quadrant, sankey, radial, treemap</p>
+          <div class="meta">
+            <span class="badge charts">11 charts</span>
+            <span class="badge layout">dashboard</span>
+            <span class="badge theme">github_light</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Layout Templates</h2>
+    <div class="grid">
+      <a href="layout_sidebar.html" target="_blank">
+        <div class="card">
+          <iframe src="layout_sidebar.html" class="preview-frame" scrolling="no"></iframe>
+          <h3>Sidebar Layout</h3>
+          <p>Multi-section docs with fixed navigation. Best for technical documentation and API references.</p>
+          <div class="meta">
+            <span class="badge layout">sidebar</span>
+            <span class="badge">navigation</span>
+          </div>
+        </div>
+      </a>
+      
+      <a href="layout_magazine.html" target="_blank">
+        <div class="card">
+          <iframe src="layout_magazine.html" class="preview-frame" scrolling="no"></iframe>
+          <h3>Magazine Layout</h3>
+          <p>Hero section with narrative flow and section roles (lead, full-width). Best for reports and case studies.</p>
+          <div class="meta">
+            <span class="badge layout">magazine</span>
+            <span class="badge">hero section</span>
+          </div>
+        </div>
+      </a>
+      
+      <a href="layout_dashboard.html" target="_blank">
+        <div class="card">
+          <iframe src="layout_dashboard.html" class="preview-frame" scrolling="no"></iframe>
+          <h3>Dashboard Layout</h3>
+          <p>Metric cards and chart grid. Best for KPI monitoring and operations dashboards.</p>
+          <div class="meta">
+            <span class="badge layout">dashboard</span>
+            <span class="badge">KPI cards</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Full Documentation Examples</h2>
+    <div class="grid">
+      <a href="payment_gateway_integration.html" target="_blank">
+        <div class="card">
+          <iframe src="payment_gateway_integration.html" class="preview-frame" scrolling="no"></iframe>
+          <h3>Payment Gateway API</h3>
+          <p>Complete API documentation with sequence diagrams, flowcharts, and ER diagrams. Demonstrates sidebar layout for technical docs.</p>
+          <div class="meta">
+            <span class="badge layout">sidebar</span>
+            <span class="badge theme">technical</span>
+            <span class="badge">5 diagrams</span>
+          </div>
+        </div>
+      </a>
+      
+      <a href="product_roadmap_2026.html" target="_blank">
+        <div class="card">
+          <iframe src="product_roadmap_2026.html" class="preview-frame" scrolling="no"></iframe>
+          <h3>Product Roadmap 2026</h3>
+          <p>9-phase development roadmap with hero section, gantt chart, and growth metrics. Demonstrates magazine layout with section roles.</p>
+          <div class="meta">
+            <span class="badge layout">magazine</span>
+            <span class="badge theme">gruvbox</span>
+            <span class="badge">hero + metrics</span>
+          </div>
+        </div>
+      </a>
+      
+      <a href="techcorp_org_structure.html" target="_blank">
+        <div class="card">
+          <iframe src="techcorp_org_structure.html" class="preview-frame" scrolling="no"></iframe>
+          <h3>TechCorp Org Structure</h3>
+          <p>Enterprise organization with 850 employees. Demonstrates dossier layout with profile header and facts strip.</p>
+          <div class="meta">
+            <span class="badge layout">dossier</span>
+            <span class="badge theme">professional</span>
+            <span class="badge">org charts</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Legacy Examples</h2>
+    <div class="grid">
+      <a href="pattern_rule_integration_example.html" target="_blank">
+        <div class="card">
+          <h3>Pattern-Rule Integration</h3>
+          <p>Technical knowledge graph documentation with class diagrams and property lists.</p>
+        </div>
+      </a>
+      
+      <a href="system_architecture_example.html" target="_blank">
+        <div class="card">
+          <h3>System Architecture</h3>
+          <p>Microservices architecture with Mermaid diagrams.</p>
+        </div>
+      </a>
+      
+      <a href="learning_path_example.html" target="_blank">
+        <div class="card">
+          <h3>Learning Path</h3>
+          <p>Educational journey with timeline and progress tracking.</p>
+        </div>
+      </a>
+      
+      <a href="travel_itinerary_example.html" target="_blank">
+        <div class="card">
+          <h3>Travel Itinerary</h3>
+          <p>Trip planner with day-by-day cards.</p>
+        </div>
+      </a>
+      
+      <a href="ecommerce_platform_visualization.html" target="_blank">
+        <div class="card">
+          <h3>E-Commerce Platform</h3>
+          <p>Platform documentation with service flows.</p>
+        </div>
+      </a>
+      
+      <a href="Team_Framework_Visualization_example.html" target="_blank">
+        <div class="card">
+          <h3>Team Framework</h3>
+          <p>Team operational framework documentation.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+</div>
+</body>
+</html>
