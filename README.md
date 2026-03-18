@@ -8,9 +8,9 @@ A creative, MCP-native tool that transforms any documentation, system architectu
 
 <p align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="hero_dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="hero_light.png">
-  <img src="hero_light.png" alt="Multi-level Sankey diagram: $847M revenue flow from channels through regions and segments to product tiers" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="hero_dark_v2.png">
+  <source media="(prefers-color-scheme: light)" srcset="hero_light_v2.png">
+  <img src="hero_light_v2.png" alt="Multi-level Sankey diagram: $847M revenue flow from channels through regions and segments to product tiers" width="100%">
 </picture>
 </p>
 
