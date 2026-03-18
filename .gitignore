@@ -60,10 +60,14 @@ examples/full_hero.js
 examples/hero_sankey.js
 examples/simple_hero.js
 examples/test_load.js
+examples/regenerate_hero.js
+examples/create_before_after.js
 examples/hero_before_after.html
 create_hero.html
-hero_before.png
-hero_after.png
+before_dark.png
+after_dark.png
+before_light.png
+after_light.png
 
 # Working documents (internal use only)
 chat/
