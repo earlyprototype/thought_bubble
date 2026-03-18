@@ -4,7 +4,11 @@
 
 **Abrakedabra - your boring documents are now a lovely website with workflow diagrams**
 
-A creative, MCP-native tool that transforms any documentation, system architecture, or plan into beautiful interactive HTML visualisations through seamless AI integratio
+A creative, MCP-native tool that transforms any documentation, system architecture, or plan into beautiful interactive HTML visualisations through seamless AI integration.
+
+<p align="center">
+<img src="hero_before_after.png" alt="Transform plain documentation into beautiful interactive visualizations" width="100%">
+</p>
 
 ## What Is This?
 

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>thought_bubble - Before/After</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1400px;
+            width: 100%;
+            position: relative;
+        }
+
+        .arrow {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            font-size: 64px;
+            color: white;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .panel {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .panel-header {
+            padding: 20px 30px;
+            font-weight: 600;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .before-header {
+            background: #f5f5f5;
+            color: #666;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .after-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .before-content {
+            padding: 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.8;
+            color: #333;
+            background: #fafafa;
+            height: 600px;
+            overflow-y: auto;
+        }
+
+        .before-content h1 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: #000;
+        }
+
+        .before-content h2 {
+            font-size: 14px;
+            font-weight: bold;
+            margin: 20px 0 12px 0;
+            color: #000;
+        }
+
+        .before-content ul {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        .before-content li {
+            margin-bottom: 4px;
+        }
+
+        .before-content code {
+            background: #e8e8e8;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
+        .after-content {
+            height: 600px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        .after-preview {
+            padding: 30px;
+            color: white;
+        }
+
+        .metric-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .metric-value {
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .chart-preview {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            height: 180px;
+            margin-top: 16px;
+        }
+
+        .bar {
+            flex: 1;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            animation: growBar 1s ease-out forwards;
+            transform-origin: bottom;
+            box-shadow: 0 -4px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        @keyframes growBar {
+            from { transform: scaleY(0); }
+            to { transform: scaleY(1); }
+        }
+
+        .bar:nth-child(1) { height: 60%; animation-delay: 0.1s; }
+        .bar:nth-child(2) { height: 85%; animation-delay: 0.2s; }
+        .bar:nth-child(3) { height: 45%; animation-delay: 0.3s; }
+        .bar:nth-child(4) { height: 100%; animation-delay: 0.4s; }
+
+        .chart-label {
+            font-size: 12px;
+            opacity: 0.6;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .theme-badge {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.4);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <div class="panel-header before-header">
+                BEFORE: Plain Documentation
+            </div>
+            <div class="before-content">
+<h1># Payment Gateway API</h1>
+
+<h2>## Overview</h2>
+
+The Payment Gateway API provides secure payment 
+processing capabilities for e-commerce platforms.
+
+<h2>## Authentication</h2>
+
+All API requests require authentication using JWT 
+tokens:
+
+- Obtain token from <code>/auth/login</code> endpoint
+- Include in Authorization header
+- Tokens expire after 24 hours
+
+<h2>## Endpoints</h2>
+
+<h2>### Process Payment</h2>
+
+<code>POST /api/v1/payments/process</code>
+
+Request body:
+<code>{
+  "amount": 99.99,
+  "currency": "USD",
+  "card_token": "tok_123456"
+}</code>
+
+Response:
+<code>{
+  "transaction_id": "txn_789",
+  "status": "success"
+}</code>
+
+<h2>### Get Transaction</h2>
+
+<code>GET /api/v1/transactions/{id}</code>
+
+Returns transaction details including status,
+amount, and timestamp.
+
+<h2>## Error Codes</h2>
+
+- 400: Invalid request parameters
+- 401: Authentication failed
+- 402: Payment required
+- 500: Server error
+
+<h2>## Rate Limits</h2>
+
+- 1000 requests per hour per API key
+- Burst limit: 50 requests per minute
+            </div>
+        </div>
+
+        <div class="arrow">→</div>
+
+        <div class="panel">
+            <div class="panel-header after-header">
+                AFTER: thought_bubble
+            </div>
+            <div class="after-content">
+                <div class="after-preview">
+                    <div class="metric-card">
+                        <div class="metric-value">$2.4M</div>
+                        <div class="metric-label">Monthly Transaction Volume</div>
+                        <div class="theme-badge">Dashboard Layout • Tokyo Night Theme</div>
+                    </div>
+
+                    <div class="chart-preview">
+                        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">
+                            API Performance
+                        </div>
+                        <div class="chart-bars">
+                            <div style="flex-direction: column; flex: 1;">
+                                <div class="bar"></div>
+                                <div class="chart-label">Q1</div>
+                            </div>
+                            <div style="flex-direction: column; flex: 1;">
+                                <div class="bar"></div>
+                                <div class="chart-label">Q2</div>
+                            </div>
+                            <div style="flex-direction: column; flex: 1;">
+                                <div class="bar"></div>
+                                <div class="chart-label">Q3</div>
+                            </div>
+                            <div style="flex-direction: column; flex: 1;">
+                                <div class="bar"></div>
+                                <div class="chart-label">Q4</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; padding: 16px; background: rgba(102, 126, 234, 0.1); border-radius: 8px; border-left: 3px solid #667eea;">
+                        <div style="font-size: 12px; opacity: 0.7; margin-bottom: 6px;">INTERACTIVE DIAGRAMS</div>
+                        <div style="font-size: 14px;">
+                            ✓ Sequence flows<br>
+                            ✓ Architecture diagrams<br>
+                            ✓ ER models<br>
+                            ✓ Live theme switching
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
