@@ -14,7 +14,7 @@ Run this in your workspace directory:
 
 ```powershell
 cd C:\path\to\your\workspace
-powershell -ExecutionPolicy Bypass -File C:\Users\Fab2\Desktop\AI\_tools\_thought_bubble\thought_bubble_mcp\install-to-workspace.ps1
+powershell -ExecutionPolicy Bypass -File <path-to-your-clone>\thought_bubble_mcp\install-to-workspace.ps1
 ```
 
 The installer will:
@@ -27,7 +27,7 @@ The installer will:
 1. **Build the server** (if not already built):
 
 ```powershell
-cd C:\Users\Fab2\Desktop\AI\_tools\_thought_bubble\thought_bubble_mcp
+cd <path-to-your-clone>\thought_bubble_mcp
 npm install
 npm run build
 ```
@@ -42,7 +42,7 @@ mkdir .cursor
 3. **Copy the template**:
 
 ```powershell
-cp C:\Users\Fab2\Desktop\AI\_tools\_thought_bubble\thought_bubble_mcp\mcp.json.template .cursor\mcp.json
+cp <path-to-your-clone>\thought_bubble_mcp\mcp.json.template .cursor\mcp.json
 ```
 
 4. **Verify the paths** in `.cursor/mcp.json` are correct for your system.
@@ -59,7 +59,7 @@ The `.cursor/mcp.json` file uses the `${workspaceFolder}` variable which automat
     "thought-bubble": {
       "command": "node",
       "args": [
-        "C:\\Users\\Fab2\\Desktop\\AI\\_tools\\_thought_bubble\\thought_bubble_mcp\\dist\\index.js"
+        "<path-to-your-clone>\\thought_bubble_mcp\\dist\\index.js"
       ],
       "env": {
         "THOUGHT_BUBBLE_WORKSPACE": "${workspaceFolder}",
@@ -97,11 +97,11 @@ You can use the same installer for multiple workspaces. Each workspace will get 
 ```powershell
 # Workspace A
 cd C:\Projects\WebApp
-powershell -ExecutionPolicy Bypass -File C:\Users\Fab2\Desktop\AI\_tools\_thought_bubble\thought_bubble_mcp\install-to-workspace.ps1
+powershell -ExecutionPolicy Bypass -File <path-to-your-clone>\thought_bubble_mcp\install-to-workspace.ps1
 
 # Workspace B
 cd C:\Projects\API
-powershell -ExecutionPolicy Bypass -File C:\Users\Fab2\Desktop\AI\_tools\_thought_bubble\thought_bubble_mcp\install-to-workspace.ps1
+powershell -ExecutionPolicy Bypass -File <path-to-your-clone>\thought_bubble_mcp\install-to-workspace.ps1
 ```
 
 Each workspace will automatically track its own path via `${workspaceFolder}`.
@@ -151,7 +151,7 @@ When updating the server:
 1. Pull latest changes
 2. Rebuild:
 ```powershell
-cd C:\Users\Fab2\Desktop\AI\_tools\_thought_bubble\thought_bubble_mcp
+cd <path-to-your-clone>\thought_bubble_mcp
 npm install
 npm run build
 ```

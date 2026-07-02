@@ -6,7 +6,7 @@
 
 **Date**: 9 January 2026
 
-**Location**: `C:\Users\Fab2\Desktop\AI\_tools\_thought_bubble\thought_bubble_mcp\`
+**Location**: `<path-to-your-clone>\thought_bubble_mcp\`
 
 ---
 
@@ -139,7 +139,7 @@ A complete, production-ready Model Context Protocol (MCP) server implementation 
 
 1. **Install Dependencies**
    ```powershell
-   cd C:\Users\Fab2\Desktop\AI\_tools\_thought_bubble\thought_bubble_mcp
+   cd <path-to-your-clone>\thought_bubble_mcp
    npm install
    ```
 
@@ -156,7 +156,7 @@ A complete, production-ready Model Context Protocol (MCP) server implementation 
      "mcpServers": {
        "thought-bubble": {
          "command": "node",
-         "args": ["C:/Users/Fab2/Desktop/AI/_tools/_thought_bubble/thought_bubble_mcp/dist/index.js"]
+         "args": ["<path-to-your-clone>/thought_bubble_mcp/dist/index.js"]
        }
      }
    }
@@ -420,7 +420,7 @@ The thought_bubble MCP server is **complete and ready to use**.
 **Your immediate next step**:
 
 ```powershell
-cd C:\Users\Fab2\Desktop\AI\_tools\_thought_bubble\thought_bubble_mcp
+cd <path-to-your-clone>\thought_bubble_mcp
 npm install
 npm run build
 ```

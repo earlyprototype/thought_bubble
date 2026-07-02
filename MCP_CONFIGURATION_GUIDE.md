@@ -15,7 +15,7 @@ MCP servers require absolute paths in their configuration because:
 
 ### Configuration Location
 
-**File:** `C:\Users\Fab2\.cursor\mcp.json`
+**File:** `C:\Users\<your-username>\.cursor\mcp.json`
 
 This is Cursor's global MCP configuration file where all MCP servers are registered.
 
@@ -27,7 +27,7 @@ This is Cursor's global MCP configuration file where all MCP servers are registe
     "thought-bubble": {
       "command": "node",
       "args": [
-        "C:\\Users\\Fab2\\Desktop\\AI\\_tools\\_thought_bubble\\thought_bubble_mcp\\dist\\index.js"
+        "<path-to-your-clone>\\thought_bubble_mcp\\dist\\index.js"
       ]
     }
   }
@@ -37,7 +37,7 @@ This is Cursor's global MCP configuration file where all MCP servers are registe
 ### Key Implementation Details
 
 1. **Absolute Path Used:**
-   - Full path: `C:\Users\Fab2\Desktop\AI\_tools\_thought_bubble\thought_bubble_mcp\dist\index.js`
+   - Full path: `<path-to-your-clone>\thought_bubble_mcp\dist\index.js`
    - Points directly to the compiled JavaScript entry point
    - No ambiguity about project location
 
@@ -98,7 +98,7 @@ This is Cursor's global MCP configuration file where all MCP servers are registe
 
 **Windows:**
 ```json
-"args": ["C:\\Users\\Fab2\\Desktop\\AI\\_tools\\_thought_bubble\\thought_bubble_mcp\\dist\\index.js"]
+"args": ["<path-to-your-clone>\\thought_bubble_mcp\\dist\\index.js"]
 ```
 
 **macOS/Linux:**
@@ -108,7 +108,7 @@ This is Cursor's global MCP configuration file where all MCP servers are registe
 
 **Windows (forward slash alternative):**
 ```json
-"args": ["C:/Users/Fab2/Desktop/AI/_tools/_thought_bubble/thought_bubble_mcp/dist/index.js"]
+"args": ["<path-to-your-clone>/thought_bubble_mcp/dist/index.js"]
 ```
 
 ## Benefits of This Approach
@@ -188,11 +188,11 @@ If you see escape sequence errors, remember:
 
 ## Our Specific Setup
 
-**User:** Fab2  
+**User:** <your-username>  
 **OS:** Windows 10/11  
-**Project Location:** `C:\Users\Fab2\Desktop\AI\_tools\_thought_bubble`  
-**MCP Config:** `C:\Users\Fab2\.cursor\mcp.json`  
-**Entry Point:** `C:\Users\Fab2\Desktop\AI\_tools\_thought_bubble\thought_bubble_mcp\dist\index.js`
+**Project Location:** `<path-to-your-clone>`  
+**MCP Config:** `C:\Users\<your-username>\.cursor\mcp.json`  
+**Entry Point:** `<path-to-your-clone>\thought_bubble_mcp\dist\index.js`
 
 This configuration allows the MCP to work across all projects opened in Cursor, regardless of the current workspace folder, because the path is absolute and globally configured.
 

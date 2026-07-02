@@ -35,7 +35,7 @@ Successfully built to dist/
 
 **For Claude Desktop**, edit this file:
 ```
-C:\Users\Fab2\AppData\Roaming\Claude\claude_desktop_config.json
+C:\Users\<your-username>\AppData\Roaming\Claude\claude_desktop_config.json
 ```
 
 **For Cursor**, create this file in your workspace:
@@ -50,7 +50,7 @@ Add this configuration (using your **absolute path**):
   "mcpServers": {
     "thought-bubble": {
       "command": "node",
-      "args": ["C:/Users/Fab2/Desktop/AI/_tools/_thought_bubble/thought_bubble_mcp/dist/index.js"]
+      "args": ["<path-to-your-clone>/thought_bubble_mcp/dist/index.js"]
     }
   }
 }
@@ -265,7 +265,7 @@ npx @thought-bubble/mcp-server
 
 **MCP Specification**: https://modelcontextprotocol.io
 **Mermaid Documentation**: https://mermaid.js.org
-**Original thought_bubble**: C:\Users\Fab2\Desktop\AI\_tools\_thought_bubble
+**Original thought_bubble**: <path-to-your-clone>
 
 ## Common Use Cases
 

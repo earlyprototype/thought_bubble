@@ -21,7 +21,7 @@ Edit `~/.config/claude/claude_desktop_config.json` (macOS/Linux) or `%APPDATA%\C
   "mcpServers": {
     "thought-bubble": {
       "command": "node",
-      "args": ["C:/Users/Fab2/Desktop/AI/_tools/_thought_bubble/thought_bubble_mcp/dist/index.js"]
+      "args": ["<path-to-your-clone>/thought_bubble_mcp/dist/index.js"]
     }
   }
 }
@@ -38,7 +38,7 @@ Create or edit `.cursor/mcp.json` in your workspace:
   "mcpServers": {
     "thought-bubble": {
       "command": "node",
-      "args": ["C:/Users/Fab2/Desktop/AI/_tools/_thought_bubble/thought_bubble_mcp/dist/index.js"]
+      "args": ["<path-to-your-clone>/thought_bubble_mcp/dist/index.js"]
     }
   }
 }

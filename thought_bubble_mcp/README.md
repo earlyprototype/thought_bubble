@@ -47,7 +47,7 @@ See **[INSTALLATION.md](./INSTALLATION.md)** for complete setup instructions.
 
 ```powershell
 cd C:\path\to\your\workspace
-powershell -ExecutionPolicy Bypass -File C:\Users\Fab2\Desktop\AI\_tools\_thought_bubble\thought_bubble_mcp\install-to-workspace.ps1
+powershell -ExecutionPolicy Bypass -File <path-to-your-clone>\thought_bubble_mcp\install-to-workspace.ps1
 ```
 
 **Manual Build:**
