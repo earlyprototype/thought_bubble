@@ -519,6 +519,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           ]
         };
       } catch (error) {
+        // DesignTeam/DesignGuide is a gitignored local add-on, so a fresh
+        // clone/install won't have it. Fall back instead of throwing.
+        if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: `# Design Guide: ${section}\n\nThe full design guide (DesignTeam/DesignGuide/${filename}) is an optional local add-on and isn't included in this repository, so it isn't available here.\n\nCore principles to apply in the meantime:\n\n1. **Content First** -- visual design enhances the content, it doesn't distract from it.\n2. **Progressive Disclosure** -- lead with the overview, reveal detail on demand.\n3. **Consistency** -- uniform spacing, colours, and typography throughout.\n\n(See LLM_Design_Assets/ESSENTIAL_DESIGN_RULES.md for the fuller fallback rule set.)`
+              }
+            ]
+          };
+        }
         throw new McpError(
           ErrorCode.InternalError,
           `Failed to read design guide: ${error instanceof Error ? error.message : 'Unknown error'}`
