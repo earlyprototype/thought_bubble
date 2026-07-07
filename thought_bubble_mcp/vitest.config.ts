@@ -16,7 +16,6 @@ export default defineConfig({
         'node_modules/',
         'dist/',
         '**/*.test.ts',
-        'src/renderers/proof_of_concept.ts',
         'src/renderers/generate_examples.ts',
       ],
     },

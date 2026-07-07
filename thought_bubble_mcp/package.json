@@ -11,7 +11,6 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "prepare": "npm run build",
-    "poc": "node --loader ts-node/esm src/renderers/proof_of_concept.ts",
     "test": "vitest run",
     "test:watch": "vitest"
   },

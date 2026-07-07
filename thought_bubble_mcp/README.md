@@ -247,8 +247,8 @@ npm run build
 # Watch mode for development
 npm run watch
 
-# Run proof of concept
-node dist/renderers/proof_of_concept.js
+# Run tests
+npm test
 ```
 
 ## Project Structure
