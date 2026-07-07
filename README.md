@@ -424,30 +424,6 @@ sequenceDiagram
     OrderService-->>User: Order Confirmation
 ```
 
-### User Journey: Onboarding Experience
-Ideal for mapping user experiences and touchpoints:
-
-```mermaid
-journey
-    title New User Onboarding Journey
-    section Discovery
-      Visit Homepage: 5: User
-      Read Features: 4: User
-      View Examples: 5: User
-    section Registration
-      Sign Up: 3: User
-      Verify Email: 2: User
-      Complete Profile: 4: User
-    section First Use
-      Watch Tutorial: 4: User
-      Create First Project: 3: User
-      Invite Team Member: 5: User
-    section Adoption
-      Daily Usage: 5: User
-      Explore Features: 4: User
-      Upgrade Plan: 5: User
-```
-
 ### Flowchart: User Registration Flow
 Great for processes, workflows, and decision trees:
 
@@ -488,8 +464,6 @@ stateDiagram-v2
     Delivered --> [*]
 ```
 
-**Plus many more:** ER diagrams, class diagrams, Git graphs, pie charts, quadrant charts, and C4 architecture diagrams. [See all examples](examples/README.md#live-diagram-examples)
-
 ## Files in This Repo
 
 ```
@@ -511,8 +485,6 @@ thought_bubble/
 │   └── dist/                         # Built server (after npm run build)
 ├── LLM_Design_Assets/                 # Design system documentation
 │   └── ESSENTIAL_DESIGN_RULES.md     # Core design principles
-├── DesignTeam/                        # Internal design documentation
-│   └── DesignGuide/                  # Detailed design guides (POV, Typography, Layouts, D3, Color, Spacing)
 ├── showcase_examples/                 # 13 comprehensive example visualizations
 │   ├── README.md                     # Detailed example documentation
 │   ├── index.html                    # Example gallery
