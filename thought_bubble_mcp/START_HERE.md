@@ -103,9 +103,6 @@ The AI should:
 **Need to understand the architecture?**
 → Check **ARCHITECTURE.md**
 
-**Want implementation details?**
-→ Review **IMPLEMENTATION_SUMMARY.md**
-
 **Having issues?**
 → Consult **TEST.md**
 
@@ -122,7 +119,6 @@ thought_bubble_mcp/
 ├── README.md              # Complete documentation
 ├── EXAMPLE_USAGE.md       # Detailed usage examples
 ├── ARCHITECTURE.md        # System architecture
-├── IMPLEMENTATION_SUMMARY.md  # What was built and why
 ├── TEST.md                # Testing and debugging
 │
 ├── src/                   # Source code (TypeScript)
