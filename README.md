@@ -2,6 +2,8 @@
 
 # thought_bubble MCP
 
+[![tests](https://github.com/earlyprototype/thought_bubble/actions/workflows/tests.yml/badge.svg)](https://github.com/earlyprototype/thought_bubble/actions/workflows/tests.yml)
+
 **Abrakedabra - your boring documents are now a lovely website with workflow diagrams**
 
 A creative, MCP-native tool that transforms any documentation, system architecture, or plan into beautiful interactive HTML visualisations through seamless AI integration.
