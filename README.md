@@ -38,7 +38,7 @@ A Model Context Protocol (MCP) server that works with your AI assistant to autom
 
 **[Browse the full examples gallery →](examples/)**
 
-#### 16 D3 Chart Types
+#### 11 D3 Chart Types
 
 <p align="center">
 <a href="examples/all_d3_charts.html">
@@ -269,7 +269,7 @@ Fine-grained visual control for individual sections:
 
 ### D3 Chart Capabilities
 
-**16+ chart types** - bar, pie, donut, line, area, gantt, timeline, quadrant, sankey, radial, treemap
+**11 chart types** - bar, pie, donut, line, area, gantt, timeline, quadrant, sankey, radial, treemap
 
 **Example - Revenue chart with annotations:**
 ```json
