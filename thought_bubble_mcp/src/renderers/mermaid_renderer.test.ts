@@ -74,11 +74,12 @@ describe('Mermaid Renderer', () => {
       'Out of Scope — negative decisions = definition of done',
       'online=true',
       'x<y and online=true',
+      'x<y and online=true and z>0',
     ])('preserves the node label "%s"', async label => {
       const result = await renderMermaidDiagram(`flowchart TD\n  A["${label}"] --> B[Done]`, theme);
 
       expect(result.error).toBeUndefined();
-      expect(result.svg).toContain(label.replaceAll('<', '&lt;'));
+      expect(result.svg).toContain(label.replaceAll('<', '&lt;').replaceAll('>', '&gt;'));
     });
 
     it.each(["<span onclick=''>", "<svg aria-label='a > b' ONLOAD = ''>"])('rejects event attributes in %s', async tag => {

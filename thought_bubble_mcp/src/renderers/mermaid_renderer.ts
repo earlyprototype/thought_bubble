@@ -52,12 +52,34 @@ export function isMermaidDiagramType(type: string): type is MermaidDiagramType {
   return ['flowchart', 'sequence', 'class', 'er', 'state'].includes(type);
 }
 
+// HTML and SVG event names used in inline on* attributes.
+const inlineEvents = new Set(`
+  abort afterprint animationcancel animationend animationiteration animationstart auxclick
+  beforeinput beforematch beforeprint beforetoggle beforeunload begin blur cancel canplay
+  canplaythrough change click close command contextlost contextmenu contextrestored copy cuechange cut
+  dblclick drag dragend dragenter dragleave dragover dragstart drop durationchange emptied encrypted
+  end ended enterpictureinpicture error focus focusin focusout formdata fullscreenchange fullscreenerror
+  gotpointercapture hashchange input invalid keydown keypress keyup languagechange leavepictureinpicture
+  load loadeddata loadedmetadata loadstart lostpointercapture message messageerror mousedown mouseenter
+  mouseleave mousemove mouseout mouseover mouseup mousewheel offline online orientationchange pagehide
+  pagereveal pageshow pageswap paste pause play playing pointercancel pointerdown pointerenter
+  pointerleave pointermove pointerout pointerover pointerrawupdate pointerup popstate progress
+  ratechange readystatechange rejectionhandled repeat reset resize scroll scrollend scrollsnapchange
+  scrollsnapchanging securitypolicyviolation seeked seeking select selectionchange selectstart
+  slotchange stalled storage submit suspend timeupdate toggle touchcancel touchend touchmove touchstart
+  transitioncancel transitionend transitionrun transitionstart unhandledrejection unload visibilitychange
+  volumechange waiting waitingforkey webkitanimationend webkitanimationiteration webkitanimationstart
+  webkittransitionend wheel zoom
+`.trim().split(/\s+/));
+
 function hasEventAttribute(code: string): boolean {
   // A quoted attribute value can contain both ">" and text that looks like a handler.
   const startTags = code.matchAll(/<[a-z](?:[^<>"']|"[^"]*"|'[^']*')*>/gi);
   for (const [tag] of startTags) {
     const unquoted = tag.replace(/"[^"]*"|'[^']*'/g, ' ');
-    if (/[\s/]on\w+\s*=/i.test(unquoted)) return true;
+    for (const [, event] of unquoted.matchAll(/[\s/]on(\w+)\s*=/gi)) {
+      if (inlineEvents.has(event.toLowerCase())) return true;
+    }
   }
   return false;
 }
