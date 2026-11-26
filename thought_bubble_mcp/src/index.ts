@@ -40,12 +40,9 @@ import {
 } from './tools/generate_visualization.js';
 
 import { getTheme, themes } from './themes/index.js';
+import { getDesignGuide } from './tools/get_design_guide.js';
 import * as fs from 'fs';
 import * as path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 /**
  * Create and configure the MCP server
@@ -483,59 +480,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     }
 
     if (name === 'get_design_guide') {
-      const section = (args as any)?.section || 'design';
-      
-      // Map section names to actual markdown files
-      const fileMap: Record<string, string> = {
-        'design': 'DesignGuide.md',
-        'layouts': 'Layouts.md',
-        'typography': 'Typography.md',
-        'd3': 'D3StyleGuide.md',
-        'spacing': 'Spacing.md',
-        'color': 'ColorTheory.md',
-        'pov': 'POV.md'
-      };
-      
-      const filename = fileMap[section];
-      if (!filename) {
-        throw new McpError(
-          ErrorCode.InvalidParams,
-          `Unknown section: ${section}. Valid sections: ${Object.keys(fileMap).join(', ')}`
-        );
-      }
-      
-      // Read from actual source files
-      const guidePath = path.resolve(__dirname, '../../DesignTeam/DesignGuide', filename);
-      
-      try {
-        const guideContent = fs.readFileSync(guidePath, 'utf-8');
-        
-        return {
-          content: [
-            {
-              type: 'text',
-              text: `# Design Guide: ${section}\n\n${guideContent}\n\n---\n\nSource: DesignTeam/DesignGuide/${filename}`
-            }
-          ]
-        };
-      } catch (error) {
-        // DesignTeam/DesignGuide is a gitignored local add-on, so a fresh
-        // clone/install won't have it. Fall back instead of throwing.
-        if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-          return {
-            content: [
-              {
-                type: 'text',
-                text: `# Design Guide: ${section}\n\nThe full design guide (DesignTeam/DesignGuide/${filename}) is an optional local add-on and isn't included in this repository, so it isn't available here.\n\nCore principles to apply in the meantime:\n\n1. **Content First** -- visual design enhances the content, it doesn't distract from it.\n2. **Progressive Disclosure** -- lead with the overview, reveal detail on demand.\n3. **Consistency** -- uniform spacing, colours, and typography throughout.\n\n(See LLM_Design_Assets/ESSENTIAL_DESIGN_RULES.md for the fuller fallback rule set.)`
-              }
-            ]
-          };
-        }
-        throw new McpError(
-          ErrorCode.InternalError,
-          `Failed to read design guide: ${error instanceof Error ? error.message : 'Unknown error'}`
-        );
-      }
+      return { content: [{ type: 'text', text: getDesignGuide(args?.section) }] };
     }
 
     throw new McpError(

@@ -1,4 +1,4 @@
-> **DEPRECATED** -- Implementation appendix only. Design authority is `DesignTeam/DesignGuide/DesignGuide.md`.
+> **DEPRECATED** -- Implementation appendix only. See the [bundled design guide](../thought_bubble_mcp/design-guide/DesignGuide.md).
 > Use `get_design_guide` (MCP tool) for current design system guidelines.
 > This file contains outdated references (system-ui fonts, 3 themes, client-side Mermaid) and should not be used as a source of truth.
 

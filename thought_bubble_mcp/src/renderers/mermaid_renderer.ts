@@ -52,6 +52,16 @@ export function isMermaidDiagramType(type: string): type is MermaidDiagramType {
   return ['flowchart', 'sequence', 'class', 'er', 'state'].includes(type);
 }
 
+function hasEventAttribute(code: string): boolean {
+  // A quoted attribute value can contain both ">" and text that looks like a handler.
+  const startTags = code.matchAll(/<[a-z](?:[^<>"']|"[^"]*"|'[^']*')*>/gi);
+  for (const [tag] of startTags) {
+    const unquoted = tag.replace(/"[^"]*"|'[^']*'/g, ' ');
+    if (/[\s/]on\w+\s*=/i.test(unquoted)) return true;
+  }
+  return false;
+}
+
 /**
  * Sanitise Mermaid code to prevent potential security issues
  * 
@@ -69,17 +79,14 @@ function sanitiseMermaidCode(code: string): string {
   const dangerousPatterns = [
     /<script/i,           // Script tags
     /javascript:/i,       // JavaScript protocols
-    /on\w+\s*=/i,         // Event handlers (onclick, onerror, etc.)
     /<iframe/i,           // Iframes
     /<object/i,           // Object tags
     /<embed/i,            // Embed tags
     /%3Cscript/i,         // URL-encoded script
   ];
   
-  for (const pattern of dangerousPatterns) {
-    if (pattern.test(trimmed)) {
-      throw new Error('Potentially dangerous content detected in diagram code');
-    }
+  if (dangerousPatterns.some(pattern => pattern.test(trimmed)) || hasEventAttribute(trimmed)) {
+    throw new Error('Potentially dangerous content detected in diagram code');
   }
   
   // Check for disallowed Mermaid directives (if any)
