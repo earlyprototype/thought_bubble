@@ -5,7 +5,7 @@
  * Mermaid diagrams and D3 charts using the unified theme system.
  */
 
-import { z } from 'zod';
+import { z } from 'zod/v4';
 import { 
   renderMermaidDiagram, 
   isMermaidDiagramType,
@@ -23,8 +23,7 @@ import {
   buildHTML, 
   type Section, 
   type SectionRole,
-  type NavigationStyle,
-  type LayoutTemplate 
+  resolveLayout
 } from '../builders/html_builder.js';
 import { 
   getTheme, 
@@ -38,35 +37,44 @@ import { MERMAID_GENERATION_PROMPT } from '../prompts/templates.js';
  */
 export type DiagramType = MermaidDiagramType | D3ChartType;
 
-/**
- * All theme names
- */
-const allThemeNames = getThemeNames();
+const mermaidTypes = ['flowchart', 'sequence', 'class', 'er', 'state'] as const;
+
+const sectionFields = {
+  id: z.number().describe('The ID of the item selected from the analysis.'),
+  title: z.string().describe('The section title.'),
+  description: z.string().describe('A brief description of the section.'),
+};
+
+export const generateMermaidPromptSchema = z.object({
+  content: z.string().describe('Full source text for the selected diagrams.'),
+  selectedSystems: z.array(z.object({
+    ...sectionFields,
+    diagramType: z.enum(mermaidTypes).describe('The Mermaid diagram type to generate.'),
+  })).describe('Selected sections that need Mermaid source.'),
+});
 
 /**
  * Schema for generate_visualization tool
  */
 export const generateVisualizationSchema = z.object({
-  content: z.string().describe('The original documentation content'),
+  content: z.string().optional().describe('Optional legacy source text. Omit it when generating a page. The renderer uses selectedSystems.'),
   selectedSystems: z.array(z.object({
-    id: z.number().describe('The ID of the identified item'),
-    title: z.string().describe('The title of the system/workflow'),
-    description: z.string().describe('Brief description of the item'),
+    ...sectionFields,
     diagramType: z.enum([
       // Mermaid types
-      'flowchart', 'sequence', 'class', 'er', 'state',
+      ...mermaidTypes,
       // D3 types
       'bar', 'pie', 'donut', 'line', 'area', 'gantt', 'timeline', 'quadrant',
       'sankey', 'radial', 'treemap'
-    ]).describe('Type of diagram to generate'),
+    ]).describe('Section type. Charts: bar (exact comparison), line (trends over time), area (cumulative/volume), pie/donut (composition, max 6 slices), radial (multi-axis comparison), gantt (project timelines), timeline (event sequences), quadrant (2D positioning), sankey (flow volumes), treemap (hierarchical proportions). Diagrams: flowchart (processes), sequence (interactions), class (data models), er (schemas), state (transitions). Use bar when comparison matters. Use line for temporal trends. Never use pie for more than 6 categories.'),
     // For Mermaid diagrams
-    mermaidCode: z.string().optional().describe('Mermaid diagram code (for flowchart, sequence, class, er, state). Note: C4 not supported, use flowcharts with subgraphs.'),
+    mermaidCode: z.string().optional().describe('Mermaid source required to render flowchart, sequence, class, er and state diagrams. Charts ignore this field. For C4 models, use a flowchart with subgraphs.'),
     // For D3 charts
-    chartData: z.array(z.any()).optional().describe('Data array for D3 charts'),
+    chartData: z.array(z.record(z.string(), z.unknown())).optional().describe('Data rows required to render bar, pie, donut, line, area, gantt, timeline, quadrant, sankey, radial and treemap charts. Mermaid diagrams ignore this field.'),
     chartOptions: z.object({
-      title: z.string().optional(),
-      xLabel: z.string().optional(),
-      yLabel: z.string().optional(),
+      title: z.string().optional().describe('Title drawn inside the SVG for supported chart types. It also supplies the caption beneath a chart or diagram when the layout displays one for that section.'),
+      xLabel: z.string().optional().describe('Horizontal axis label on a quadrant chart.'),
+      yLabel: z.string().optional().describe('Vertical axis label on a quadrant chart.'),
       emphasis: z.enum(['glow', 'shadow', 'lift', 'none']).optional()
         .describe('How to highlight key data. glow: luminous halo on peak values (best on dark themes). shadow: depth via drop shadow. lift: slight scale transform. none: flat.'),
       curve: z.enum(['smooth', 'sharp', 'step', 'natural']).optional()
@@ -89,24 +97,18 @@ export const generateVisualizationSchema = z.object({
     role: z.enum(['default', 'metric', 'pull-quote', 'lead', 'statement', 'full-width', 'supporting']).optional()
       .describe('Section role controlling visual treatment. metric: KPI card (dashboard). pull-quote: display-font blockquote (magazine). lead: wider opening paragraph. statement: large centred text (presentation). full-width: breakout visual. supporting: appendix/secondary.'),
   })).describe('Array of selected systems with their diagram specifications'),
-  theme: z.enum([
-    // New themes
-    'tokyo_night', 'dracula', 'gruvbox', 'solarized_dark', 
-    'solarized_light', 'github_light', 'github_dark',
-    // Original themes  
-    'professional', 'dark', 'technical', 'minimal', 'creative'
-  ] as [ThemeName, ...ThemeName[]])
+  theme: z.enum(getThemeNames() as [ThemeName, ...ThemeName[]])
     .default('tokyo_night')
-    .describe('Visual theme for the HTML output'),
+    .describe('Use tokyo_night for technical content, dracula for dramatic deep dives, and gruvbox for essays. Use solarized_dark or solarized_light for research, github_light for enterprise documentation, and github_dark for developer guides. Use professional for business reports, dark for presentations, technical for architecture specs, minimal for academic work, and creative for pitches.'),
   navigationStyle: z.enum(['sidebar', 'tabs', 'minimal'])
     .default('sidebar')
-    .describe('Navigation pattern to use'),
+    .describe('Legacy navigation pattern. Use layout to choose a page template.'),
   layout: z.enum([
     'sidebar', 'magazine', 'presentation', 'dashboard', 'minimal', 'editorial',
     'comparison', 'briefing', 'tutorial', 'scorecard', 'report', 'dossier', 'dialogue'
   ])
     .optional()
-    .describe('Layout template. See layout descriptions in tool schema for guidance.'),
+    .describe('Layout template. editorial: centred single-column, academic style (essays, narratives). magazine: hero + alternating grids (reports, case studies). presentation: full-viewport snap-scroll slides (pitches, reviews). dashboard: metric cards + chart grid (KPIs, monitoring). sidebar: fixed nav + scrollable content (docs, 7+ sections). minimal: visual-first hero (deep dives). comparison: parallel columns for A/B evaluation (vendor eval, tech decisions). briefing: lead item + grid + stats strip (sprint reviews, status updates). tutorial: numbered steps with progress spine (guides, onboarding). scorecard: overall score + semantic-colour category cards (audits, assessments). report: cover + TOC + numbered sections, print-friendly (RFCs, compliance). dossier: profile header + facts strip + narrative + deep dives (research, company profiles). dialogue: central question + parallel arguments + trade-offs (ADRs, decision docs).'),
   hero: z.object({
     title: z.string().describe('Hero headline (for magazine and dossier layouts)'),
     subtitle: z.string().optional().describe('Hero subheadline'),
@@ -115,8 +117,8 @@ export const generateVisualizationSchema = z.object({
       label: z.string().describe('Metric label (e.g., "Annual Revenue")'),
     }).optional().describe('Featured metric to display prominently'),
   }).optional().describe('Hero section configuration (used with magazine and dossier layouts)'),
-  title: z.string().optional().describe('Page title'),
-  subtitle: z.string().optional().describe('Page subtitle'),
+  title: z.string().optional().describe('Page title for the header and browser tab. Defaults to "Documentation Visualization".'),
+  subtitle: z.string().optional().describe('Optional secondary line beneath the page title.'),
   enableThemeSwitcher: z.boolean().default(true).describe('Include theme switcher in output'),
   density: z.enum(['compact', 'comfortable', 'spacious']).default('comfortable')
     .describe('Spacing density. compact: tight information-dense (dashboards, briefings). comfortable: balanced default. spacious: generous whitespace (editorial, minimal).'),
@@ -233,12 +235,13 @@ export async function generateVisualization(
   }
 
   // Generate HTML
+  const layout = resolveLayout(input);
   const html = buildHTML({
     title: input.title || 'Documentation Visualization',
     subtitle: input.subtitle,
     theme: input.theme as ThemeName,
-    navigationStyle: input.navigationStyle as NavigationStyle,
-    layout: input.layout as LayoutTemplate | undefined,
+    navigationStyle: input.navigationStyle,
+    layout,
     sections,
     enableThemeSwitcher: input.enableThemeSwitcher,
     hero: input.hero,
@@ -253,7 +256,7 @@ export async function generateVisualization(
       sectionsRendered: sections.length,
       diagramsRendered,
       theme: theme.name,
-      layout: input.layout || 'sidebar',
+      layout,
       fileSize: Buffer.byteLength(html, 'utf-8'),
     },
   };
@@ -263,18 +266,10 @@ export async function generateVisualization(
  * Generate a prompt for the LLM to create Mermaid diagrams
  * Use this when you don't have Mermaid code yet
  */
-export function generateMermaidPrompt(input: {
-  content: string;
-  selectedSystems: Array<{
-    id: number;
-    title: string;
-    description: string;
-    diagramType: MermaidDiagramType;
-  }>;
-}): string {
+export function generateMermaidPrompt(input: z.infer<typeof generateMermaidPromptSchema>): string {
   const selectedItemsText = input.selectedSystems
-    .map((sys, idx) => 
-      `${idx + 1}. ${sys.title} (${sys.description}) - Diagram type: ${sys.diagramType}`
+    .map(sys =>
+      `${sys.id}. ${sys.title} (${sys.description}) - Diagram type: ${sys.diagramType}`
     )
     .join('\n');
 

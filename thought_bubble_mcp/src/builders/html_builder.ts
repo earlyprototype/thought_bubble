@@ -2138,6 +2138,10 @@ if (slides.length && dots.length) {
 `;
 }
 
+export function resolveLayout({ layout, navigationStyle }: Pick<HTMLBuilderOptions, 'layout' | 'navigationStyle'>): LayoutTemplate {
+  return layout ?? (navigationStyle === 'minimal' ? 'minimal' : 'sidebar');
+}
+
 /**
  * Generate the complete HTML document
  */
@@ -2146,8 +2150,6 @@ export function buildHTML(options: HTMLBuilderOptions): string {
     title,
     subtitle,
     theme,
-    navigationStyle,
-    layout,
     sections,
     enableThemeSwitcher = true,
     footer,
@@ -2161,7 +2163,7 @@ export function buildHTML(options: HTMLBuilderOptions): string {
   const themeSwitcherJS = enableThemeSwitcher ? generateThemeSwitcherJS() : '';
   
   // Determine effective layout
-  const effectiveLayout = layout || (navigationStyle === 'sidebar' ? 'sidebar' : navigationStyle === 'tabs' ? 'sidebar' : 'minimal');
+  const effectiveLayout = resolveLayout(options);
   
   // Generate appropriate navigation JS
   let navigationJS = '';

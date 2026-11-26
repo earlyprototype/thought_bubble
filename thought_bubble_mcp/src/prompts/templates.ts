@@ -174,7 +174,7 @@ For each selected item:
 2. Generate clean, well-structured Mermaid code
 3. Apply styling to highlight key paths/states
 4. Include descriptive labels
-5. Return with clear labels indicating which item each diagram represents`;
+5. Put the heading "### Diagram for Item <id>" above each Mermaid code block, using the ID shown beside the selected item`;
 
 export function buildVisualizationPrompt(
   content: string,
