@@ -41,7 +41,7 @@ it('advertises when to call each tool and what to do with its result', async () 
   expect(descriptions.generate_visualization).toContain('mermaidCode');
   expect(descriptions.generate_visualization).toContain('chartData');
   expect(descriptions.generate_visualization).toContain('test_outputs/visualization_<timestamp>.html');
-  for (const stat of ['theme', 'layout', 'sections', 'diagrams', 'file size']) {
+  for (const stat of ['theme', 'layout', 'sections processed', 'successful renders before layout', 'file size']) {
     expect(descriptions.generate_visualization?.toLowerCase()).toContain(stat);
   }
 });
@@ -100,8 +100,46 @@ it.each([
   expect(html).toContain('<svg');
   expect(html).toContain(`class="layout-${layout}`);
   expect(result.content).toEqual([{ type: 'text', text: expect.stringContaining(`File: ${filename}`) }]);
-  for (const stat of ['Theme: Tokyo Night', `Layout: ${layout}`, 'Sections: 1', 'Diagrams rendered: 1',
+  for (const stat of ['Theme: Tokyo Night', `Layout: ${layout}`, 'Sections processed: 1', 'Successful renders before layout: 1',
     `File size: ${(Buffer.byteLength(html) / 1024).toFixed(1)} KB`]) {
     expect(result.content).toMatchObject([{ text: expect.stringContaining(stat) }]);
   }
+});
+
+it('reports both renders before the scorecard picks its single overall metric', async () => {
+  const outputWorkspace = path.join(workspace, 'scorecard');
+  vi.stubEnv('THOUGHT_BUBBLE_WORKSPACE', outputWorkspace);
+  const result = await client.callTool({
+    name: 'generate_visualization',
+    arguments: {
+      layout: 'scorecard',
+      selectedSystems: ['Order volume', 'Return volume'].map((title, i) => ({
+        id: i + 1, title, description: 'Monthly total', role: 'metric', diagramType: 'bar',
+        chartData: [{ label: 'May', value: 4 }],
+      })),
+    },
+  });
+  const dir = path.join(outputWorkspace, 'test_outputs');
+  const [filename] = await readdir(dir);
+  const html = await readFile(path.join(dir, filename), 'utf8');
+  expect(html).toContain('Order volume');
+  expect(html).not.toContain('Return volume');
+  expect(html.match(/<svg\b/g)).toHaveLength(1);
+  expect(result.content).toMatchObject([{ text: expect.stringContaining('Sections processed: 2') }]);
+  expect(result.content).toMatchObject([{ text: expect.stringContaining('Successful renders before layout: 2') }]);
+});
+
+it('labels selected Mermaid sections with their original analysis IDs', async () => {
+  const result = await client.callTool({
+    name: 'generate_mermaid_prompt',
+    arguments: {
+      content: 'Orders are submitted and refunds are reviewed.',
+      selectedSystems: [
+        { id: 2, title: 'Order submission', description: 'Submit an order', diagramType: 'sequence' },
+        { id: 5, title: 'Refund review', description: 'Review a refund', diagramType: 'flowchart' },
+      ],
+    },
+  });
+  expect(result.content).toMatchObject([{ text: expect.stringMatching(/^2\. Order submission \(/m) }]);
+  expect(result.content).toMatchObject([{ text: expect.stringMatching(/^5\. Refund review \(/m) }]);
 });

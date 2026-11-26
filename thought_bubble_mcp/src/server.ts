@@ -62,7 +62,7 @@ Choose visuals that explain the material. For example, show a workflow as a flow
       name: 'generate_visualization',
       description: `Use this when the user is ready to produce the final themed HTML page. This is step 2 of 2. Use analyze_content first to identify candidate sections, then supply the user's choices as selectedSystems. Mermaid diagrams require mermaidCode. D3 charts require chartData.
 
-RETURNS: Writes a self-contained HTML page to <workspace>/test_outputs/visualization_<timestamp>.html and returns its file path, theme, layout, sections rendered, diagrams rendered and file size. Open the returned path to view it. Diagrams and charts are embedded as server-rendered SVG and need no CDN to display. Theme fonts can load from external services.
+RETURNS: Writes a self-contained HTML page to <workspace>/test_outputs/visualization_<timestamp>.html and returns its file path, theme, layout and file size. The counts cover sections processed and successful renders before layout. A layout may omit some sections or visuals. Open the returned path to view the page. Diagrams and charts are embedded as server-rendered SVG and need no CDN to display. Theme fonts can load from external services.
 
 For layout, typography or chart styling guidance, call get_design_guide. Match the layout to how the reader will use the page and annotate data points that explain the main finding.`,
       inputSchema: inputSchema(generateVisualizationSchema),
@@ -126,7 +126,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const outputPath = path.join(outputDir, filename);
       fs.writeFileSync(outputPath, result.html, 'utf-8');
 
-      const statsBlock = `Stats:\n- Theme: ${result.stats.theme}\n- Layout: ${result.stats.layout}\n- Sections: ${result.stats.sectionsRendered}\n- Diagrams rendered: ${result.stats.diagramsRendered}\n- File size: ${(result.stats.fileSize / 1024).toFixed(1)} KB`;
+      const statsBlock = `Stats:\n- Theme: ${result.stats.theme}\n- Layout: ${result.stats.layout}\n- Sections processed: ${result.stats.sectionsRendered}\n- Successful renders before layout: ${result.stats.diagramsRendered}\n- File size: ${(result.stats.fileSize / 1024).toFixed(1)} KB`;
 
       if (result.success) {
         return {

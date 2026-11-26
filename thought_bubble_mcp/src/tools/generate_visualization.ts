@@ -268,8 +268,8 @@ export async function generateVisualization(
  */
 export function generateMermaidPrompt(input: z.infer<typeof generateMermaidPromptSchema>): string {
   const selectedItemsText = input.selectedSystems
-    .map((sys, idx) => 
-      `${idx + 1}. ${sys.title} (${sys.description}) - Diagram type: ${sys.diagramType}`
+    .map(sys =>
+      `${sys.id}. ${sys.title} (${sys.description}) - Diagram type: ${sys.diagramType}`
     )
     .join('\n');
 
