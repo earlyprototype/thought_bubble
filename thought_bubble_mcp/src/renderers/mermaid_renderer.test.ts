@@ -82,7 +82,22 @@ describe('Mermaid Renderer', () => {
       expect(result.svg).toContain(label.replaceAll('<', '&lt;').replaceAll('>', '&gt;'));
     });
 
-    it.each(["<span onclick=''>", "<svg aria-label='a > b' ONLOAD = ''>"])('rejects event attributes in %s', async tag => {
+    it.each([
+      ['x<y and onload=false', 'z>0'],
+      ['x<y and onload=', '>0'],
+    ])('keeps "%s" and "%s" in separate node labels', async (left, right) => {
+      const result = await renderMermaidDiagram(`flowchart TD\n  A["${left}"] --> B["${right}"]`, theme);
+
+      expect(result.success).toBe(true);
+      expect(result.svg).toContain(left.replace('<', '&lt;'));
+      expect(result.svg).toContain(right.replace('>', '&gt;'));
+    });
+
+    it.each([
+      "<span onclick=''>",
+      "<svg aria-label='a > b' ONLOAD = ''>",
+      "<span onbeforecopy=''>",
+    ])('rejects event attributes in %s', async tag => {
       const result = await renderMermaidDiagram(`flowchart TD\n  A["${tag}"] --> B[Done]`, theme);
 
       expect(result.success).toBe(false);

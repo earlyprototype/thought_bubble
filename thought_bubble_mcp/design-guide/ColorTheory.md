@@ -2,7 +2,7 @@
 
 Use the theme's background and surface colours for the page and its cards. Use foreground for primary text, muted for secondary details and accent to draw attention to the main finding. Reserve success, warning and error colours for those meanings throughout the page.
 
-Bar, pie and donut charts assign palette colours by position in the data array. For a `sequential` or `diverging` palette, order the rows before rendering so the colours follow the comparison readers should see.
+Bar, pie and donut charts assign palette colours by position in the data array. For a `sequential` or `diverging` palette, order the rows before rendering so the colours follow the comparison readers should see. When a bar chart has multiple bars and no explicit annotations, the first bar with the maximum value gets the accent gradient.
 
 | Intended order | D3 `colorStrategy` | Example |
 | --- | --- | --- |

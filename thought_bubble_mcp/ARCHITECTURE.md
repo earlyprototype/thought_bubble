@@ -289,10 +289,11 @@ Every render function calls `processSvgForDynamicTheming(svgString, theme)` befo
 **Role:** Wraps `beautiful-mermaid` library for server-side SVG rendering of Mermaid diagrams.
 
 **Flow:**
-1. `sanitiseMermaidCode(code)` -- checks for XSS vectors (script tags, event handlers, iframes)
+1. `sanitiseMermaidCode(code)` checks for blocked tags and JavaScript URLs.
 2. `validateMermaidSyntax(code)` -- validates diagram type declaration exists
 3. `renderMermaid(code, options)` -- calls beautiful-mermaid with theme colours mapped to its options format
-4. `processSvgForDynamicTheming(svg, theme)` -- replaces hardcoded colours with CSS variables
+4. The renderer checks SVG attributes and markup within each label for inline event handlers.
+5. `processSvgForDynamicTheming(svg, theme)` replaces hardcoded colours with CSS variables.
 
 **Supported types:** flowchart, sequence, class, er, state. C4 is NOT supported.
 
@@ -485,20 +486,18 @@ Previously "dead CSS" (`.pull-quote`, `.metric-card`) is now actively used by th
 
 | Theme | Mode | Category | Display Font | Body Font | Personality |
 |-------|------|----------|-------------|-----------|-------------|
-| tokyo_night | dark | new | Satoshi | Inter | Modern tech, confident |
-| dracula | dark | new | Space Grotesk | IBM Plex Sans | Dark, focused, slightly gothic |
+| tokyo_night | dark | new | Clash Display | Switzer | Modern tech, confident |
+| dracula | dark | new | Satoshi | IBM Plex Sans | Dark, focused, slightly gothic |
 | gruvbox | dark | new | Vollkorn | Source Sans 3 | Warm, retro-modern, earthy |
 | solarized_dark | dark | new | Newsreader | Literata | Academic, precise, timeless |
 | solarized_light | light | new | Newsreader | Literata | Academic, precise, timeless |
 | github_light | light | new | Atkinson Hyperlegible Next | Atkinson Hyperlegible Next | Developer-focused, accessible |
 | github_dark | dark | new | Atkinson Hyperlegible Next | Atkinson Hyperlegible Next | Developer-focused, accessible |
 | professional | light | original | Plus Jakarta Sans | Source Serif 4 | Corporate, trustworthy |
-| dark | dark | original | Outfit | Inter | Sleek, minimal, contemporary |
+| dark | dark | original | General Sans | Inter | Sleek, minimal, contemporary |
 | technical | dark | original | Azeret Mono | Inter | Engineering, precise |
 | minimal | light | original | Cormorant | Lora | Refined, quiet, sophisticated |
-| creative | light | original | DM Sans | Inter | Bold, expressive, playful |
-
-**NOTE:** Some font families in `definitions.ts` don't match `Typography.md` exactly. The Typography guide describes Dracula with "Space Grotesk" for display but `definitions.ts` uses "Satoshi" for display. Similarly, Creative should use "Clash Display" per the guide but uses "DM Sans". These are known divergences between aspiration (guide) and implementation (code).
+| creative | light | original | DM Sans | DM Sans | Bold, expressive, playful |
 
 ---
 
