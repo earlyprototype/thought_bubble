@@ -5,8 +5,7 @@ import {
   McpError,
   ErrorCode
 } from '@modelcontextprotocol/sdk/types.js';
-import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
+import { z } from 'zod/v4';
 
 import { analyzeContent, analyzeContentSchema } from './tools/analyze_content.js';
 import {
@@ -44,8 +43,8 @@ const designGuideSchema = z.object({
     .describe('Choose design for the overview, layouts for page templates, typography for fonts, d3 for chart styling, spacing for the grid, color for palettes, or pov for design principles.'),
 });
 
-function inputSchema(schema: z.AnyZodObject) {
-  return zodToJsonSchema(schema, { removeAdditionalStrategy: 'strict' });
+function inputSchema(schema: z.ZodObject) {
+  return z.toJSONSchema(schema, { target: 'draft-2020-12', io: 'input' });
 }
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
@@ -265,7 +264,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     if (error instanceof z.ZodError) {
       throw new McpError(
         ErrorCode.InvalidParams,
-        `Invalid parameters: ${error.errors.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
+        `Invalid parameters: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
       );
     }
     throw error;

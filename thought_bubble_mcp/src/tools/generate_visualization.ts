@@ -5,7 +5,7 @@
  * Mermaid diagrams and D3 charts using the unified theme system.
  */
 
-import { z } from 'zod';
+import { z } from 'zod/v4';
 import { 
   renderMermaidDiagram, 
   isMermaidDiagramType,
@@ -23,8 +23,7 @@ import {
   buildHTML, 
   type Section, 
   type SectionRole,
-  type NavigationStyle,
-  type LayoutTemplate 
+  resolveLayout
 } from '../builders/html_builder.js';
 import { 
   getTheme, 
@@ -71,9 +70,9 @@ export const generateVisualizationSchema = z.object({
     // For Mermaid diagrams
     mermaidCode: z.string().optional().describe('Mermaid source required to render flowchart, sequence, class, er and state diagrams. Charts ignore this field. For C4 models, use a flowchart with subgraphs.'),
     // For D3 charts
-    chartData: z.array(z.record(z.unknown())).optional().describe('Data rows required to render bar, pie, donut, line, area, gantt, timeline, quadrant, sankey, radial and treemap charts. Mermaid diagrams ignore this field.'),
+    chartData: z.array(z.record(z.string(), z.unknown())).optional().describe('Data rows required to render bar, pie, donut, line, area, gantt, timeline, quadrant, sankey, radial and treemap charts. Mermaid diagrams ignore this field.'),
     chartOptions: z.object({
-      title: z.string().optional().describe('Section caption shown beneath the chart or diagram.'),
+      title: z.string().optional().describe('Title drawn inside the SVG for supported chart types. It also supplies the caption beneath a chart or diagram when the layout displays one for that section.'),
       xLabel: z.string().optional().describe('Horizontal axis label on a quadrant chart.'),
       yLabel: z.string().optional().describe('Vertical axis label on a quadrant chart.'),
       emphasis: z.enum(['glow', 'shadow', 'lift', 'none']).optional()
@@ -100,7 +99,7 @@ export const generateVisualizationSchema = z.object({
   })).describe('Array of selected systems with their diagram specifications'),
   theme: z.enum(getThemeNames() as [ThemeName, ...ThemeName[]])
     .default('tokyo_night')
-    .describe('Visual theme. tokyo_night: modern tech, confident, Satoshi + Inter (technical content). dracula: dark, focused, gothic, Space Grotesk + IBM Plex (dramatic, deep dives). gruvbox: warm, retro-modern, earthy, Fraunces + Source Sans (editorial, essays). solarized_dark/solarized_light: scientific precision, Roboto Slab + Noto Sans (research, data-heavy). github_light: clean corporate, Inter + system (enterprise, documentation). github_dark: modern developer, Inter + system (technical, dev-facing). professional: polished business (reports, corporate). dark: high-contrast dark (presentations, demos). technical: engineering precision (architecture, specs). minimal: refined quiet, Cormorant + Lora (deep dives, academic). creative: bold expressive, Clash Display + Cabinet Grotesk (pitches, marketing).'),
+    .describe('Use tokyo_night for technical content, dracula for dramatic deep dives, and gruvbox for essays. Use solarized_dark or solarized_light for research, github_light for enterprise documentation, and github_dark for developer guides. Use professional for business reports, dark for presentations, technical for architecture specs, minimal for academic work, and creative for pitches.'),
   navigationStyle: z.enum(['sidebar', 'tabs', 'minimal'])
     .default('sidebar')
     .describe('Legacy navigation pattern. Use layout to choose a page template.'),
@@ -236,12 +235,13 @@ export async function generateVisualization(
   }
 
   // Generate HTML
+  const layout = resolveLayout(input);
   const html = buildHTML({
     title: input.title || 'Documentation Visualization',
     subtitle: input.subtitle,
     theme: input.theme as ThemeName,
-    navigationStyle: input.navigationStyle as NavigationStyle,
-    layout: input.layout as LayoutTemplate | undefined,
+    navigationStyle: input.navigationStyle,
+    layout,
     sections,
     enableThemeSwitcher: input.enableThemeSwitcher,
     hero: input.hero,
@@ -256,7 +256,7 @@ export async function generateVisualization(
       sectionsRendered: sections.length,
       diagramsRendered,
       theme: theme.name,
-      layout: input.layout || 'sidebar',
+      layout,
       fileSize: Buffer.byteLength(html, 'utf-8'),
     },
   };

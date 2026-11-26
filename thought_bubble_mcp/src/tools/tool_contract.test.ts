@@ -3,6 +3,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+import { Ajv2020 } from 'ajv/dist/2020.js';
 import { server } from '../server.js';
 import { afterAll, beforeAll, expect, it, vi } from 'vitest';
 
@@ -11,7 +12,6 @@ let workspace: string;
 
 beforeAll(async () => {
   workspace = await mkdtemp(path.join(tmpdir(), 'thought-bubble-'));
-  vi.stubEnv('THOUGHT_BUBBLE_WORKSPACE', workspace);
   const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
   await server.connect(serverTransport);
   await client.connect(clientTransport);
@@ -61,7 +61,7 @@ it('publishes required inputs and chart field guidance to the client', async () 
       mermaidCode: { description: expect.stringMatching(/flowchart/i) },
       chartData: { description: expect.stringMatching(/bar/i) },
       chartOptions: { properties: {
-        title: { description: expect.stringMatching(/caption/i) },
+        title: { description: expect.stringMatching(/SVG.*caption.*layout/is) },
         xLabel: { description: expect.stringMatching(/axis/i) },
         yLabel: { description: expect.stringMatching(/axis/i) },
       } },
@@ -69,23 +69,38 @@ it('publishes required inputs and chart field guidance to the client', async () 
   });
 });
 
-it('writes the advertised HTML file and reports render stats with source text omitted', async () => {
+it('compiles every published input schema with a JSON Schema 2020-12 validator', async () => {
+  const ajv = new Ajv2020();
+  const { tools } = await client.listTools();
+  for (const tool of tools) {
+    expect.soft(() => ajv.compile(tool.inputSchema), tool.name).not.toThrow();
+  }
+});
+
+it.each([
+  { options: {}, layout: 'sidebar' },
+  { options: { navigationStyle: 'minimal' }, layout: 'minimal' },
+])('writes the HTML file and reports its $layout layout with source text omitted', async ({ options, layout }) => {
+  const outputWorkspace = path.join(workspace, layout);
+  vi.stubEnv('THOUGHT_BUBBLE_WORKSPACE', outputWorkspace);
   const result = await client.callTool({
     name: 'generate_visualization',
-    arguments: { selectedSystems: [{
+    arguments: { ...options, selectedSystems: [{
       id: 1, title: 'Orders', description: 'Orders by month', diagramType: 'bar',
       chartData: [{ label: 'May', value: 4 }],
+      chartOptions: { title: 'Monthly order count' },
     }] },
   });
-  const dir = path.join(workspace, 'test_outputs');
+  const dir = path.join(outputWorkspace, 'test_outputs');
   const files = await readdir(dir);
   expect(files).toEqual([expect.stringMatching(/^visualization_\d+\.html$/)]);
   const filename = path.join(dir, files[0]);
   const html = await readFile(filename, 'utf8');
-  expect(html).toContain('Orders by month');
+  expect(html).toContain('>Monthly order count</text>');
   expect(html).toContain('<svg');
+  expect(html).toContain(`class="layout-${layout}`);
   expect(result.content).toEqual([{ type: 'text', text: expect.stringContaining(`File: ${filename}`) }]);
-  for (const stat of ['Theme: Tokyo Night', 'Layout: sidebar', 'Sections: 1', 'Diagrams rendered: 1',
+  for (const stat of ['Theme: Tokyo Night', `Layout: ${layout}`, 'Sections: 1', 'Diagrams rendered: 1',
     `File size: ${(Buffer.byteLength(html) / 1024).toFixed(1)} KB`]) {
     expect(result.content).toMatchObject([{ text: expect.stringContaining(stat) }]);
   }

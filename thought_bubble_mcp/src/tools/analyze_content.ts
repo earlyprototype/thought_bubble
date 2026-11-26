@@ -2,7 +2,7 @@
  * Tool 1: Analyze content and identify systems/workflows/data models
  */
 
-import { z } from 'zod';
+import { z } from 'zod/v4';
 import { ANALYSIS_PROMPT, DESIGN_THINKING_ADDENDUM, formatAnalysisForUser } from '../prompts/templates.js';
 import type { AnalysisResult, IdentifiedItem } from '../types.js';
 
