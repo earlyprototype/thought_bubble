@@ -113,7 +113,7 @@ const elementAttributes: Record<string, string> = {
   frameset: 'cols rows', html: 'manifest version', iframe: 'allow csp height loading name referrerpolicy sandbox src srcdoc width',
   hr: 'align color size width',
   img: 'align alt attributionsrc border crossorigin decoding fetchpriority height hspace loading longdesc name referrerpolicy sizes src srcset usemap vspace width',
-  input: 'accept align alt autocomplete capture dirname form formaction formenctype formmethod formtarget height list max maxlength min minlength name pattern placeholder popovertarget popovertargetaction size src step type value width',
+  input: 'accept align alt autocomplete capture dirname form formaction formenctype formmethod formtarget height incremental list max maxlength min minlength name pattern placeholder popovertarget popovertargetaction size src step type value webkitdirectory width',
   ins: 'cite datetime', label: 'for form', legend: 'align', li: 'type value', map: 'name',
   keygen: 'challenge form keytype name', link: 'as blocking crossorigin fetchpriority href hreflang imagesizes imagesrcset integrity media referrerpolicy rel sizes type',
   menu: 'label type', meter: 'form high low max min optimum value',
@@ -159,19 +159,34 @@ function joinsLabelComparisons(label: string, element: DefaultTreeAdapterTypes.E
   const tag = label.slice(start.startOffset, start.endOffset - 1).trimEnd();
   // The two comparisons need surrounding operands. The text between the
   // angles can include prose, paths and arithmetic expressions.
-  if (!/[\p{ID_Continue}$)\]]$/u.test(before) || !/^<[\p{ID_Continue}.$]+\s/u.test(tag) ||
+  // These arithmetic operators cannot delimit attributes or form a custom element name.
+  const firstOperand = /^<[\p{ID_Continue}.$]+(?:[+*%][\p{ID_Continue}.$]+)*\s/u;
+  if (!/[\p{ID_Continue}$)\]]$/u.test(before) || !firstOperand.test(tag) ||
       !/^=?\s*[+-]?(?:[\p{ID_Continue}$(]|\.\d)/u.test(after)) return false;
 
-  const [, ...words] = tag.replace(/\s*=\s*/g, '=').split(/\s+/);
+  const [, ...words] = tag.replace(/\s*(!?=)\s*/g, '$1').split(/\s+/);
   if (words[0]?.startsWith('/') || tag.endsWith('/')) return false;
-  if (element.attrs.some(({ name }) => /^(?:aria|data)-/.test(name))) return false;
 
+  const qualifiedAttribute = /^(?:aria|data)-/;
+  const qualifiedNames = new Set(element.attrs.map(attr => attr.name).filter(name => qualifiedAttribute.test(name)));
+  const proseWord = /^[\p{L}][\p{L}\p{N}'_-]*[,;]?$/u;
   const specific = Object.hasOwn(elementAttributes, element.tagName) ? elementAttributes[element.tagName].split(' ') : [];
-  return words.every((word, index) => {
+  const comparison = words.every((word, index) => {
     const name = word.split('=', 1)[0].toLowerCase();
     const atBoundary = index === 0 || index === words.length - 1;
-    // Quoting matters at an assignment. Apostrophes in prose are ordinary text.
-    if (word.includes('=') && (atBoundary || !/^[\w.-]+=[\w.-]+[,;]?$/.test(word))) return false;
+    // A bare hyphenated noun can occur between words in a sentence.
+    if (qualifiedAttribute.test(name)) {
+      if (atBoundary || !proseWord.test(word) ||
+          !proseWord.test(words[index - 1]) || !proseWord.test(words[index + 1])) return false;
+      qualifiedNames.delete(name);
+    }
+    if (word.includes('=')) {
+      if (atBoundary || !/^[\w.-]+!?=[\w.-]+[,;]?$/.test(word)) return false;
+      // A handler assignment immediately followed by the final bare name
+      // has no connector or punctuation to introduce a second comparison.
+      if (isEventAttributeName(name) && index === words.length - 2 &&
+          proseWord.test(words[index + 1]) && !/[,;]$/.test(word)) return false;
+    }
     if (labelHandlers.has(name)) return !atBoundary;
     const isBooleanAttribute = booleanAttributes.has(name);
     if (isBooleanAttribute || globalAttributes.has(name) || specific.includes(name)) {
@@ -183,6 +198,8 @@ function joinsLabelComparisons(label: string, element: DefaultTreeAdapterTypes.E
     }
     return true;
   });
+  // parse5 can also find attributes after a slash or a quoted value.
+  return comparison && qualifiedNames.size === 0;
 }
 
 function labelHasEventAttribute(label: string): boolean {
