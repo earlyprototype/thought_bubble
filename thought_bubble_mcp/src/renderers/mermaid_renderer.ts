@@ -112,8 +112,9 @@ function parseLabelTag(tag: string, name: string): Element | null {
 }
 
 function joinsLabelComparisons(label: string, start: number, tag: string): boolean {
-  // In "a<b ... and c>d", both angles are operators with an operand outside the match.
-  if (!/\w\s*$/.test(label.slice(0, start)) || !/^\s*\w/.test(label.slice(start + tag.length))) {
+  // In "a<b ... and c>= -1", the match ends at ">" before the optional "=" and signed operand.
+  const afterAngle = label.slice(start + tag.length);
+  if (!/\w\s*$/.test(label.slice(0, start)) || !/^=?\s*[+-]?\w/.test(afterAngle)) {
     return false;
   }
 

@@ -43,7 +43,10 @@ it('preserves comparison labels in the generated SVG and rejects event attribute
     'x<y && onload=false && z>0',
     'x<y before onload fires and z>0 afterwards',
     'a<b && onload=false && c>d',
+    'a<b && onload=false && c>=d',
     'a<b before onload fires and c>d',
+    'a<b before onload fires and c>-1',
+    'a<b before onload fires and c>= +1',
     "<span title='onclick=example'>",
   ];
   const forbidden = [
@@ -66,11 +69,21 @@ it('preserves comparison labels in the generated SVG and rejects event attribute
   });
   const [output] = readdirSync(join(workspace, 'test_outputs'));
   const html = readFileSync(join(workspace, 'test_outputs', output), 'utf8');
-  const labels = Array.from(JSDOM.fragment(html).querySelectorAll('svg text'), node => node.textContent);
-  for (const label of accepted) expect.soft(labels).toContainEqual(expect.stringContaining(label));
+  const document = JSDOM.fragment(html);
+  const labelsFor = (id: number) =>
+    Array.from(document.querySelectorAll(`#section-${id} svg text`), node => node.textContent?.trim());
+  for (const [index, label] of accepted.entries()) {
+    const id = index + 1;
+    expect.soft(labelsFor(id)).toContainEqual(expect.stringContaining(label));
+    expect.soft(result).toMatchObject({
+      content: [{ text: expect.not.stringContaining(`Mermaid render error for item ${id}:`) }],
+    });
+  }
   for (const [index, label] of forbidden.entries()) {
-    expect(labels).not.toContainEqual(expect.stringContaining(label));
     const id = accepted.length + index + 1;
+    const labels = labelsFor(id);
+    expect(labels).toContain('Diagram Rendering Error');
+    expect(labels).not.toContainEqual(expect.stringContaining(label));
     expect(result).toMatchObject({
       content: [{ text: expect.stringContaining(`Mermaid render error for item ${id}: Potentially dangerous content`) }],
     });
