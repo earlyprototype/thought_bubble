@@ -59,15 +59,34 @@ function hasEventAttribute(element: Element): boolean {
 
 const dangerousContentError = 'Potentially dangerous content detected in diagram code';
 
+// Inline handlers that JSDOM does not expose on a span, including window,
+// media, SVG animation and legacy clipboard events.
+const otherLabelHandlers = new Set(`
+  onafterprint onanimationcancel onanimationend onanimationiteration onanimationstart onbeforecopy
+  onbeforecut onbeforepaste onbeforeprint onbeforeunload onbegin oncommand oncontentvisibilityautostatechange
+  ondevicemotion ondeviceorientation ondeviceorientationabsolute onencrypted onend onenterpictureinpicture
+  onfocusin onfocusout onfreeze onfullscreenchange onfullscreenerror ongamepadconnected ongamepaddisconnected
+  ongotpointercapture onhashchange onlanguagechange onleavepictureinpicture onlostpointercapture onmessage
+  onmessageerror onmousewheel onoffline ononline onorientationchange onpagehide onpagereveal onpageshow
+  onpageswap onpointercancel onpointerdown onpointerenter onpointerleave onpointerlockchange onpointerlockerror
+  onpointermove onpointerout onpointerover onpointerrawupdate onpointerup onpopstate onprerenderingchange
+  onreadystatechange onrejectionhandled onrepeat onresume onscrollsnapchange onscrollsnapchanging onsearch
+  onselectionchange onselectstart onstorage ontransitioncancel ontransitionend ontransitionrun ontransitionstart
+  onunhandledrejection onunload onvisibilitychange onwaitingforkey onwebkitfullscreenchange onwebkitfullscreenerror
+  onzoom
+`.trim().split(/\s+/));
+
 function labelHasEventAttribute(label: string): boolean {
-  // In compound comparisons such as "x<y and online=true and z>0", the angles are operators.
+  // A comparison can itself mention a handler, e.g. "x<y and onload=false and z>0".
   const comparison = /(\w\s*)<(?=[\w.]+(?:\s+(?:and|or)\s+[\w.]+\s*={1,2}\s*[\w.]+)*\s+(?:and|or)\s+[\w.]+\s*>\s*\w)/gi;
   const markup = label.replace(comparison, '$1&lt;');
   const tags = markup.matchAll(/<[a-z][\w:.-]*((?:[^<>"']|"[^"]*"|'[^']*')*)>/gi);
   for (const [, attributes] of tags) {
     // A neutral element also lets the HTML parser read attributes on document and table tags.
     const element = JSDOM.fragment('<span' + attributes + '>').firstElementChild;
-    if (element && hasEventAttribute(element)) return true;
+    if (element?.getAttributeNames().some(name =>
+      name.startsWith('on') && (name in element || otherLabelHandlers.has(name))
+    )) return true;
   }
   return false;
 }
