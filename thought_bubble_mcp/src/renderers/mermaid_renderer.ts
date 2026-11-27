@@ -7,7 +7,7 @@
 
 import { renderMermaid, renderMermaidAscii } from 'beautiful-mermaid';
 import { JSDOM } from 'jsdom';
-import { html, parseFragment, type DefaultTreeAdapterTypes } from 'parse5';
+import { html, parseFragment, Tokenizer, type DefaultTreeAdapterTypes } from 'parse5';
 import type { ThemeTokens } from '../themes/types.js';
 import { processSvgForDynamicTheming } from '../themes/svg_processor.js';
 
@@ -77,7 +77,7 @@ const labelHandlers = new Set(`
   onzoom
 `.trim().split(/\s+/));
 
-// A bare boolean attribute establishes markup even when it touches a comparison operand.
+// At a tag boundary these names can be attributes without an assigned value.
 const booleanAttributes = new Set(`
   allowfullscreen allowpaymentrequest async autofocus autoplay checked compact controls credentialless
   declare default defer disabled
@@ -96,7 +96,7 @@ const globalAttributes = new Set(`
 `.trim().split(/\s+/));
 
 // Void and foreign elements never take the comparison exception.
-const voidElements = new Set('area base br col embed hr img input link meta param source track wbr'.split(' '));
+const voidElements = new Set('area base basefont bgsound br col embed frame hr img input keygen link meta param source track wbr'.split(' '));
 const elementAttributes: Record<string, string> = {
   a: 'attributionsrc charset coords download href hreflang name ping referrerpolicy rel rev shape target type',
   audio: 'controlslist crossorigin preload src',
@@ -145,22 +145,28 @@ function joinsLabelComparisons(label: string, element: DefaultTreeAdapterTypes.E
   const before = label.slice(0, start.startOffset).trimEnd();
   const after = label.slice(start.endOffset);
   const tag = label.slice(start.startOffset, start.endOffset - 1).trimEnd();
-  if (!/[\w)\]]$/.test(before) || !/^=?\s*[+-]?(?:[\w(]|\.\d)/.test(after) ||
-      !/\s[\w.]+(?:\([\w., ]*\))?$/.test(tag) || /["'/]/.test(tag)) return false;
+  // Check each side of the comparisons at the angles. The operand before ">"
+  // may be an identifier, a function call, or a parenthesized expression.
+  const operandBeforeGreater = /\s(?:[\p{ID_Continue}.$]+|[\p{ID_Continue}.$]*\([\p{ID_Continue}.$,+*% -]*\))$/u;
+  if (!/[\p{ID_Continue}$)\]]$/u.test(before) || !/^<[\p{ID_Continue}.$]+\s/u.test(tag) ||
+      !operandBeforeGreater.test(tag) || !/^=?\s*[+-]?(?:[\p{ID_Continue}$(]|\.\d)/u.test(after)) return false;
 
-  if (element.attrs.some(({ name }) => booleanAttributes.has(name) || /^(?:aria|data)-/.test(name))) return false;
+  if (tag.includes('/') || element.attrs.some(({ name }) => /^(?:aria|data)-/.test(name))) return false;
 
   const specific = Object.hasOwn(elementAttributes, element.tagName) ? elementAttributes[element.tagName].split(' ') : [];
   const [, ...words] = tag.replace(/\s*=\s*/g, '=').split(/\s+/);
   return words.every((word, index) => {
     const name = word.split('=', 1)[0].toLowerCase();
+    // Quoting matters at an assignment. Apostrophes in prose are ordinary text.
     if (word.includes('=') && (index === 0 || !/^[\w.-]+=[\w.-]+[,;]?$/.test(word))) return false;
     if (labelHandlers.has(name)) return index > 0 && index < words.length - 1;
-    if (globalAttributes.has(name) || specific.includes(name)) {
+    const isBooleanAttribute = booleanAttributes.has(name);
+    if (isBooleanAttribute || globalAttributes.has(name) || specific.includes(name)) {
       if (index === 0 || word.includes('=')) return false;
       // A named operand such as "id" can follow a logical operator.
-      if (index === words.length - 1) return /^(?:&&|\|\||and|or)$/i.test(words[index - 1]);
-      return /^[\w,;.-]+$/.test(words[index - 1]) && /^[\w,;.-]+$/.test(words[index + 1]);
+      if (index === words.length - 1) return !isBooleanAttribute && /^(?:&&|\|\||and|or)$/i.test(words[index - 1]);
+      const proseWord = /^[\p{ID_Continue}',;.-]+$/u;
+      return proseWord.test(words[index - 1]) && proseWord.test(words[index + 1]);
     }
     return true;
   });
@@ -187,16 +193,34 @@ function labelHasEventAttribute(label: string): boolean {
     for (const child of children) pending.push({ node: child, inMarkup: markup });
   }
 
-  // The HTML tree builder can discard a tag, including its attributes, in some
-  // contexts (for example a standalone <body>). Check any such original tag.
-  const tags = label.matchAll(/<([a-z][\w:.-]*)(?=[\s/>])((?:[^<>"']|"[^"]*"|'[^']*')*)>/gi);
-  for (const match of tags) {
-    const attributes = match[2];
-    if (parsed.has(match.index) || !/\bon/i.test(attributes)) continue;
-    const [tag] = parseFragment(`<span${attributes}>`).childNodes;
-    if (tag && 'attrs' in tag && tag.attrs.some(({ name }) => labelHandlers.has(name))) return true;
-  }
-  return false;
+  return discardedMarkupHasHandler(label, parsed);
+}
+
+// A fragment can drop an explicit wrapper such as <body> and promote its
+// children. Its source scope still runs from the opening tag to its close.
+function discardedMarkupHasHandler(label: string, parsed: Set<number>): boolean {
+  const openWrappers = new Map<string, number>();
+  let hasHandler = false;
+  const tokenizer = new Tokenizer({ sourceCodeLocationInfo: true }, {
+    onStartTag({ tagName, attrs, location }) {
+      const discarded = !parsed.has(location!.startOffset);
+      if ((discarded || openWrappers.size > 0) && attrs.some(({ name }) => labelHandlers.has(name))) {
+        hasHandler = true;
+      }
+      if (!voidElements.has(tagName) && (discarded || openWrappers.has(tagName))) {
+        openWrappers.set(tagName, (openWrappers.get(tagName) ?? 0) + 1);
+      }
+    },
+    onEndTag({ tagName }) {
+      const depth = openWrappers.get(tagName);
+      if (depth === 1) openWrappers.delete(tagName);
+      else if (depth) openWrappers.set(tagName, depth - 1);
+    },
+    onComment() {}, onDoctype() {}, onEof() {},
+    onCharacter() {}, onWhitespaceCharacter() {}, onNullCharacter() {},
+  });
+  tokenizer.write(label, true);
+  return hasHandler;
 }
 
 function svgHasEventAttribute(rawSvg: string): boolean {

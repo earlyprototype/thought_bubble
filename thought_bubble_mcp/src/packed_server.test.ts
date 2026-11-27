@@ -79,6 +79,14 @@ it('renders complete comparison labels with varied connecting prose without warn
     'a<b until onload fires, then c > d',
     'a<b until the title changes and onload fires, then c>d',
     'a <b as onload fires and c > d',
+    'a<b while the panel is open and onload fires, then c>d',
+    "a<b until today's onload fires, then c>d",
+    'a<b until onload fires, then (c + 1)>d',
+    'a<b while the dialog is visible and onload fires, then c>d',
+    'a<b while the dialog is open and onload fires, then c>d',
+    'a<b until onload fires, then c>δ',
+    'α<b until onload fires, then γ>δ',
+    '<body>Note</body> a<b until onload fires, then c>d',
   ];
   const { result, labelsFor, warnings } = await generateFlowcharts(labels);
   for (const [index, label] of labels.entries()) {
@@ -128,6 +136,7 @@ it('preserves comparison labels in the generated SVG and rejects event attribute
     "<math><mi onload=''/></math>",
     'left<b when onload=false and hidden>right',
     '<span>a<b when onload=false and c>d</span>',
+    '<body>a<b until onload fires, then c>d</body>',
   ];
   const { result, labelsFor, warnings } = await generateFlowcharts([...accepted, ...forbidden].map(label => `"${label}"`));
   expect(warnings).toHaveLength(forbidden.length);
