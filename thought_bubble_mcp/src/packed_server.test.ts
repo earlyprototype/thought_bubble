@@ -40,9 +40,17 @@ it('preserves comparison labels in the generated SVG and rejects event attribute
     'x<y only if z>0',
     'x<y && online=true && z>0',
     'x<y and onload=false and z>0',
+    'x<y && onload=false && z>0',
+    'x<y before onload fires and z>0 afterwards',
     "<span title='onclick=example'>",
   ];
-  const forbidden = ["<span onclick=''>", "<svg aria-label='a > b' ONLOAD=''>", "<span onbeforecopy=''>"];
+  const forbidden = [
+    "<span onclick=''>",
+    "<svg aria-label='a > b' ONLOAD=''>",
+    "<span onbeforecopy=''>",
+    "<body onload=''>",
+    "<circle onclick=''>",
+  ];
   const selectedSystems = [...accepted, ...forbidden].map((label, index) => ({
     id: index + 1,
     title: `Diagram ${index + 1}`,

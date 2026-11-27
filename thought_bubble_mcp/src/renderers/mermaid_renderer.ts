@@ -59,7 +59,7 @@ function hasEventAttribute(element: Element): boolean {
 
 const dangerousContentError = 'Potentially dangerous content detected in diagram code';
 
-// Inline handlers that JSDOM does not expose on a span, including window,
+// Inline handlers that JSDOM does not expose on all elements, including window,
 // media, SVG animation and legacy clipboard events.
 const otherLabelHandlers = new Set(`
   onafterprint onanimationcancel onanimationend onanimationiteration onanimationstart onbeforecopy
@@ -76,14 +76,45 @@ const otherLabelHandlers = new Set(`
   onzoom
 `.trim().split(/\s+/));
 
+// Standalone SVG tags need an SVG parent for the HTML fragment parser.
+const svgLabelTags = new Set(`
+  altGlyph altGlyphDef altGlyphItem animate animateColor animateMotion animateTransform circle clipPath
+  color-profile cursor defs desc ellipse feBlend feColorMatrix
+  feComponentTransfer feComposite feConvolveMatrix feDiffuseLighting feDisplacementMap feDistantLight
+  feDropShadow feFlood feFuncA feFuncB feFuncG feFuncR feGaussianBlur feImage feMerge feMergeNode
+  feMorphology feOffset fePointLight feSpecularLighting feSpotLight feTile feTurbulence filter
+  font-face font-face-format font-face-name font-face-src font-face-uri foreignObject g glyph glyphRef
+  hkern image line linearGradient marker mask metadata missing-glyph mpath path pattern polygon polyline
+  radialGradient rect set stop switch symbol text textPath tref tspan use view vkern
+`.trim().toLowerCase().split(/\s+/));
+// JSDOM gives these HTML tags the same interface as unrecognized names.
+const otherHtmlTags = new Set('applet bgsound blink isindex keygen menuitem multicol nextid search spacer'.split(' '));
+const labelWindow = new JSDOM().window;
+
+function parseLabelTag(tag: string, name: string): Element | null {
+  // The fragment parser discards document and frameset tags.
+  if (['html', 'head', 'body', 'frameset', 'frame'].includes(name)) {
+    const markup = name === 'frame' ? `<frameset>${tag}</frameset>` : tag;
+    return new labelWindow.DOMParser().parseFromString(markup, 'text/html').querySelector(name);
+  }
+
+  const template = labelWindow.document.createElement('template');
+  if (svgLabelTags.has(name)) {
+    template.innerHTML = `<svg>${tag}</svg>`;
+    return template.content.firstElementChild?.firstElementChild ?? null;
+  }
+
+  template.innerHTML = tag;
+  const element = template.content.firstElementChild;
+  // A variable in a comparison can look like an unknown tag, as in "x<y ... z>0".
+  if (element instanceof labelWindow.HTMLUnknownElement && !otherHtmlTags.has(name)) return null;
+  return element;
+}
+
 function labelHasEventAttribute(label: string): boolean {
-  // A comparison can itself mention a handler, e.g. "x<y and onload=false and z>0".
-  const comparison = /(\w\s*)<(?=[\w.]+(?:\s+(?:and|or)\s+[\w.]+\s*={1,2}\s*[\w.]+)*\s+(?:and|or)\s+[\w.]+\s*>\s*\w)/gi;
-  const markup = label.replace(comparison, '$1&lt;');
-  const tags = markup.matchAll(/<[a-z][\w:.-]*((?:[^<>"']|"[^"]*"|'[^']*')*)>/gi);
-  for (const [, attributes] of tags) {
-    // A neutral element also lets the HTML parser read attributes on document and table tags.
-    const element = JSDOM.fragment('<span' + attributes + '>').firstElementChild;
+  const tags = label.matchAll(/<([a-z][\w:.-]*)(?=[\s/>])(?:[^<>"']|"[^"]*"|'[^']*')*>/gi);
+  for (const [tag, tagName] of tags) {
+    const element = parseLabelTag(tag, tagName.toLowerCase());
     if (element?.getAttributeNames().some(name =>
       name.startsWith('on') && (name in element || otherLabelHandlers.has(name))
     )) return true;
