@@ -42,6 +42,8 @@ it('preserves comparison labels in the generated SVG and rejects event attribute
     'x<y and onload=false and z>0',
     'x<y && onload=false && z>0',
     'x<y before onload fires and z>0 afterwards',
+    'a<b && onload=false && c>d',
+    'a<b before onload fires and c>d',
     "<span title='onclick=example'>",
   ];
   const forbidden = [
@@ -50,6 +52,7 @@ it('preserves comparison labels in the generated SVG and rejects event attribute
     "<span onbeforecopy=''>",
     "<body onload=''>",
     "<circle onclick=''>",
+    "a<b && onload=false && c>d then <span onclick=''>",
   ];
   const selectedSystems = [...accepted, ...forbidden].map((label, index) => ({
     id: index + 1,
@@ -64,7 +67,7 @@ it('preserves comparison labels in the generated SVG and rejects event attribute
   const [output] = readdirSync(join(workspace, 'test_outputs'));
   const html = readFileSync(join(workspace, 'test_outputs', output), 'utf8');
   const labels = Array.from(JSDOM.fragment(html).querySelectorAll('svg text'), node => node.textContent);
-  for (const label of accepted) expect(labels).toContainEqual(expect.stringContaining(label));
+  for (const label of accepted) expect.soft(labels).toContainEqual(expect.stringContaining(label));
   for (const [index, label] of forbidden.entries()) {
     expect(labels).not.toContainEqual(expect.stringContaining(label));
     const id = accepted.length + index + 1;

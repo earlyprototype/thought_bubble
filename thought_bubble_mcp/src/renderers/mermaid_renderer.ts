@@ -111,9 +111,25 @@ function parseLabelTag(tag: string, name: string): Element | null {
   return element;
 }
 
+function joinsLabelComparisons(label: string, start: number, tag: string): boolean {
+  // In "a<b ... and c>d", both angles are operators with an operand outside the match.
+  if (!/\w\s*$/.test(label.slice(0, start)) || !/^\s*\w/.test(label.slice(start + tag.length))) {
+    return false;
+  }
+
+  const clauses = tag.slice(1, -1).trim().split(/\s*(?:&&|\|\||\b(?:and|or|if)\b)\s*/i);
+  // The first clause starts with the operand (b) and may continue with prose.
+  // An attribute assignment here still goes through the markup parser.
+  return clauses.length > 1 &&
+    /^[\w.\s]+$/.test(clauses[0]) &&
+    /^[\w.]+$/.test(clauses[clauses.length - 1]);
+}
+
 function labelHasEventAttribute(label: string): boolean {
   const tags = label.matchAll(/<([a-z][\w:.-]*)(?=[\s/>])(?:[^<>"']|"[^"]*"|'[^']*')*>/gi);
-  for (const [tag, tagName] of tags) {
+  for (const match of tags) {
+    const [tag, tagName] = match;
+    if (joinsLabelComparisons(label, match.index, tag)) continue;
     const element = parseLabelTag(tag, tagName.toLowerCase());
     if (element?.getAttributeNames().some(name =>
       name.startsWith('on') && (name in element || otherLabelHandlers.has(name))
