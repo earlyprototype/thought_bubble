@@ -7,6 +7,7 @@
 
 import { renderMermaid, renderMermaidAscii } from 'beautiful-mermaid';
 import { JSDOM } from 'jsdom';
+import { html, parseFragment, type DefaultTreeAdapterTypes } from 'parse5';
 import type { ThemeTokens } from '../themes/types.js';
 import { processSvgForDynamicTheming } from '../themes/svg_processor.js';
 
@@ -61,7 +62,7 @@ const dangerousContentError = 'Potentially dangerous content detected in diagram
 
 // Inline handlers that JSDOM does not expose on all elements, including window,
 // media, SVG animation and legacy clipboard events.
-const otherLabelHandlers = new Set(`
+const labelHandlers = new Set(`
   onafterprint onanimationcancel onanimationend onanimationiteration onanimationstart onbeforecopy
   onbeforecut onbeforepaste onbeforeprint onbeforeunload onbegin oncommand oncontentvisibilityautostatechange
   ondevicemotion ondeviceorientation ondeviceorientationabsolute onencrypted onend onenterpictureinpicture
@@ -76,80 +77,124 @@ const otherLabelHandlers = new Set(`
   onzoom
 `.trim().split(/\s+/));
 
-// Standalone SVG tags need an SVG parent for the HTML fragment parser.
-const svgLabelTags = new Set(`
-  altGlyph altGlyphDef altGlyphItem animate animateColor animateMotion animateTransform circle clipPath
-  color-profile cursor defs desc ellipse feBlend feColorMatrix
-  feComponentTransfer feComposite feConvolveMatrix feDiffuseLighting feDisplacementMap feDistantLight
-  feDropShadow feFlood feFuncA feFuncB feFuncG feFuncR feGaussianBlur feImage feMerge feMergeNode
-  feMorphology feOffset fePointLight feSpecularLighting feSpotLight feTile feTurbulence filter
-  font-face font-face-format font-face-name font-face-src font-face-uri foreignObject g glyph glyphRef
-  hkern image line linearGradient marker mask metadata missing-glyph mpath path pattern polygon polyline
-  radialGradient rect set stop switch symbol text textPath tref tspan use view vkern
-`.trim().toLowerCase().split(/\s+/));
-// JSDOM gives these HTML tags the same interface as unrecognized names.
-const otherHtmlTags = new Set('applet bgsound blink isindex keygen menuitem multicol nextid search spacer'.split(' '));
+// A bare boolean attribute establishes markup even when it touches a comparison operand.
+const booleanAttributes = new Set(`
+  allowfullscreen allowpaymentrequest async autofocus autoplay checked compact controls credentialless
+  declare default defer disabled
+  disablepictureinpicture disableremoteplayback formnovalidate hidden inert ismap itemscope loop
+  multiple muted nohref nomodule noresize noshade novalidate nowrap open playsinline readonly
+  required reversed selected truespeed typemustmatch
+`.trim().split(/\s+/));
+
+// Content attribute spellings, including names such as "class" and "for" whose
+// DOM properties have different names. A value or position matters for these:
+// "title=hint" is an attribute, but "the title changes" is a phrase.
+const globalAttributes = new Set(`
+  accesskey autocapitalize autocorrect autofocus class contenteditable dir draggable enterkeyhint
+  exportparts id inputmode is itemid itemprop itemref itemtype lang nonce part popover role slot
+  spellcheck style tabindex title translate virtualkeyboardpolicy writingsuggestions
+`.trim().split(/\s+/));
+
+// Void and foreign elements never take the comparison exception.
+const voidElements = new Set('area base br col embed hr img input link meta param source track wbr'.split(' '));
+const elementAttributes: Record<string, string> = {
+  a: 'attributionsrc charset coords download href hreflang name ping referrerpolicy rel rev shape target type',
+  audio: 'controlslist crossorigin preload src',
+  blockquote: 'cite', body: 'alink background bgcolor link text vlink',
+  button: 'command commandfor formaction formenctype formmethod formtarget name popovertarget popovertargetaction type value',
+  canvas: 'height width', caption: 'align', colgroup: 'align char charoff span valign width',
+  data: 'value', del: 'cite datetime', details: 'name', dialog: 'closedby', div: 'align',
+  fieldset: 'form name', font: 'color face size',
+  form: 'accept accept-charset action autocomplete enctype method name rel target',
+  frameset: 'cols rows', html: 'manifest version', iframe: 'allow csp height loading name referrerpolicy sandbox src srcdoc width',
+  ins: 'cite datetime', label: 'for form', legend: 'align', li: 'type value', map: 'name',
+  menu: 'label type', meter: 'form high low max min optimum value',
+  object: 'archive border classid codebase codetype data form height name standby type usemap width',
+  ol: 'start type', optgroup: 'label', option: 'label value', output: 'for form name', p: 'align',
+  pre: 'width', progress: 'max value', q: 'cite',
+  script: 'attributionsrc blocking charset crossorigin fetchpriority integrity referrerpolicy src type',
+  select: 'autocomplete form name size', slot: 'name', style: 'blocking media type',
+  table: 'align bgcolor border cellpadding cellspacing frame rules summary width',
+  tbody: 'align char charoff valign', td: 'abbr align axis bgcolor char charoff colspan headers height rowspan scope valign width',
+  template: 'shadowrootmode', textarea: 'autocomplete cols dirname form maxlength minlength name placeholder rows wrap',
+  tfoot: 'align char charoff valign', th: 'abbr align axis bgcolor char charoff colspan headers height rowspan scope valign width',
+  thead: 'align char charoff valign', time: 'datetime', tr: 'align bgcolor char charoff valign',
+  ul: 'type', video: 'controlslist crossorigin height poster preload src width',
+};
+
 const labelWindow = new JSDOM().window;
-
-function parseLabelTag(tag: string, name: string): Element | null {
-  // The fragment parser discards document and frameset tags.
-  if (['html', 'head', 'body', 'frameset', 'frame'].includes(name)) {
-    const markup = name === 'frame' ? `<frameset>${tag}</frameset>` : tag;
-    return new labelWindow.DOMParser().parseFromString(markup, 'text/html').querySelector(name);
-  }
-
-  const template = labelWindow.document.createElement('template');
-  if (svgLabelTags.has(name)) {
-    template.innerHTML = `<svg>${tag}</svg>`;
-    return template.content.firstElementChild?.firstElementChild ?? null;
-  }
-
-  template.innerHTML = tag;
-  const element = template.content.firstElementChild;
-  // A variable in a comparison can look like an unknown tag, as in "x<y ... z>0".
-  if (element instanceof labelWindow.HTMLUnknownElement && !otherHtmlTags.has(name)) return null;
-  return element;
-}
-
-function isLabelHandler(element: Element, name: string): boolean {
-  return name.startsWith('on') && (name in element || otherLabelHandlers.has(name));
-}
-
-function joinsLabelComparisons(label: string, start: number, tag: string, element: Element): boolean {
-  // Both angles must have operands, as in "a<b ... f(c)>= -1".
-  const after = label.slice(start + tag.length);
-  if (!/[\w)\]]$/.test(label.slice(0, start)) || !/^=?\s*[+-]?(?:[\w(]|\.\d)/.test(after)
-    || !/\s[\w.]+(?:\([\w., ]*\))?>$/.test(tag)) return false;
-
-  if (/["'/]/.test(tag)) return false;
-  for (const closing of after.matchAll(/<\/([\w:.-]+)\s*>/g)) {
-    if (closing[1].toLowerCase() === element.localName.toLowerCase()) return false;
-  }
-
-  // The HTML parser treats every word as an attribute and drops duplicates.
-  // Use the original token positions to distinguish an interior predicate from
-  // an attribute immediately after the tag name or at the closing angle.
-  const [, ...words] = tag.slice(1, -1).replace(/\s*=\s*/g, '=').split(/\s+/);
-  return words.every((word, index) => {
-    if (word.includes('=') && (index === 0 || !/^[\w.-]+=[\w.-]+[,;]?$/.test(word))) return false;
-    const name = word.split('=', 1)[0].toLowerCase();
-    if (isLabelHandler(element, name)) {
-      return index > 0 && index < words.length - 1;
+// Include the handlers exposed by JSDOM, including element-specific ones.
+for (const type of Object.getOwnPropertyNames(labelWindow)) {
+  if (/^(?:HTML|SVG)\w*Element$/.test(type)) {
+    for (const name of Object.getOwnPropertyNames(labelWindow[type].prototype)) {
+      if (name.startsWith('on')) labelHandlers.add(name);
     }
-    if (index === words.length - 1) return true; // left operand of ">"
-    // DOM methods such as before() also occur as ordinary words.
-    return !/^(?:aria|data)-/.test(name) &&
-      (!(name in element) || typeof Reflect.get(element, name) === 'function');
+  }
+}
+
+// HTML uses the same syntax for a bare attribute and a word in a sentence.
+// Check the operands and the positions of parsed names within the intervening
+// expression. Keep the source words because the HTML parser drops duplicates.
+function joinsLabelComparisons(label: string, element: DefaultTreeAdapterTypes.Element): boolean {
+  const location = element.sourceCodeLocation;
+  const start = location?.startTag;
+  if (!start || location.endTag || element.namespaceURI !== html.NS.HTML || voidElements.has(element.tagName)) {
+    return false;
+  }
+
+  const before = label.slice(0, start.startOffset).trimEnd();
+  const after = label.slice(start.endOffset);
+  const tag = label.slice(start.startOffset, start.endOffset - 1).trimEnd();
+  if (!/[\w)\]]$/.test(before) || !/^=?\s*[+-]?(?:[\w(]|\.\d)/.test(after) ||
+      !/\s[\w.]+(?:\([\w., ]*\))?$/.test(tag) || /["'/]/.test(tag)) return false;
+
+  if (element.attrs.some(({ name }) => booleanAttributes.has(name) || /^(?:aria|data)-/.test(name))) return false;
+
+  const specific = Object.hasOwn(elementAttributes, element.tagName) ? elementAttributes[element.tagName].split(' ') : [];
+  const [, ...words] = tag.replace(/\s*=\s*/g, '=').split(/\s+/);
+  return words.every((word, index) => {
+    const name = word.split('=', 1)[0].toLowerCase();
+    if (word.includes('=') && (index === 0 || !/^[\w.-]+=[\w.-]+[,;]?$/.test(word))) return false;
+    if (labelHandlers.has(name)) return index > 0 && index < words.length - 1;
+    if (globalAttributes.has(name) || specific.includes(name)) {
+      if (index === 0 || word.includes('=')) return false;
+      // A named operand such as "id" can follow a logical operator.
+      if (index === words.length - 1) return /^(?:&&|\|\||and|or)$/i.test(words[index - 1]);
+      return /^[\w,;.-]+$/.test(words[index - 1]) && /^[\w,;.-]+$/.test(words[index + 1]);
+    }
+    return true;
   });
 }
 
 function labelHasEventAttribute(label: string): boolean {
-  const tags = label.matchAll(/<([a-z][\w:.-]*)(?=[\s/>])(?:[^<>"']|"[^"]*"|'[^']*')*>/gi);
+  if (!label.includes('<') || !/\bon/i.test(label)) return false;
+
+  const fragment = parseFragment(label, { sourceCodeLocationInfo: true });
+  const parsed = new Set<number>();
+  const pending = fragment.childNodes.map(node => ({ node, inMarkup: false }));
+  while (pending.length) {
+    const { node, inMarkup } = pending.pop()!;
+    if (!('tagName' in node)) continue;
+    let markup = inMarkup;
+    if (node.sourceCodeLocation) {
+      parsed.add(node.sourceCodeLocation.startOffset);
+      markup ||= !joinsLabelComparisons(label, node);
+      if (markup && node.attrs.some(({ name }) => labelHandlers.has(name))) return true;
+    }
+    // Successive comparisons can appear nested in the parse tree. Only children
+    // of actual markup inherit its status.
+    const children = 'content' in node ? node.content.childNodes : node.childNodes;
+    for (const child of children) pending.push({ node: child, inMarkup: markup });
+  }
+
+  // The HTML tree builder can discard a tag, including its attributes, in some
+  // contexts (for example a standalone <body>). Check any such original tag.
+  const tags = label.matchAll(/<([a-z][\w:.-]*)(?=[\s/>])((?:[^<>"']|"[^"]*"|'[^']*')*)>/gi);
   for (const match of tags) {
-    const [tag, tagName] = match;
-    const element = parseLabelTag(tag, tagName.toLowerCase());
-    if (element?.getAttributeNames().some(name => isLabelHandler(element, name))
-      && !joinsLabelComparisons(label, match.index, tag, element)) return true;
+    const attributes = match[2];
+    if (parsed.has(match.index) || !/\bon/i.test(attributes)) continue;
+    const [tag] = parseFragment(`<span${attributes}>`).childNodes;
+    if (tag && 'attrs' in tag && tag.attrs.some(({ name }) => labelHandlers.has(name))) return true;
   }
   return false;
 }

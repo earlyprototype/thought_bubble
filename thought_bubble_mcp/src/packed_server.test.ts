@@ -28,12 +28,21 @@ afterAll(async () => {
   rmSync(workspace, { recursive: true, force: true });
 });
 
-it.each(['design', 'pov', 'typography', 'layouts', 'd3', 'color', 'spacing'])(
-  'reads the bundled %s guide from a clean workspace', async section => {
-    const result = await client.callTool({ name: 'get_design_guide', arguments: { section } });
-    expect(result).toMatchObject({ content: [{ type: 'text', text: expect.stringContaining('\n\n# ') }] });
-  }
-);
+it.each([
+  ['design', 'DesignGuide.md'],
+  ['pov', 'POV.md'],
+  ['typography', 'Typography.md'],
+  ['layouts', 'Layouts.md'],
+  ['d3', 'D3StyleGuide.md'],
+  ['color', 'ColorTheory.md'],
+  ['spacing', 'Spacing.md'],
+])('reads the bundled %s guide from a clean workspace', async (section, filename) => {
+  const result = await client.callTool({ name: 'get_design_guide', arguments: { section } });
+  const source = `design-guide/${filename}`;
+  const article = readFileSync(new URL(`../${source}`, import.meta.url), 'utf8');
+  const text = `# Design Guide: ${section}\n\n${article}\n\n---\n\nSource: ${source}`;
+  expect(result.content).toEqual([{ type: 'text', text }]);
+});
 
 async function generateFlowcharts(nodeLabels: string[]) {
   const selectedSystems = nodeLabels.map((label, index) => ({
@@ -52,7 +61,7 @@ async function generateFlowcharts(nodeLabels: string[]) {
   if (!output) throw new Error(message.text);
   const document = JSDOM.fragment(readFileSync(output, 'utf8'));
   const labelsFor = (id: number) =>
-    Array.from(document.querySelectorAll(`#section-${id} svg text`), node => node.textContent?.trim());
+    Array.from(document.querySelectorAll(`#section-${id} svg text`), node => node.textContent);
   const warningBlock = message.text.split('\n\n').find(block => block.startsWith('Errors:\n'));
   const warnings = warningBlock?.split('\n').slice(1) ?? [];
   return { result, labelsFor, warnings };
@@ -60,9 +69,16 @@ async function generateFlowcharts(nodeLabels: string[]) {
 
 it('renders complete comparison labels with varied connecting prose without warnings', async () => {
   const labels = [
+    'Out of Scope — negative decisions = definition of done',
     'a<b until onload fires, then c>d',
     'a<b when onload=false and c>d',
     'a<b while onload=false; subsequently c>d',
+    'a<b when onload fires and c > d',
+    'a<b when onload=false and c > d',
+    'a<b when the title changes and onload fires, then c>d',
+    'a<b until onload fires, then c > d',
+    'a<b until the title changes and onload fires, then c>d',
+    'a <b as onload fires and c > d',
   ];
   const { result, labelsFor, warnings } = await generateFlowcharts(labels);
   for (const [index, label] of labels.entries()) {
@@ -106,6 +122,12 @@ it('preserves comparison labels in the generated SVG and rejects event attribute
     'left<b onload=false>right',
     'left<b hidden onload=false c>right',
     'left<b when onload=false and c>right</b>',
+    "<widget onload=''>value</widget>",
+    'left<input readonly onload=false disabled>right',
+    'left<img ismap onload=false hidden>right',
+    "<math><mi onload=''/></math>",
+    'left<b when onload=false and hidden>right',
+    '<span>a<b when onload=false and c>d</span>',
   ];
   const { result, labelsFor, warnings } = await generateFlowcharts([...accepted, ...forbidden].map(label => `"${label}"`));
   expect(warnings).toHaveLength(forbidden.length);
@@ -119,7 +141,7 @@ it('preserves comparison labels in the generated SVG and rejects event attribute
   for (const [index, label] of forbidden.entries()) {
     const id = accepted.length + index + 1;
     const labels = labelsFor(id);
-    expect(labels).toContain('Diagram Rendering Error');
+    expect(labels.map(text => text?.trim()), label).toContain('Diagram Rendering Error');
     expect(labels).not.toContainEqual(expect.stringContaining(label));
     expect(result).toMatchObject({
       content: [{ text: expect.stringContaining(`Mermaid render error for item ${id}: Potentially dangerous content`) }],
