@@ -66,7 +66,7 @@ index.ts (MCP server, tool registration, request routing)
         |
         +-- generate_mermaid_prompt --> templates.ts (returns MERMAID_GENERATION_PROMPT to LLM)
         +-- list_themes --> returns theme metadata
-        +-- get_design_guide --> reads markdown from DesignTeam/DesignGuide/
+        +-- get_design_guide --> reads markdown from design-guide/
 ```
 
 ---
@@ -81,6 +81,7 @@ thought_bubble_mcp/
     tools/
       analyze_content.ts              # Analysis tool
       generate_visualization.ts       # Main rendering pipeline
+      get_design_guide.ts             # Bundled guide lookup
     renderers/
       d3_renderer.ts                  # All D3 chart rendering
       mermaid_renderer.ts             # Mermaid diagram rendering
@@ -95,15 +96,14 @@ thought_bubble_mcp/
       svg_processor.ts                # Post-render SVG colour replacement
     prompts/
       templates.ts                    # LLM prompt templates
-  DesignTeam/
-    DesignGuide/
-      DesignGuide.md                  # Master design philosophy (dev audience)
-      POV.md                          # Curated extract for LLM consumption
-      Typography.md                   # Font pairings by theme
-      Layouts.md                      # Layout templates and selection guidance
-      D3StyleGuide.md                 # D3 chart styling reference
-      ColorTheory.md                  # Colour strategy principles
-      Spacing.md                      # 8px grid system
+  design-guide/
+    DesignGuide.md                    # Design overview
+    POV.md                            # Product philosophy and quality checks
+    Typography.md                     # Font pairings by theme
+    Layouts.md                        # Layout templates and selection guidance
+    D3StyleGuide.md                   # D3 chart styling reference
+    ColorTheory.md                    # Colour strategy principles
+    Spacing.md                        # 8px grid system
 ```
 
 ---
@@ -129,7 +129,7 @@ If you add a field or enum value to one and not the other, either the LLM won't 
 | `generate_visualization` | `generateVisualization()` | Main rendering pipeline -- produces HTML file |
 | `generate_mermaid_prompt` | `generateMermaidPrompt()` | Returns Mermaid generation prompt to the LLM |
 | `list_themes` | inline | Returns all theme metadata |
-| `get_design_guide` | inline | Reads and returns design guide markdown files |
+| `get_design_guide` | `getDesignGuide()` | Reads and returns design guide markdown files |
 
 **Key section -- tool description (lines ~100-123):**
 The `generate_visualization` tool description is the primary creative brief the LLM reads. It contains the Cool-kid Test, anti-patterns, layout selection guidance, and design requirements. This text is read by the LLM every time it considers calling the tool. It is the most important piece of copy in the entire codebase for influencing output quality.
@@ -289,10 +289,11 @@ Every render function calls `processSvgForDynamicTheming(svgString, theme)` befo
 **Role:** Wraps `beautiful-mermaid` library for server-side SVG rendering of Mermaid diagrams.
 
 **Flow:**
-1. `sanitiseMermaidCode(code)` -- checks for XSS vectors (script tags, event handlers, iframes)
+1. `sanitiseMermaidCode(code)` checks for blocked tags and JavaScript URLs.
 2. `validateMermaidSyntax(code)` -- validates diagram type declaration exists
 3. `renderMermaid(code, options)` -- calls beautiful-mermaid with theme colours mapped to its options format
-4. `processSvgForDynamicTheming(svg, theme)` -- replaces hardcoded colours with CSS variables
+4. The renderer checks SVG attributes and markup within each label for inline event handlers.
+5. `processSvgForDynamicTheming(svg, theme)` replaces hardcoded colours with CSS variables.
 
 **Supported types:** flowchart, sequence, class, er, state. C4 is NOT supported.
 
@@ -485,20 +486,18 @@ Previously "dead CSS" (`.pull-quote`, `.metric-card`) is now actively used by th
 
 | Theme | Mode | Category | Display Font | Body Font | Personality |
 |-------|------|----------|-------------|-----------|-------------|
-| tokyo_night | dark | new | Satoshi | Inter | Modern tech, confident |
-| dracula | dark | new | Space Grotesk | IBM Plex Sans | Dark, focused, slightly gothic |
+| tokyo_night | dark | new | Clash Display | Switzer | Modern tech, confident |
+| dracula | dark | new | Satoshi | IBM Plex Sans | Dark, focused, slightly gothic |
 | gruvbox | dark | new | Vollkorn | Source Sans 3 | Warm, retro-modern, earthy |
 | solarized_dark | dark | new | Newsreader | Literata | Academic, precise, timeless |
 | solarized_light | light | new | Newsreader | Literata | Academic, precise, timeless |
 | github_light | light | new | Atkinson Hyperlegible Next | Atkinson Hyperlegible Next | Developer-focused, accessible |
 | github_dark | dark | new | Atkinson Hyperlegible Next | Atkinson Hyperlegible Next | Developer-focused, accessible |
 | professional | light | original | Plus Jakarta Sans | Source Serif 4 | Corporate, trustworthy |
-| dark | dark | original | Outfit | Inter | Sleek, minimal, contemporary |
+| dark | dark | original | General Sans | Inter | Sleek, minimal, contemporary |
 | technical | dark | original | Azeret Mono | Inter | Engineering, precise |
 | minimal | light | original | Cormorant | Lora | Refined, quiet, sophisticated |
-| creative | light | original | DM Sans | Inter | Bold, expressive, playful |
-
-**NOTE:** Some font families in `definitions.ts` don't match `Typography.md` exactly. The Typography guide describes Dracula with "Space Grotesk" for display but `definitions.ts` uses "Satoshi" for display. Similarly, Creative should use "Clash Display" per the guide but uses "DM Sans". These are known divergences between aspiration (guide) and implementation (code).
+| creative | light | original | DM Sans | DM Sans | Bold, expressive, playful |
 
 ---
 
@@ -559,17 +558,17 @@ Contains legacy type definitions. `IdentifiedItem`, `AnalysisResult`, `SelectedS
 
 ## Design Guide Files
 
-Located at `DesignTeam/DesignGuide/`. These are reference documents for the development team. The `get_design_guide` tool serves them to the LLM on request.
+The npm package includes the Markdown files in [design-guide/](design-guide/). The `get_design_guide` tool resolves them relative to the server module so callers can start it from any workspace.
 
 | File | Audience | Purpose |
 |------|----------|---------|
-| `DesignGuide.md` | Dev team | Master design philosophy, quality gates, anti-patterns |
-| `POV.md` | LLM (curated extract) | Cool-kid Test, Three Pillars, anti-patterns, quality gates |
-| `Typography.md` | Dev team | Font pairings per theme with personality descriptions, type scale, line height, letter spacing, measure rules |
-| `Layouts.md` | Dev team | Layout archetypes with ASCII wireframes, selection matrix, responsive breakpoints, design notes per layout |
-| `D3StyleGuide.md` | Dev team | SVG filters, curve types, colour science, animation choreography, accessibility patterns, scrollytelling, performance, chart-specific guidelines |
-| `ColorTheory.md` | Dev team | Colour purpose hierarchy, colour budget, sequential/diverging/categorical strategies, opacity as dimension, accessible palettes |
-| `Spacing.md` | Dev team | 8px grid system, component spacing, chart margins, responsive spacing, spacing crimes |
+| `DesignGuide.md` | Dev team | Reading tasks, visual hierarchy and quality checks |
+| `POV.md` | LLM | Cool-kid Test, layout choice, evidence and typography |
+| `Typography.md` | Dev team | Font pairings, type scale, line height and line length |
+| `Layouts.md` | Dev team | Layout selection by reading task and section role |
+| `D3StyleGuide.md` | Dev team | Chart selection, axes, annotations, styling and motion |
+| `ColorTheory.md` | Dev team | Theme colours, data scales and accessible labels |
+| `Spacing.md` | Dev team | 8px grid, density presets, chart margins and responsive spacing |
 
 ---
 
@@ -587,11 +586,9 @@ Located at `DesignTeam/DesignGuide/`. These are reference documents for the deve
 
 2. **diagramType is required.** The Zod schema requires it, but the `Section.diagram` field is optional. Sections cannot currently be prose-only.
 
-3. **Theme definitions drift from Typography.md.** Some font pairings in `definitions.ts` don't match the Typography guide's recommendations (Dracula display, Creative display).
+3. **scales.sequential and scales.diverging are not CSS-variable accessible.** Only `scales.primary` is exposed as `--scale-1` through `--scale-5`. Sequential (9 colours) and diverging (11 colours) are only available in TypeScript at render time.
 
-4. **scales.sequential and scales.diverging are not CSS-variable accessible.** Only `scales.primary` is exposed as `--scale-1` through `--scale-5`. Sequential (9 colours) and diverging (11 colours) are only available in TypeScript at render time.
-
-5. **Hero is not universally available.** The `hero` schema field is consumed by `buildMagazineLayout()` and `buildDossierLayout()` but other layouts ignore it.
+4. **Hero is not universally available.** The `hero` schema field is consumed by `buildMagazineLayout()` and `buildDossierLayout()` but other layouts ignore it.
 
 ### Design Decisions (Not Gaps)
 

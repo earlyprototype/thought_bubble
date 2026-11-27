@@ -567,7 +567,7 @@ Returns prompt template to help LLMs generate Mermaid diagram code.
 Lists all 12 available themes with their details (name, mode, category, personality).
 
 ### `get_design_guide`
-Retrieves design guide documentation (POV, Typography, Layouts, D3StyleGuide, ColorTheory, Spacing).
+Returns the [bundled design guide](thought_bubble_mcp/design-guide/DesignGuide.md). Omit `section` for the overview, or request `pov`, `layouts`, `typography`, `d3`, `color` or `spacing`.
 
 **Complete MCP documentation:** [`thought_bubble_mcp/README.md`](thought_bubble_mcp/README.md) | **Architecture reference:** [`thought_bubble_mcp/ARCHITECTURE.md`](thought_bubble_mcp/ARCHITECTURE.md)
 

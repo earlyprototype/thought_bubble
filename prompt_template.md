@@ -57,7 +57,7 @@ You have access to:
 
 # DESIGN PRINCIPLES
 
-Follow the DesignTeam/DesignGuide design system (accessible via `get_design_guide`). Core principles:
+Use `get_design_guide` for the bundled design system. Apply these principles when generating the page.
 
 1. **Visual Hierarchy** - Size, colour, spacing guide the eye
 2. **Consistency** - Uniform spacing, colours, typography
