@@ -54,14 +54,14 @@ export function isMermaidDiagramType(type: string): type is MermaidDiagramType {
   return ['flowchart', 'sequence', 'class', 'er', 'state'].includes(type);
 }
 
-function hasEventAttribute(element: Element): boolean {
-  return element.getAttributeNames().some(name => /^on./i.test(name));
+function isEventAttributeName(name: string): boolean {
+  return /^on./i.test(name);
 }
 
 const dangerousContentError = 'Potentially dangerous content detected in diagram code';
 
-// Inline handlers that JSDOM does not expose on all elements, including window,
-// media, SVG animation and legacy clipboard events.
+// Known handlers help distinguish a bare attribute at a comparison boundary
+// from words like "only". Confirmed markup uses isEventAttributeName.
 const labelHandlers = new Set(`
   onafterprint onanimationcancel onanimationend onanimationiteration onanimationstart onbeforecopy
   onbeforecut onbeforepaste onbeforeprint onbeforeunload onbegin oncommand oncontentvisibilityautostatechange
@@ -95,30 +95,42 @@ const globalAttributes = new Set(`
   spellcheck style tabindex title translate virtualkeyboardpolicy writingsuggestions
 `.trim().split(/\s+/));
 
-// Void and foreign elements never take the comparison exception.
+// Void elements do not open a scope around later text.
 const voidElements = new Set('area base basefont bgsound br col embed frame hr img input keygen link meta param source track wbr'.split(' '));
 const elementAttributes: Record<string, string> = {
   a: 'attributionsrc charset coords download href hreflang name ping referrerpolicy rel rev shape target type',
+  area: 'alt coords download href hreflang media ping referrerpolicy rel shape target type',
   audio: 'controlslist crossorigin preload src',
+  base: 'href target', basefont: 'color face size', bgsound: 'balance loop src volume',
   blockquote: 'cite', body: 'alink background bgcolor link text vlink',
+  br: 'clear',
   button: 'command commandfor formaction formenctype formmethod formtarget name popovertarget popovertargetaction type value',
   canvas: 'height width', caption: 'align', colgroup: 'align char charoff span valign width',
+  col: 'align char charoff span valign width',
   data: 'value', del: 'cite datetime', details: 'name', dialog: 'closedby', div: 'align',
   fieldset: 'form name', font: 'color face size',
   form: 'accept accept-charset action autocomplete enctype method name rel target',
   frameset: 'cols rows', html: 'manifest version', iframe: 'allow csp height loading name referrerpolicy sandbox src srcdoc width',
+  hr: 'align color size width',
+  img: 'align alt attributionsrc border crossorigin decoding fetchpriority height hspace loading longdesc name referrerpolicy sizes src srcset usemap vspace width',
+  input: 'accept align alt autocomplete capture dirname form formaction formenctype formmethod formtarget height list max maxlength min minlength name pattern placeholder popovertarget popovertargetaction size src step type value width',
   ins: 'cite datetime', label: 'for form', legend: 'align', li: 'type value', map: 'name',
+  keygen: 'challenge form keytype name', link: 'as blocking crossorigin fetchpriority href hreflang imagesizes imagesrcset integrity media referrerpolicy rel sizes type',
   menu: 'label type', meter: 'form high low max min optimum value',
+  meta: 'charset content http-equiv media name',
   object: 'archive border classid codebase codetype data form height name standby type usemap width',
   ol: 'start type', optgroup: 'label', option: 'label value', output: 'for form name', p: 'align',
+  param: 'name type value valuetype',
   pre: 'width', progress: 'max value', q: 'cite',
   script: 'attributionsrc blocking charset crossorigin fetchpriority integrity referrerpolicy src type',
   select: 'autocomplete form name size', slot: 'name', style: 'blocking media type',
+  source: 'height media sizes src srcset type width',
   table: 'align bgcolor border cellpadding cellspacing frame rules summary width',
   tbody: 'align char charoff valign', td: 'abbr align axis bgcolor char charoff colspan headers height rowspan scope valign width',
   template: 'shadowrootmode', textarea: 'autocomplete cols dirname form maxlength minlength name placeholder rows wrap',
   tfoot: 'align char charoff valign', th: 'abbr align axis bgcolor char charoff colspan headers height rowspan scope valign width',
   thead: 'align char charoff valign', time: 'datetime', tr: 'align bgcolor char charoff valign',
+  track: 'kind label src srclang',
   ul: 'type', video: 'controlslist crossorigin height poster preload src width',
 };
 
@@ -138,35 +150,36 @@ for (const type of Object.getOwnPropertyNames(labelWindow)) {
 function joinsLabelComparisons(label: string, element: DefaultTreeAdapterTypes.Element): boolean {
   const location = element.sourceCodeLocation;
   const start = location?.startTag;
-  if (!start || location.endTag || element.namespaceURI !== html.NS.HTML || voidElements.has(element.tagName)) {
+  if (!start || location.endTag || element.namespaceURI !== html.NS.HTML) {
     return false;
   }
 
   const before = label.slice(0, start.startOffset).trimEnd();
   const after = label.slice(start.endOffset);
   const tag = label.slice(start.startOffset, start.endOffset - 1).trimEnd();
-  // Check each side of the comparisons at the angles. The operand before ">"
-  // may be an identifier, a function call, or a parenthesized expression.
-  const operandBeforeGreater = /\s(?:[\p{ID_Continue}.$]+|[\p{ID_Continue}.$]*\([\p{ID_Continue}.$,+*% -]*\))$/u;
+  // The two comparisons need surrounding operands. The text between the
+  // angles can include prose, paths and arithmetic expressions.
   if (!/[\p{ID_Continue}$)\]]$/u.test(before) || !/^<[\p{ID_Continue}.$]+\s/u.test(tag) ||
-      !operandBeforeGreater.test(tag) || !/^=?\s*[+-]?(?:[\p{ID_Continue}$(]|\.\d)/u.test(after)) return false;
+      !/^=?\s*[+-]?(?:[\p{ID_Continue}$(]|\.\d)/u.test(after)) return false;
 
-  if (tag.includes('/') || element.attrs.some(({ name }) => /^(?:aria|data)-/.test(name))) return false;
+  const [, ...words] = tag.replace(/\s*=\s*/g, '=').split(/\s+/);
+  if (words[0]?.startsWith('/') || tag.endsWith('/')) return false;
+  if (element.attrs.some(({ name }) => /^(?:aria|data)-/.test(name))) return false;
 
   const specific = Object.hasOwn(elementAttributes, element.tagName) ? elementAttributes[element.tagName].split(' ') : [];
-  const [, ...words] = tag.replace(/\s*=\s*/g, '=').split(/\s+/);
   return words.every((word, index) => {
     const name = word.split('=', 1)[0].toLowerCase();
+    const atBoundary = index === 0 || index === words.length - 1;
     // Quoting matters at an assignment. Apostrophes in prose are ordinary text.
-    if (word.includes('=') && (index === 0 || !/^[\w.-]+=[\w.-]+[,;]?$/.test(word))) return false;
-    if (labelHandlers.has(name)) return index > 0 && index < words.length - 1;
+    if (word.includes('=') && (atBoundary || !/^[\w.-]+=[\w.-]+[,;]?$/.test(word))) return false;
+    if (labelHandlers.has(name)) return !atBoundary;
     const isBooleanAttribute = booleanAttributes.has(name);
     if (isBooleanAttribute || globalAttributes.has(name) || specific.includes(name)) {
       if (index === 0 || word.includes('=')) return false;
       // A named operand such as "id" can follow a logical operator.
       if (index === words.length - 1) return !isBooleanAttribute && /^(?:&&|\|\||and|or)$/i.test(words[index - 1]);
-      const proseWord = /^[\p{ID_Continue}',;.-]+$/u;
-      return proseWord.test(words[index - 1]) && proseWord.test(words[index + 1]);
+      // A bare name next to an assignment can be part of an attribute list.
+      return !words[index - 1].includes('=') && !words[index + 1].includes('=');
     }
     return true;
   });
@@ -185,7 +198,7 @@ function labelHasEventAttribute(label: string): boolean {
     if (node.sourceCodeLocation) {
       parsed.add(node.sourceCodeLocation.startOffset);
       markup ||= !joinsLabelComparisons(label, node);
-      if (markup && node.attrs.some(({ name }) => labelHandlers.has(name))) return true;
+      if (markup && node.attrs.some(({ name }) => isEventAttributeName(name))) return true;
     }
     // Successive comparisons can appear nested in the parse tree. Only children
     // of actual markup inherit its status.
@@ -204,7 +217,7 @@ function discardedMarkupHasHandler(label: string, parsed: Set<number>): boolean 
   const tokenizer = new Tokenizer({ sourceCodeLocationInfo: true }, {
     onStartTag({ tagName, attrs, location }) {
       const discarded = !parsed.has(location!.startOffset);
-      if ((discarded || openWrappers.size > 0) && attrs.some(({ name }) => labelHandlers.has(name))) {
+      if ((discarded || openWrappers.size > 0) && attrs.some(({ name }) => isEventAttributeName(name))) {
         hasHandler = true;
       }
       if (!voidElements.has(tagName) && (discarded || openWrappers.has(tagName))) {
@@ -227,7 +240,7 @@ function svgHasEventAttribute(rawSvg: string): boolean {
   if (!/\bon/i.test(rawSvg)) return false;
   const svg = JSDOM.fragment(rawSvg);
   for (const element of svg.querySelectorAll('*')) {
-    if (hasEventAttribute(element)) return true;
+    if (element.getAttributeNames().some(isEventAttributeName)) return true;
     if (element.localName === 'text' && labelHasEventAttribute(element.textContent ?? '')) return true;
   }
   return false;
