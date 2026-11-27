@@ -111,21 +111,35 @@ function parseLabelTag(tag: string, name: string): Element | null {
   return element;
 }
 
-function joinsLabelComparisons(label: string, start: number, tag: string): boolean {
-  const left = label.slice(0, start).trimEnd();
-  const right = label.slice(start + tag.length).replace(/^=/, '').trimStart();
-  if (!left || !right || left.endsWith('>') || right.startsWith('<') || tag.endsWith('/>')) return false;
+function isLabelHandler(element: Element, name: string): boolean {
+  return name.startsWith('on') && (name in element || otherLabelHandlers.has(name));
+}
 
-  // Quoted attribute values can contain words such as "and".
-  const body = tag.slice(1, -1).replace(/"[^"]*"|'[^']*'/g, '""');
-  const clauses = body.split(/\s*(?:&&|\|\||\b(?:and|or|if)\b)\s*/i);
-  return clauses.length > 1 && clauses.every((clause, index) => {
-    // In "a<b && onload=false && c>d", the assignment starts an interior condition.
-    // An attribute assignment elsewhere still needs the markup parser.
-    const remainder = index > 0 && index < clauses.length - 1
-      ? clause.replace(/^[\w:.-]+\s*=/, '')
-      : clause;
-    return !/(?:^|\s)[\w:.-]+\s*=/.test(remainder);
+function joinsLabelComparisons(label: string, start: number, tag: string, element: Element): boolean {
+  // Both angles must have operands, as in "a<b ... f(c)>= -1".
+  const after = label.slice(start + tag.length);
+  if (!/[\w)\]]$/.test(label.slice(0, start)) || !/^=?\s*[+-]?(?:[\w(]|\.\d)/.test(after)
+    || !/\s[\w.]+(?:\([\w., ]*\))?>$/.test(tag)) return false;
+
+  if (/["'/]/.test(tag)) return false;
+  for (const closing of after.matchAll(/<\/([\w:.-]+)\s*>/g)) {
+    if (closing[1].toLowerCase() === element.localName.toLowerCase()) return false;
+  }
+
+  // The HTML parser treats every word as an attribute and drops duplicates.
+  // Use the original token positions to distinguish an interior predicate from
+  // an attribute immediately after the tag name or at the closing angle.
+  const [, ...words] = tag.slice(1, -1).replace(/\s*=\s*/g, '=').split(/\s+/);
+  return words.every((word, index) => {
+    if (word.includes('=') && (index === 0 || !/^[\w.-]+=[\w.-]+[,;]?$/.test(word))) return false;
+    const name = word.split('=', 1)[0].toLowerCase();
+    if (isLabelHandler(element, name)) {
+      return index > 0 && index < words.length - 1;
+    }
+    if (index === words.length - 1) return true; // left operand of ">"
+    // DOM methods such as before() also occur as ordinary words.
+    return !/^(?:aria|data)-/.test(name) &&
+      (!(name in element) || typeof Reflect.get(element, name) === 'function');
   });
 }
 
@@ -133,11 +147,9 @@ function labelHasEventAttribute(label: string): boolean {
   const tags = label.matchAll(/<([a-z][\w:.-]*)(?=[\s/>])(?:[^<>"']|"[^"]*"|'[^']*')*>/gi);
   for (const match of tags) {
     const [tag, tagName] = match;
-    if (joinsLabelComparisons(label, match.index, tag)) continue;
     const element = parseLabelTag(tag, tagName.toLowerCase());
-    if (element?.getAttributeNames().some(name =>
-      name.startsWith('on') && (name in element || otherLabelHandlers.has(name))
-    )) return true;
+    if (element?.getAttributeNames().some(name => isLabelHandler(element, name))
+      && !joinsLabelComparisons(label, match.index, tag, element)) return true;
   }
   return false;
 }

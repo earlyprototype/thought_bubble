@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import { CallToolResultSchema } from '@modelcontextprotocol/sdk/types.js';
 import { JSDOM } from 'jsdom';
 import { afterAll, beforeAll, expect, it } from 'vitest';
 
@@ -34,6 +35,45 @@ it.each(['design', 'pov', 'typography', 'layouts', 'd3', 'color', 'spacing'])(
   }
 );
 
+async function generateFlowcharts(nodeLabels: string[]) {
+  const selectedSystems = nodeLabels.map((label, index) => ({
+    id: index + 1,
+    title: `Diagram ${index + 1}`,
+    description: 'Flowchart',
+    diagramType: 'flowchart',
+    mermaidCode: `flowchart TD\n  A[${label}] --> B[Done]`,
+  }));
+  const result = await client.callTool({
+    name: 'generate_visualization', arguments: { content: 'Example diagrams', selectedSystems },
+  });
+  const [message] = CallToolResultSchema.parse(result).content;
+  if (message?.type !== 'text') throw new Error('Expected a text response');
+  const output = /^File: (.+)$/m.exec(message.text)?.[1];
+  if (!output) throw new Error(message.text);
+  const document = JSDOM.fragment(readFileSync(output, 'utf8'));
+  const labelsFor = (id: number) =>
+    Array.from(document.querySelectorAll(`#section-${id} svg text`), node => node.textContent?.trim());
+  const warningBlock = message.text.split('\n\n').find(block => block.startsWith('Errors:\n'));
+  const warnings = warningBlock?.split('\n').slice(1) ?? [];
+  return { result, labelsFor, warnings };
+}
+
+it('renders complete comparison labels with varied connecting prose without warnings', async () => {
+  const labels = [
+    'a<b until onload fires, then c>d',
+    'a<b when onload=false and c>d',
+    'a<b while onload=false; subsequently c>d',
+  ];
+  const { result, labelsFor, warnings } = await generateFlowcharts(labels);
+  for (const [index, label] of labels.entries()) {
+    expect.soft(labelsFor(index + 1)).toContain(label);
+  }
+  expect(warnings).toEqual([]);
+  expect(result).toMatchObject({
+    content: [{ type: 'text', text: expect.stringMatching(/^HTML visualization generated successfully!/) }],
+  });
+});
+
 it('preserves comparison labels in the generated SVG and rejects event attributes', async () => {
   const accepted = [
     'decisions = definition of done',
@@ -43,6 +83,7 @@ it('preserves comparison labels in the generated SVG and rejects event attribute
     'x<y && onload=false && z>0',
     'x<y before onload fires and z>0 afterwards',
     'a<b && onload=false && c>d',
+    'a<b && ready=true && onload=disabled && id>d',
     'a<b && onload=false && c>=d',
     'a<b before onload fires and c>d',
     'a<b before onload fires and c>-1',
@@ -62,22 +103,12 @@ it('preserves comparison labels in the generated SVG and rejects event attribute
     "<circle onclick=''>",
     "Read <b title='before and after' onclick=''>this</b>",
     "a<b && onload=false && c>d then <span onclick=''>",
+    'left<b onload=false>right',
+    'left<b hidden onload=false c>right',
+    'left<b when onload=false and c>right</b>',
   ];
-  const selectedSystems = [...accepted, ...forbidden].map((label, index) => ({
-    id: index + 1,
-    title: `Diagram ${index + 1}`,
-    description: 'Flowchart',
-    diagramType: 'flowchart',
-    mermaidCode: `flowchart TD\n  A["${label}"] --> B[Done]`,
-  }));
-  const result = await client.callTool({
-    name: 'generate_visualization', arguments: { content: 'Example diagrams', selectedSystems },
-  });
-  const [output] = readdirSync(join(workspace, 'test_outputs'));
-  const html = readFileSync(join(workspace, 'test_outputs', output), 'utf8');
-  const document = JSDOM.fragment(html);
-  const labelsFor = (id: number) =>
-    Array.from(document.querySelectorAll(`#section-${id} svg text`), node => node.textContent?.trim());
+  const { result, labelsFor, warnings } = await generateFlowcharts([...accepted, ...forbidden].map(label => `"${label}"`));
+  expect(warnings).toHaveLength(forbidden.length);
   for (const [index, label] of accepted.entries()) {
     const id = index + 1;
     expect.soft(labelsFor(id)).toContainEqual(expect.stringContaining(label));
