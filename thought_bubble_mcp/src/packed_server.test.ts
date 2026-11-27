@@ -47,6 +47,11 @@ it('preserves comparison labels in the generated SVG and rejects event attribute
     'a<b before onload fires and c>d',
     'a<b before onload fires and c>-1',
     'a<b before onload fires and c>= +1',
+    'a<b before onload fires and c>=.5',
+    'a<b before onload fires and c>=(baseline + 1)',
+    'f(a)<b before onload fires and c>d',
+    'a<b && onload=false && c>=.5',
+    'a<b before onload fires and f(c)>(baseline + 1)',
     "<span title='onclick=example'>",
   ];
   const forbidden = [
@@ -55,6 +60,7 @@ it('preserves comparison labels in the generated SVG and rejects event attribute
     "<span onbeforecopy=''>",
     "<body onload=''>",
     "<circle onclick=''>",
+    "Read <b title='before and after' onclick=''>this</b>",
     "a<b && onload=false && c>d then <span onclick=''>",
   ];
   const selectedSystems = [...accepted, ...forbidden].map((label, index) => ({

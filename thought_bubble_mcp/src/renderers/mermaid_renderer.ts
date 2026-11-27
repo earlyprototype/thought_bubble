@@ -112,18 +112,21 @@ function parseLabelTag(tag: string, name: string): Element | null {
 }
 
 function joinsLabelComparisons(label: string, start: number, tag: string): boolean {
-  // In "a<b ... and c>= -1", the match ends at ">" before the optional "=" and signed operand.
-  const afterAngle = label.slice(start + tag.length);
-  if (!/\w\s*$/.test(label.slice(0, start)) || !/^=?\s*[+-]?\w/.test(afterAngle)) {
-    return false;
-  }
+  const left = label.slice(0, start).trimEnd();
+  const right = label.slice(start + tag.length).replace(/^=/, '').trimStart();
+  if (!left || !right || left.endsWith('>') || right.startsWith('<') || tag.endsWith('/>')) return false;
 
-  const clauses = tag.slice(1, -1).trim().split(/\s*(?:&&|\|\||\b(?:and|or|if)\b)\s*/i);
-  // The first clause starts with the operand (b) and may continue with prose.
-  // An attribute assignment here still goes through the markup parser.
-  return clauses.length > 1 &&
-    /^[\w.\s]+$/.test(clauses[0]) &&
-    /^[\w.]+$/.test(clauses[clauses.length - 1]);
+  // Quoted attribute values can contain words such as "and".
+  const body = tag.slice(1, -1).replace(/"[^"]*"|'[^']*'/g, '""');
+  const clauses = body.split(/\s*(?:&&|\|\||\b(?:and|or|if)\b)\s*/i);
+  return clauses.length > 1 && clauses.every((clause, index) => {
+    // In "a<b && onload=false && c>d", the assignment starts an interior condition.
+    // An attribute assignment elsewhere still needs the markup parser.
+    const remainder = index > 0 && index < clauses.length - 1
+      ? clause.replace(/^[\w:.-]+\s*=/, '')
+      : clause;
+    return !/(?:^|\s)[\w:.-]+\s*=/.test(remainder);
+  });
 }
 
 function labelHasEventAttribute(label: string): boolean {
